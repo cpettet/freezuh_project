@@ -1,0 +1,134 @@
+@import "main.css" screen;
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+    body {
+        font-size: 24px;
+    }
+}
+
+.plate, .box {
+    border: 0.25rem solid black;
+    background-color: #D00E09;
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.plate__row, .box__row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    height: 6rem;
+    overflow: hidden;
+}
+
+.plate__well, .box__pos {
+    border: 0.25rem solid black;
+    margin: 0.80rem;
+    height: 4rem;
+    width: 4rem;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.inner {
+    border: 0.25rem solid black;
+    margin: 0.80rem;
+    height: 4rem;
+    width: 4rem;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.outer {
+    position: absolute;
+    margin-top: -1.05rem;
+    margin-left: -1.05rem;
+    height: 4rem;
+    width: 4rem;
+}
+
+.plate__row:nth-child(even), .box__row:nth-child(even) {
+    background-color: #f0f0f0;
+}
+
+.plate__row:nth-child(odd), .box__row:nth-child(odd) {
+    background-color: #e8e8e8;
+}
+
+.plate__row:hover, .box__row:hover {
+    background-color: greenyellow;
+}
+
+.plate__well:hover .a, .box__pos:hover .a {
+    background-color: greenyellow;
+    height: 54rem;
+    width: 6.1rem;
+}
+
+.plate__well:hover .b, .box__pos:hover .b {
+    background-color: greenyellow;
+    height: 48rem;
+    width: 6.1rem;
+}
+
+.plate__well:hover .c, .box__pos:hover .c {
+    background-color: greenyellow;
+    height: 42rem;
+    width: 6.1rem;
+}
+
+.plate__well:hover .d, .box__pos:hover .d {
+    background-color: greenyellow;
+    height: 36rem;
+    width: 6.1rem;
+}
+
+.plate__well:hover .e, .box__pos:hover .e {
+    background-color: greenyellow;
+    height: 30rem;
+    width: 6.1rem;
+}
+
+.plate__well:hover .f, .box__pos:hover .f {
+    background-color: greenyellow;
+    height: 24rem;
+    width: 6.1rem;
+}
+
+.plate__well:hover .g, .box__pos:hover .g {
+    background-color: greenyellow;
+    height: 18rem;
+    width: 6.1rem;
+}
+
+.plate__well:hover .h, .box__pos:hover .h {
+    background-color: greenyellow;
+    height: 12rem;
+    width: 6.1rem;
+}
+
+.plate__well:hover .i, .box__pos:hover .i {
+    background-color: greenyellow;
+    height: 6rem;
+    width: 6.1rem;
+}
+
+.inner:hover {
+    background-color: green;
+}

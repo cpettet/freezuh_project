@@ -1,1 +1,1 @@
-# freezuh_project
+# Freezuh Project
