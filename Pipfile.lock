@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "3eb7b397ad21b0844274add31bde3ff72828168a4d4e2d3a3eef3ca0f0474294"
+            "sha256": "338a82dcbd4ca2668b407c788844666c7fce7b3ec34439da9560e1c4ecffb2ce"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -29,7 +29,7 @@
                 "sha256:8c04c11192119b1ef78ea049e0a6f0463e4c48ef00a30160c704337586f3ad7a",
                 "sha256:fba402a4a47334742d782209a7c79bc448911afe1149d07bdabdf480b3e2f4b6"
             ],
-            "markers": "python_version >= '3.6'",
+            "index": "pypi",
             "version": "==8.0.1"
         },
         "dnspython": {
@@ -297,12 +297,41 @@
                 "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926",
                 "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2'",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==1.16.0"
         },
         "sqlalchemy": {
             "hashes": [
-                "sha256:38ee3a266afef2978e82824650457f70c5d74ec0cadec1b10fe5ed6f038eb5d0"
+                "sha256:0f6d467b67a7e5048f1408e8ea60d6caa70be5b386d0eebbf1185ab49cb8c7e4",
+                "sha256:238d78b3110b7f7cffdb70bf9cda686e0d876a849bc78ba4d471aa7b1461f306",
+                "sha256:25c0e0f3a7e8c19350086b3c0fe93c4def045cec053d749ef15da710c4d54c81",
+                "sha256:2f60a2e599cf5cf5e5327ce60f2918b897e42ad9f405d10dd01e37869c0ce6fc",
+                "sha256:38ee3a266afef2978e82824650457f70c5d74ec0cadec1b10fe5ed6f038eb5d0",
+                "sha256:46361690f1e1c5385994a4caeb6e8126063ff593a5c635700bbc1245de793c1e",
+                "sha256:46b99eab618cdc1c871ea707b7c52edc23cfea6c750740cd242ba62b5c84de7f",
+                "sha256:4a67371752fd86d1d03a3b82d4e75404608f6f4d579b9676124079a22a40c79f",
+                "sha256:525dd3c2205b11a2bc6d770bf1ec63bde0253fd754b4c19c399d27ddc9dad0d3",
+                "sha256:6c8406c3d8c1c7d15da454de15d77f7bb48d14ede5db994f74226c348cf1050e",
+                "sha256:6da83225a23eaf7b3f48f3d5f53c91b2cf00fbfa48b24a7a758160112dd3e123",
+                "sha256:7150e5b543b466f45f668b352f7abda27998cc8035f051d1b7e9524ca9eb2f5f",
+                "sha256:76fbc24311a3d039d6cd147d396719f606d96d1413f3816c028a48e29367f646",
+                "sha256:854a7b15750e617e16f8d65dbc004f065a7963544b253b923f16109557648777",
+                "sha256:86c079732328f1add097b0b8079cd532b5d28e207fac93e9d6ea5f487506deef",
+                "sha256:8d860c62e3f51623ccd528d8fac44580501df557d4b467cc5581587fcf057719",
+                "sha256:9675d5bc7e4f96a7bb2b54d14e9b269a5fb6e5d36ecc7d01f0f65bb9af3185f9",
+                "sha256:9841762d114018c49483c089fa2d47f7e612e57666323f615913d7d7f46e9606",
+                "sha256:9eb25bcf9161e2fcbe9eebe8e829719b2334e849183f0e496bf4b83722bcccfa",
+                "sha256:aad3234a41340e9cf6184e621694e2a7233ba3f8aef9b1e6de8cba431b45ebd2",
+                "sha256:b502b5e2f08500cc4b8d29bfc4f51d805adcbc00f8d149e98fda8aae85ddb644",
+                "sha256:b86d83fefc8a8c394f3490c37e1953bc16c311a3d1d1cf91518793bfb9847fb4",
+                "sha256:c0eb2cd3ad4967fcbdd9e066e8cd91fe2c23c671dbae9952f0b4d3d42832cc5f",
+                "sha256:e0d48456e1aa4f0537f9c9af7be71e1f0659ff68bc1cd538ebc785f6b007bd0d",
+                "sha256:eaee5dd378f6f0d7c3ec49aeeb26564d55ac0ad73b9b4688bf29e66deabddf73",
+                "sha256:f14acb0fd16d404fda9370f93aace682f284340c89c3442ac747c5466ac7e2b5",
+                "sha256:f6fc526bd70898489d02bf52c8f0632ab377592ae954d0c0a5bb38d618dddaa9",
+                "sha256:fcd84e4d46a86291495d131a7824ba38d2e8278bda9425c50661a04633174319",
+                "sha256:ff38ecf89c69a531a7326c2dae71982edfe2f805f3c016cdc5bfd1a04ebf80cb",
+                "sha256:ff8bebc7a9d297dff2003460e01db2c20c63818b45fb19170f388b1a72fe5a14"
             ],
             "index": "pypi",
             "version": "==1.4.20"

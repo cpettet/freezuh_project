@@ -36,10 +36,8 @@ app.register_blueprint(auth_routes, url_prefix="/api/auth")
 db.init_app(app)
 Migrate(app, db)
 
-
 # application security
 CORS(app)
-
 
 # Redirect to https when using http requests
 @app.before_request

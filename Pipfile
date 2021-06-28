@@ -19,6 +19,7 @@ flask-login = "*"
 alembic = "*"
 python-dateutil = "*"
 psycopg2-binary = "*"
+click = "*"
 
 [dev-packages]
 
