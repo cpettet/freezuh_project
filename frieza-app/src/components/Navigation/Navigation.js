@@ -14,8 +14,8 @@ function Navigation() {
   ];
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-  }
+    e.preventDefault();
+  };
 
   return (
     <nav className={style.navbar}>
@@ -26,24 +26,62 @@ function Navigation() {
           </Link>
         </div>
         <div className={style.navbar__upper__links}>
-          <NavLink exact to="/" className={style.link} activeClassName={style["link-selected"]}>
-            Home
-          </NavLink>
-          <NavLink to="/freezers" className={style.link} activeClassName={style["link-selected"]}>
-            Freezers
-          </NavLink>
-          <NavLink to="/racks" className={style.link} activeClassName={style["link-selected"]}>
-            Racks
-          </NavLink>
-          <NavLink to="/boxes" className={style.link} activeClassName={style["link-selected"]}>
-            Boxes
-          </NavLink>
-          <NavLink to="/plates" className={style.link} activeClassName={style["link-selected"]}>
-            Plates
-          </NavLink>
-          <NavLink to="/samples" className={style.link} activeClassName={style["link-selected"]}>
-            Samples
-          </NavLink>
+          <div className={style.link__container}>
+            <NavLink
+              exact
+              to="/"
+              className={style.link}
+              activeClassName={style["link-selected"]}
+            >
+              Home
+            </NavLink>
+          </div>
+          <div className={style["link__container"]}>
+            <NavLink
+              to="/freezers"
+              className={style.link}
+              activeClassName={style["link-selected"]}
+            >
+              Freezers
+            </NavLink>
+          </div>
+          <div className={style["link__container"]}>
+            <NavLink
+              to="/racks"
+              className={style.link}
+              activeClassName={style["link-selected"]}
+            >
+              Racks
+            </NavLink>
+          </div>
+          <div className={style["link__container"]}>
+            <NavLink
+              to="/boxes"
+              className={style.link}
+              activeClassName={style["link-selected"]}
+            >
+              Boxes
+            </NavLink>
+          </div>
+          <div className={style["link__container"]}>
+            <NavLink
+              // Set the isActive to change container color
+              to="/plates"
+              className={style.link}
+              activeClassName={style["link-selected"]}
+            >
+              Plates
+            </NavLink>
+          </div>
+          <div className={style["link__container"]}>
+            <NavLink
+              to="/samples"
+              className={style.link}
+              activeClassName={style["link-selected"]}
+            >
+              Samples
+            </NavLink>
+          </div>
         </div>
         <div className={style.navbar__upper__profile}>
           <h3>Profile</h3>
@@ -52,6 +90,7 @@ function Navigation() {
       <form className={style.navbar__lower} onSubmit={handleSubmit}>
         <div className={style["select-box"]}>
           <Select
+            color="#6838A0"
             options={demo_freezers}
             clearable={true}
             onChange={(value) => console.log(value)}
@@ -66,6 +105,7 @@ function Navigation() {
         </div>
         <div className={style["select-box"]}>
           <Select
+            color="#6838A0"
             options={demo_freezers}
             clearable={true}
             onChange={(value) => console.log(value)}
@@ -79,6 +119,7 @@ function Navigation() {
         </div>
         <div className={style["select-box"]}>
           <Select
+            color="#6838A0"
             options={demo_freezers}
             clearable={true}
             onChange={(value) => console.log(value)}
@@ -92,6 +133,7 @@ function Navigation() {
         </div>
         <div className={style["select-box"]}>
           <Select
+            color="#6838A0"
             options={demo_freezers}
             clearable={true}
             onChange={(value) => console.log(value)}
@@ -105,6 +147,7 @@ function Navigation() {
         </div>
         <div className={style["select-box"]}>
           <Select
+            color="#6838A0"
             options={demo_freezers}
             clearable={true}
             onChange={(value) => console.log(value)}
