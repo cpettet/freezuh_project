@@ -1,0 +1,11 @@
+.profile-image {
+    height: 4rem;
+    margin: 0.25rem;
+}
+
+.profile__button {
+    margin: 10px;
+    /* padding: 2px; */
+    border-radius: 15%;
+    border-width: 1px;
+}

@@ -40,21 +40,21 @@ function App() {
         <Route exact path="/">
           Welcome
         </Route>
-        <Route exact path="/freezers">
+        <ProtectedRoute exact path="/freezers">
           <Freezers />
-        </Route>
+        </ProtectedRoute>
         <ProtectedRoute exact path="/racks">
           <Racks />
         </ProtectedRoute>
-        <Route exact path="/boxes">
+        <ProtectedRoute exact path="/boxes">
           <Boxes />
-        </Route>
-        <Route exact path="/plates">
+        </ProtectedRoute>
+        <ProtectedRoute exact path="/plates">
           <Plates />
-        </Route>
-        <Route exact path="/samples">
+        </ProtectedRoute>
+        <ProtectedRoute exact path="/samples">
           <Samples />
-        </Route>
+        </ProtectedRoute>
       </Switch>
     </BrowserRouter>
   );
