@@ -2,6 +2,7 @@ import { NavLink, Link } from "react-router-dom";
 import style from "./Navigation.module.css";
 import logo from "./Freezer-Final.min.svg";
 import Select from "react-dropdown-select";
+import ProfileButton from "../ProfileButton/ProfileButton";
 
 function Navigation() {
   const demo_freezers = [
@@ -84,7 +85,7 @@ function Navigation() {
           </div>
         </div>
         <div className={style.navbar__upper__profile}>
-          <h3>Profile</h3>
+          <ProfileButton />
         </div>
       </div>
       <form className={style.navbar__lower} onSubmit={handleSubmit}>
