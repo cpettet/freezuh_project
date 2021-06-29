@@ -1,6 +1,7 @@
 from flask import Blueprint, request
 from flask_login import login_required
 from application.models import Sample
+from application.forms import SampleForm
 
 sample_routes = Blueprint("samples", __name__)
 
@@ -15,7 +16,8 @@ def get_samples():
 @sample_routes.route("/", methods=["POST"])
 @login_required
 def new_sample():
-    pass
+    form = SampleForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
 
 # PUT /api/samples/:id
 @sample_routes.route("/", methods=["PUT"])
