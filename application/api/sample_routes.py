@@ -40,16 +40,12 @@ def new_sample():
     return {"sample": sample.to_dict()}
 
 # PUT /api/samples/:id
-
-
 @sample_routes.route("/<int:sample_id>", methods=["PUT"])
 @login_required
 def edit_sample(sample_id):
     pass
 
 # DELETE /api/samples/:id
-
-
 @sample_routes.route("/<int:sample_id>", methods=["DELETE"])
 @login_required
 def delete_sample(sample_id):

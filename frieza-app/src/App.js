@@ -10,7 +10,7 @@ import Freezers from "./components/Freezers";
 import Racks from "./components/Racks";
 import Boxes from "./components/Boxes";
 import Plates from "./components/Plates";
-import Samples from "./components/Samples";
+import SampleShow from "./components/SampleShow";
 
 function App() {
   const dispatch = useDispatch();
@@ -53,7 +53,7 @@ function App() {
           <Plates />
         </ProtectedRoute>
         <ProtectedRoute exact path="/samples">
-          <Samples />
+          <SampleShow />
         </ProtectedRoute>
       </Switch>
     </BrowserRouter>
