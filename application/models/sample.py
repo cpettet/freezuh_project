@@ -4,26 +4,29 @@ from enum import Enum
 
 
 class SampleType(Enum):
-    whole_blood = "whole blood"
+    whole_blood = "whole_blood"
     plasma = "plasma"
-    cf_dna = "cf dna"
+    cf_dna = "cf_dna"
 
 
 
 class Sample(db.Model):
+    """
+    Required: sample_type
+    """
     __tablename__ = "samples"
     
     id = db.Column(db.Integer, primary_key=True)
     plate_id = db.Column(db.Integer, nullable=True)
     box_id = db.Column(db.Integer, nullable=True)
-    sample_type = db.Column(Enum(SampleType), nullable=False,
+    sample_type = db.Column(db.Enum(SampleType), nullable=False,
                             default=SampleType.whole_blood)
     accession_date = db.Column(db.DateTime, nullable=False,
                                default=datetime.utcnow)
     store_date = db.Column(db.DateTime, nullable=True)
-    thaw_count = db.Column(db.Integer, default=0)
+    thaw_count = db.Column(db.Integer, default=0, nullable=False)
     expiration_date = db.Column(db.DateTime, nullable=False)
-    discarded = db.Column(db.Boolean, default=False)
+    discarded = db.Column(db.Boolean, default=False, nullable=False)
     
     @property
     def expiry_date(self):
@@ -36,7 +39,7 @@ class Sample(db.Model):
         future, have a variable expiration date based on sample type.
         """
         date_change = timedelta(days=180)
-        self.expiration_date += date_change
+        self.expiration_date = date_time + date_change
     
     # Associations
         # plate association here
