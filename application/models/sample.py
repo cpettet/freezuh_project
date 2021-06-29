@@ -50,9 +50,10 @@ class Sample(db.Model):
             "id": self.id,
             "plate_id": self.plate_id,
             "box_id": self.box_id,
-            "sample_type": self.sample_type,
+            "sample_type": self.sample_type.value,
             "accession_date": self.accession_date,
             "store_date": self.store_date,
             "thaw_count": self.thaw_count,
+            "expiration_date": self.expiration_date,
             "discarded": self.discarded,
         }
