@@ -2,7 +2,7 @@ import React from "react";
 import { Switch, Route } from "react-router";
 import style from "./Sidebar.module.css";
 import PlateForm from "./Forms/PlateForm";
-import SampleForm from "./Forms/SampleForm/SampleForm";
+import SampleForm from "./Forms/SampleForm";
 
 function Sidebar() {
   return (
