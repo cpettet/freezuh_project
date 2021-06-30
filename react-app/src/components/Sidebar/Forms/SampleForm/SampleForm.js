@@ -1,7 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useHistory } from "react-router";
+import { useDispatch } from "react-redux";
 import style from "./SampleForm.module.css";
+import { createSample } from "../../../../store/sample";
 
 function SampleForm() {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const SAMPLE_TYPES = [
     ["Whole Blood", "whole_blood"],
     ["Plasma", "plasma"],
@@ -31,10 +36,18 @@ function SampleForm() {
     }
   };
 
-  const submitSample = (e) => {
+  const submitSample = async (e) => {
     e.preventDefault();
-    console.log(sampleType)
-    console.log(boxId)
+    console.log(sampleType);
+    console.log(boxId);
+    const newSample = await dispatch(createSample({
+      box_id: boxId,
+      plate_id: plateId,
+      sample_type: sampleType,
+      discarded: false,
+    }));
+    const newSampleId = newSample.sample.id;
+    history.push(`/samples/${newSampleId}`)
   };
 
   return (
