@@ -10,7 +10,8 @@ import Freezers from "./components/Freezers";
 import Racks from "./components/Racks";
 import Boxes from "./components/Boxes";
 import Plates from "./components/Plates";
-import Samples from "./components/Samples";
+import SampleShow from "./components/SampleShow";
+import Sidebar from "./components/Sidebar";
 
 function App() {
   const dispatch = useDispatch();
@@ -30,32 +31,35 @@ function App() {
   return (
     <BrowserRouter>
       <Navigation />
-      <Switch>
-        <Route path="/login" exact={true}>
-          <LoginForm />
-        </Route>
-        <Route path="/sign-up" exact={true}>
-          <SignUpForm />
-        </Route>
-        <Route exact path="/">
-          Welcome
-        </Route>
-        <ProtectedRoute exact path="/freezers">
-          <Freezers />
-        </ProtectedRoute>
-        <ProtectedRoute exact path="/racks">
-          <Racks />
-        </ProtectedRoute>
-        <ProtectedRoute exact path="/boxes">
-          <Boxes />
-        </ProtectedRoute>
-        <ProtectedRoute exact path="/plates">
-          <Plates />
-        </ProtectedRoute>
-        <ProtectedRoute exact path="/samples">
-          <Samples />
-        </ProtectedRoute>
-      </Switch>
+      <div className="main">
+        <Sidebar />
+        <Switch>
+          <Route path="/login" exact={true}>
+            <LoginForm />
+          </Route>
+          <Route path="/sign-up" exact={true}>
+            <SignUpForm />
+          </Route>
+          <Route exact path="/">
+            <div className="body">Welcome</div>
+          </Route>
+          <ProtectedRoute exact path="/freezers">
+            <Freezers />
+          </ProtectedRoute>
+          <ProtectedRoute exact path="/racks">
+            <Racks />
+          </ProtectedRoute>
+          <ProtectedRoute exact path="/boxes">
+            <Boxes />
+          </ProtectedRoute>
+          <ProtectedRoute exact path="/plates">
+            <Plates />
+          </ProtectedRoute>
+          <ProtectedRoute exact path="/samples">
+            <SampleShow />
+          </ProtectedRoute>
+        </Switch>
+      </div>
     </BrowserRouter>
   );
 }

@@ -10,6 +10,7 @@ from .models import db, User
 # Space for importing routes from blueprints
 from .api.auth_routes import auth_routes
 from .api.user_routes import user_routes
+from .api.sample_routes import sample_routes
 
 from .seeds import seed_commands
 
@@ -32,6 +33,7 @@ app.config.from_object(Config)
 # Space for registering routes from blueprints
 app.register_blueprint(user_routes, url_prefix="/api/users")
 app.register_blueprint(auth_routes, url_prefix="/api/auth")
+app.register_blueprint(sample_routes, url_prefix="/api/samples")
 
 db.init_app(app)
 Migrate(app, db)

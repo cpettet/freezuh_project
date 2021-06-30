@@ -1,10 +1,10 @@
 .profile-image {
-    height: 4rem;
+    height: 2rem;
     margin: 0.25rem;
 }
 
 .profile__button {
-    margin: 10px;
+    margin: 0.5rem;
     border-radius: 15%;
     border-width: 1px;
 }
