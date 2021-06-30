@@ -1,7 +1,7 @@
 FROM node:14 AS build-stage
 
 WORKDIR /react-app
-COPY frieza-app/. .
+COPY react-app/. .
 
 # You have to set this because it should be set during build time.
 ENV REACT_APP_BASE_URL=https://freezuh-final-transformation.herokuapp.com/
