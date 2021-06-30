@@ -15,7 +15,7 @@ function SampleShow() {
 
   const samples = stateSamples.map((sample) => {
     return (
-        <Sample key={sample} sample={sample} />
+      <Sample key={sample.id} sample={sample} />
     );
   });
 

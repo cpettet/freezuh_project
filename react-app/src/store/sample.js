@@ -5,36 +5,36 @@ const EDIT_SAMPLE = "sample/EDIT_SAMPLE";
 const DELETE_SAMPLE = "sample/DELETE_SAMPLE";
 
 // action creators
-const get = (samples) => ({
+const get = (payload) => ({
   type: GET_SAMPLE,
-  samples,
+  payload,
 });
 
-const post = (sample) => ({
+const post = (payload) => ({
   type: POST_SAMPLE,
-  sample,
+  payload,
 });
 
-const edit = (sample) => ({
+const edit = (payload) => ({
   type: EDIT_SAMPLE,
-  sample,
+  payload,
 });
 
-const deleteAction = (sample) => ({
+const deleteAction = (payload) => ({
   type: DELETE_SAMPLE,
-  sample,
+  payload,
 });
 
 // thunks
 export const getSamples = () => async (dispatch) => {
-  const response = await fetch("/api/samples");
+  const response = await fetch("/api/samples/");
   const data = await response.json();
   dispatch(get(data.samples));
   return data;
 };
 
 export const createSample = (data) => async (dispatch) => {
-  const response = await fetch("/api/samples", {
+  const response = await fetch("/api/samples/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -44,7 +44,9 @@ export const createSample = (data) => async (dispatch) => {
 
   if (response.ok) {
     const newSample = await response.json();
+    console.log(newSample)
     dispatch(post(newSample));
+    return newSample;
   }
 };
 
@@ -91,7 +93,7 @@ export default function reducer(state = initialState, action) {
   switch (action.type) {
     case GET_SAMPLE: {
       const newState = { ...state };
-      action.samples.forEach((sample) => {
+      action.payload.forEach((sample) => {
         newState.byId[sample.id] = sample;
         if (!newState.allIds.includes(sample.id)) {
           newState.allIds.push(sample.id);
@@ -101,18 +103,18 @@ export default function reducer(state = initialState, action) {
     }
     case POST_SAMPLE: {
       const newState = { ...state };
-      newState.byId[action.sample.id] = action.sample;
-      newState.allIds.push(action.sample.id);
+      newState.byId[action.payload.sample.id] = action.payload.sample;
+      newState.allIds.push(action.payload.sample.id);
       return newState;
     }
     case EDIT_SAMPLE: {
       const newState = { ...state };
-      newState.byId[action.sample.id] = action.sample;
+      newState.byId[action.sample.id] = action.payload.sample;
       return newState;
     }
     case DELETE_SAMPLE: {
       const newState = { ...state };
-      newState.byId[action.sample.id] = action.sample;
+      newState.byId[action.sample.id] = action.payload;
       return newState;
     }
     default:
