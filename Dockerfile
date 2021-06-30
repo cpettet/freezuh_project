@@ -1,10 +1,10 @@
 FROM node:14 AS build-stage
 
 WORKDIR /react-app
-COPY react-app/. .
+COPY frieza-app/. .
 
 # You have to set this because it should be set during build time.
-ENV REACT_APP_BASE_URL=<MY-HEROKU-URL-GOES-HERE>
+ENV REACT_APP_BASE_URL=https://freezuh-final-transformation.herokuapp.com/
 
 # Build our React App
 RUN npm install
@@ -13,7 +13,7 @@ RUN npm run build
 FROM python:3.9
 
 # Setup Flask environment
-ENV FLASK_APP=app
+ENV FLASK_APP=application
 ENV FLASK_ENV=production
 ENV SQLALCHEMY_ECHO=True
 

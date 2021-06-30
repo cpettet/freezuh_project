@@ -39,8 +39,7 @@ class Sample(db.Model):
         future, have a variable expiration date based on sample type.
         """
         if date_time is None:
-            self.expiration_date = datetime.now()
-            return
+            date_time = datetime.now()
         date_change = timedelta(days=180)
         self.expiration_date = date_time + date_change
     
