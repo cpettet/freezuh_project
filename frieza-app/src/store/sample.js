@@ -30,6 +30,7 @@ export const getSamples = () => async (dispatch) => {
   const response = await fetch("/api/samples");
   const data = await response.json();
   dispatch(get(data.samples));
+  return data;
 };
 
 export const createSample = (data) => async (dispatch) => {

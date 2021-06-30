@@ -10,10 +10,10 @@ function Sidebar() {
       <div>Hello, inside the sidebar div #1</div>
       <div>Inside sidebar div #2</div>
       <Switch>
-        <Route exact path="/boxes">
+        <Route path="/boxes">
           <Boxes />
         </Route>
-        <Route exact path="/freezers">
+        <Route path="/freezers">
           <Freezers />
         </Route>
       </Switch>

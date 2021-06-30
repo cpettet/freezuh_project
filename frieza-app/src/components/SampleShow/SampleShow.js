@@ -6,22 +6,23 @@ import Sample from "../Sample";
 
 function SampleShow() {
   const dispatch = useDispatch();
-  const stateSamples = useSelector((state) => state.samples.allIds);
-  console.log("\n\nState samples byId:", stateSamples);
-  // debugger;
+  const stateSamples = useSelector((state) => Object.values(state.samples.byId));
+
   useEffect(() => {
     dispatch(getSamples());
   }, [dispatch]);
+
+  const samples = stateSamples.map((sample) => {
+    return (
+        <Sample key={sample} sample={sample} />
+    );
+  });
 
   return (
     <div className={style.samples}>
       <h1>Hello, samples</h1>
       <h3>Samples go here</h3>
-      {stateSamples &&
-        stateSamples.map((sampleId) => {
-          console.log("Iterating over samples");
-          return <Sample key={sampleId} sampleId={sampleId} />;
-        })}
+      {samples}
     </div>
   );
 }
