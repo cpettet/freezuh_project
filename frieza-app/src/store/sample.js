@@ -92,8 +92,9 @@ export default function reducer(state = initialState, action) {
       const newState = { ...state };
       action.samples.forEach((sample) => {
         newState.byId[sample.id] = sample;
-        console.log(newState.allIds)
-        newState.allIds.push(sample.id);
+        if (!newState.allIds.includes(sample.id)) {
+          newState.allIds.push(sample.id);
+        }
       });
       return newState;
     }

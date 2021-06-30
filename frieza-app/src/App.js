@@ -40,24 +40,24 @@ function App() {
           <Route path="/sign-up" exact={true}>
             <SignUpForm />
           </Route>
+          <ProtectedRoute path="/freezers">
+            <Freezers />
+          </ProtectedRoute>
+          <ProtectedRoute path="/racks">
+            <Racks />
+          </ProtectedRoute>
+          <ProtectedRoute path="/boxes">
+            <Boxes />
+          </ProtectedRoute>
+          <ProtectedRoute path="/plates">
+            <Plates />
+          </ProtectedRoute>
+          <ProtectedRoute path="/samples">
+            <SampleShow />
+          </ProtectedRoute>
           <Route exact path="/">
             <div className="body">Welcome</div>
           </Route>
-          <ProtectedRoute exact path="/freezers">
-            <Freezers />
-          </ProtectedRoute>
-          <ProtectedRoute exact path="/racks">
-            <Racks />
-          </ProtectedRoute>
-          <ProtectedRoute exact path="/boxes">
-            <Boxes />
-          </ProtectedRoute>
-          <ProtectedRoute exact path="/plates">
-            <Plates />
-          </ProtectedRoute>
-          <ProtectedRoute exact path="/samples">
-            <SampleShow />
-          </ProtectedRoute>
         </Switch>
       </div>
     </BrowserRouter>
