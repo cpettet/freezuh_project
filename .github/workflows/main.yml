@@ -1,19 +1,22 @@
-name: Python application
-
-on:
+name: Push Container to Heroku
+on: 
   push:
     branches:
       - main
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v1
     - name: Login to Heroku Container registry
-      run: heroku container:login
+      env: 
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:login 
     - name: Build and push
-      run: heroku container:push -a freezuh-final-transformation web
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web 
     - name: Release
-      run: heroku container:release -a freezuh-final-transformation web
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web 
