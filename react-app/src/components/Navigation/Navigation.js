@@ -1,4 +1,5 @@
 import { NavLink, Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import style from "./Navigation.module.css";
 import logo from "./Freezer-Final.min.svg";
 import Select from "react-dropdown-select";
@@ -13,6 +14,9 @@ function Navigation() {
     { name: "FZR0431", id: 431 },
     { name: "FZR0789", id: 789 },
   ];
+
+  // I know I will need to change this
+  const samples = useSelector(state => Object.values(state.samples.byId))
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -149,7 +153,7 @@ function Navigation() {
         <div className={style["select-box"]}>
           <Select
             color="#6838A0"
-            options={demo_freezers}
+            options={samples}
             clearable={true}
             onChange={(value) => console.log(value)}
             labelField="name"
