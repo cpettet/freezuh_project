@@ -29,7 +29,6 @@ const deleteAction = (sample) => ({
 export const getSamples = () => async (dispatch) => {
   const response = await fetch("/api/samples");
   const data = await response.json();
-
   dispatch(get(data.samples));
 };
 
@@ -76,7 +75,7 @@ export const deleteSample = (data) => async (dispatch) => {
 
 const initialState = {
   byId: {},
-  allIds: {},
+  allIds: [],
 };
 // samples: {
 //   byId: {
@@ -93,14 +92,15 @@ export default function reducer(state = initialState, action) {
       const newState = { ...state };
       action.samples.forEach((sample) => {
         newState.byId[sample.id] = sample;
-        newState.allIds.append(sample.id);
+        console.log(newState.allIds)
+        newState.allIds.push(sample.id);
       });
       return newState;
     }
     case POST_SAMPLE: {
       const newState = { ...state };
       newState.byId[action.sample.id] = action.sample;
-      newState.allIds.append(action.sample.id);
+      newState.allIds.push(action.sample.id);
       return newState;
     }
     case EDIT_SAMPLE: {

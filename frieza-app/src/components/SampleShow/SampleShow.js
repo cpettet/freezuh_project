@@ -7,7 +7,8 @@ import Sample from "../Sample/Sample";
 function SampleShow() {
   const dispatch = useDispatch();
   const stateSamples = useSelector((state) => state.samples.byId);
-  console.log("\n\nState samples byId:", stateSamples);
+  // console.log("\n\nState samples byId:", stateSamples);
+  
   useEffect(() => {
     dispatch(getSamples());
   }, [dispatch]);
