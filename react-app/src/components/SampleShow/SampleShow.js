@@ -7,16 +7,16 @@ import Sample from "../Sample";
 
 function SampleShow() {
   const dispatch = useDispatch();
-  const stateSamples = useSelector((state) => Object.values(state.samples.byId));
+  const stateSamples = useSelector((state) =>
+    Object.values(state.samples.byId)
+  );
 
   useEffect(() => {
     dispatch(getSamples());
   }, [dispatch]);
 
   const samples = stateSamples.map((sample) => {
-    return (
-      <Sample key={sample.id} sample={sample} />
-    );
+    return <Sample key={sample.id} sample={sample} />;
   });
 
   return (

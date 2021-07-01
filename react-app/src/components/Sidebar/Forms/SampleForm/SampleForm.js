@@ -3,6 +3,7 @@ import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
 import style from "./SampleForm.module.css";
 import { createSample } from "../../../../store/sample";
+import getInputDateTime from "../../../../utils/getInputDateTime";
 
 function SampleForm() {
   const dispatch = useDispatch();
@@ -15,6 +16,11 @@ function SampleForm() {
   const [plateId, setPlateId] = useState(null);
   const [boxId, setBoxId] = useState(null);
   const [sampleType, setSampleType] = useState(SAMPLE_TYPES[0][1]);
+  const [accessionDate, setAccessionDate] = useState(getInputDateTime());
+  const [storeDate, setStoreDate] = useState(null);
+  // const [expirationDate, setExpirationDate] = useState(
+  //   getInputDateTime(Date.now() + 180 * 24 * 60 * 60 * 1000)
+  // );
 
   const firstPlateId = (e) => {
     e.preventDefault();
@@ -38,15 +44,22 @@ function SampleForm() {
 
   const submitSample = async (e) => {
     e.preventDefault();
-    const newSample = await dispatch(createSample({
-      // box_id: boxId,
-      // plate_id: plateId,
-      sample_type: sampleType,
-      discarded: false,
-    }));
+    console.log(accessionDate)
+    const newSample = await dispatch(
+      createSample({
+        ...(boxId && { box_id: boxId }),
+        ...(plateId && { plate_id: plateId }),
+        ...(accessionDate && { accession_date: accessionDate }),
+        ...(storeDate && { store_date: storeDate }),
+        // ...(expirationDate && { expiry_date: expirationDate }),
+        sample_type: sampleType,
+        thaw_count: 0,
+        discarded: false,
+      })
+    );
     console.log(newSample)
     const newSampleId = newSample.sample.id;
-    history.push(`/samples/${newSampleId}`)
+    history.push(`/samples/${newSampleId}`);
   };
 
   return (
@@ -83,6 +96,22 @@ function SampleForm() {
             </option>
           ))}
         </select>
+      </div>
+      <div>
+        <label htmlFor="accession_date">Accession Date:</label>
+        <input
+          type="datetime-local"
+          value={accessionDate}
+          onChange={(e) => setAccessionDate(e.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="store_date">Storage Date:</label>
+        <input
+          type="datetime-local"
+          value={storeDate}
+          onChange={(e) => setStoreDate(e.target.value)}
+        />
       </div>
       <button className={style.navbar__form__submit}>Submit</button>
     </form>

@@ -34,6 +34,7 @@ export const getSamples = () => async (dispatch) => {
 };
 
 export const createSample = (data) => async (dispatch) => {
+  console.log("The data for the sample:", data)
   const response = await fetch("/api/samples/", {
     method: "POST",
     headers: {
