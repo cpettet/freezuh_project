@@ -18,9 +18,6 @@ function SampleForm() {
   const [sampleType, setSampleType] = useState(SAMPLE_TYPES[0][1]);
   const [accessionDate, setAccessionDate] = useState(getInputDateTime());
   const [storeDate, setStoreDate] = useState(null);
-  // const [expirationDate, setExpirationDate] = useState(
-  //   getInputDateTime(Date.now() + 180 * 24 * 60 * 60 * 1000)
-  // );
 
   const firstPlateId = (e) => {
     e.preventDefault();

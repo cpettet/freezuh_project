@@ -34,7 +34,6 @@ export const getSamples = () => async (dispatch) => {
 };
 
 export const createSample = (data) => async (dispatch) => {
-  console.log("The data for the sample:", data)
   const response = await fetch("/api/samples/", {
     method: "POST",
     headers: {
@@ -52,7 +51,7 @@ export const createSample = (data) => async (dispatch) => {
 
 export const editSample = (data) => async (dispatch) => {
   const response = await fetch(`/api/samples/${data.id}`, {
-    method: "PUT",
+    method: "PATCH",
     headers: {
       "Content-Type": "application/json",
     },
@@ -62,6 +61,7 @@ export const editSample = (data) => async (dispatch) => {
   if (response.ok) {
     const editedSample = await response.json();
     dispatch(edit(editedSample));
+    return editedSample;
   }
 };
 
