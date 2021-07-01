@@ -6,9 +6,9 @@ import style from "./SidebarSampleShow.module.css";
 import { deleteSample } from "../../../../store/sample";
 
 function SidebarSampleShow() {
+  const { sampleId } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
-  const { sampleId } = useParams();
   const sample = useSelector(state => state.samples.byId[sampleId])
 
   const onDelete = (e) => {
@@ -23,7 +23,7 @@ function SidebarSampleShow() {
 
   return (
     <div className={style.sidebar__sample}>
-      {sample.discarded}
+      {sample && sample.discarded && <h1>Sample has been discarded</h1>}
       <h2>Sample number: {sampleId}</h2>
       {sample && Object.keys(sample).map(key => (
         <div key={key}>
