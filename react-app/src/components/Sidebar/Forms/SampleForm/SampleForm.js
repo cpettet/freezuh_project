@@ -18,7 +18,9 @@ function SampleForm() {
   const [sampleType, setSampleType] = useState(SAMPLE_TYPES[0][1]);
   const [accessionDate, setAccessionDate] = useState(getInputDateTime());
   const [storeDate, setStoreDate] = useState(null);
-  const [expirationDate, setExpirationDate] = useState(null);
+  // const [expirationDate, setExpirationDate] = useState(
+  //   getInputDateTime(Date.now() + 180 * 24 * 60 * 60 * 1000)
+  // );
 
   const firstPlateId = (e) => {
     e.preventDefault();
@@ -49,7 +51,7 @@ function SampleForm() {
         ...(plateId && { plate_id: plateId }),
         ...(accessionDate && { accession_date: accessionDate }),
         ...(storeDate && { store_date: storeDate }),
-        ...(expirationDate && { expiry_date: expirationDate }),
+        // ...(expirationDate && { expiry_date: expirationDate }),
         sample_type: sampleType,
         thaw_count: 0,
         discarded: false,
@@ -104,11 +106,11 @@ function SampleForm() {
         />
       </div>
       <div>
-        <label htmlFor="accession_date">Accession Date:</label>
+        <label htmlFor="store_date">Storage Date:</label>
         <input
           type="datetime-local"
-          value={accessionDate}
-          onChange={(e) => setAccessionDate(e.target.value)}
+          value={storeDate}
+          onChange={(e) => setStoreDate(e.target.value)}
         />
       </div>
       <button className={style.navbar__form__submit}>Submit</button>
