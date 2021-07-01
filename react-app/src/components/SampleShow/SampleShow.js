@@ -21,8 +21,6 @@ function SampleShow() {
 
   return (
     <div className={style.samples}>
-      <h1>Hello, samples</h1>
-      <h3>Samples go here</h3>
       <Link to="/samples/new">New Sample</Link>
       {samples}
     </div>

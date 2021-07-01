@@ -12,8 +12,8 @@ function SampleForm() {
     ["Plasma", "plasma"],
     ["CF DNA", "cf_dna"],
   ];
-  const [plateId, setPlateId] = useState("");
-  const [boxId, setBoxId] = useState("");
+  const [plateId, setPlateId] = useState(null);
+  const [boxId, setBoxId] = useState(null);
   const [sampleType, setSampleType] = useState(SAMPLE_TYPES[0][1]);
 
   const firstPlateId = (e) => {
@@ -38,14 +38,13 @@ function SampleForm() {
 
   const submitSample = async (e) => {
     e.preventDefault();
-    console.log(sampleType);
-    console.log(boxId);
     const newSample = await dispatch(createSample({
-      box_id: boxId,
-      plate_id: plateId,
+      // box_id: boxId,
+      // plate_id: plateId,
       sample_type: sampleType,
       discarded: false,
     }));
+    console.log(newSample)
     const newSampleId = newSample.sample.id;
     history.push(`/samples/${newSampleId}`)
   };
