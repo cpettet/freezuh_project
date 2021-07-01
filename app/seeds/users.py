@@ -1,4 +1,4 @@
-from application.models import db, User
+from app.models import db, User
 
 def seed_users():
     demo = User(username="Demo", email="demo@gmail.com", password="password")
