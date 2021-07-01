@@ -31,8 +31,8 @@ function SidebarSampleShow() {
         </div>
       ))}
       <div className={style.sidebar__buttons}>
-        <button onClick={onEdit}>Edit</button>
-        <button onClick={onDelete}>Delete</button>
+        <button onClick={onEdit}>Edit Sample</button>
+        <button onClick={onDelete}>Discard Sample</button>
       </div>
     </div>
   );

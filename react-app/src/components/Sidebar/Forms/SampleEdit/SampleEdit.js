@@ -19,6 +19,7 @@ function SampleEdit() {
   const [accessionDate, setAccessionDate] = useState(sample["accession_date"]);
   const [storeDate, setStoreDate] = useState(sample["store_date"]);
   const [thawCount, setThawCount] = useState(sample["thaw_count"]);
+  const [expirationDate, setExpirationDate] = useState(sample["expiration_date"]);
   const [discarded, setDiscarded] = useState(sample["discarded"]);
 
   const handleSubmit = (e) => {
