@@ -32,6 +32,7 @@ function SampleForm() {
   const [discarded, setDiscarded] = useState(sample.discarded);
 
   const firstPlateId = (e) => {
+    // TODO: This isn't working yet, come back later
     e.preventDefault();
     if (boxId === "") {
       setPlateId(1);
@@ -42,6 +43,7 @@ function SampleForm() {
   };
 
   const firstBoxId = (e) => {
+    // TODO: Come back once database is more fleshed out
     e.preventDefault();
     if (plateId === "") {
       setBoxId(1);
