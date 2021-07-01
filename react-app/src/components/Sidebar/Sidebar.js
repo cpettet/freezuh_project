@@ -12,8 +12,11 @@ function Sidebar() {
         <Route path="/samples/new">
           <SampleForm />
         </Route>
-        <Route path="/samples/:sampleId">
+        <Route exact path="/samples/:sampleId">
           <SidebarSampleShow />
+        </Route>
+        <Route path="/samples/:sampleId/edit">
+          <h1>You made it to the edit page</h1>
         </Route>
         <Route path="/plates/new">
           <PlateForm />

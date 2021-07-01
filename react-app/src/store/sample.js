@@ -44,7 +44,6 @@ export const createSample = (data) => async (dispatch) => {
 
   if (response.ok) {
     const newSample = await response.json();
-    console.log(newSample)
     dispatch(post(newSample));
     return newSample;
   }
@@ -66,13 +65,15 @@ export const editSample = (data) => async (dispatch) => {
 };
 
 export const deleteSample = (data) => async (dispatch) => {
+  console.log("Data before fetch", data)
   const response = await fetch(`/api/samples/${data.id}`, {
     method: "DELETE",
   });
 
   if (response.ok) {
     const deletedSample = await response.json();
-    dispatch(deleteAction(deletedSample));
+    dispatch(deleteAction(deletedSample.sample));
+    return deletedSample;
   }
 };
 
@@ -109,12 +110,12 @@ export default function reducer(state = initialState, action) {
     }
     case EDIT_SAMPLE: {
       const newState = { ...state };
-      newState.byId[action.sample.id] = action.payload.sample;
+      newState.byId[action.payload.sample.id] = action.payload.sample;
       return newState;
     }
     case DELETE_SAMPLE: {
       const newState = { ...state };
-      newState.byId[action.sample.id] = action.payload;
+      newState.byId[action.payload.id] = action.payload;
       return newState;
     }
     default:
