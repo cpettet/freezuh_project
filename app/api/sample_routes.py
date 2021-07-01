@@ -1,8 +1,8 @@
 from datetime import datetime
 from flask import Blueprint, request
 from flask_login import login_required
-from application.models import db, Sample
-from application.forms import SampleForm
+from app.models import db, Sample
+from app.forms import SampleForm
 
 sample_routes = Blueprint("samples", __name__)
 

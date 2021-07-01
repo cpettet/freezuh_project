@@ -1,4 +1,4 @@
-from application.models import db, Sample
+from app.models import db, Sample
 from datetime import datetime
 
 def seed_samples():

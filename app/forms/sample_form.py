@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms.fields.core import (BooleanField, StringField, IntegerField,
                                  DateTimeField)
 from wtforms.validators import DataRequired, ValidationError
-from application.models.sample import SampleType
+from app.models.sample import SampleType
 
 
 def sample_type_exists(form, field):
