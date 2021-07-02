@@ -9,15 +9,16 @@ class SampleType(Enum):
     cf_dna = "cf_dna"
 
 
-
 class Sample(db.Model):
     """
     Required: sample_type
     """
     __tablename__ = "samples"
-    
+
     id = db.Column(db.Integer, primary_key=True)
-    plate_id = db.Column(db.Integer, nullable=True)
+    plate_id = db.Column(db.Integer,
+                         db.ForeignKey("plates.id", ondelete="CASCADE"),
+                         nullable=True)
     box_id = db.Column(db.Integer, nullable=True)
     sample_type = db.Column(db.Enum(SampleType), nullable=False,
                             default=SampleType.whole_blood)
@@ -27,7 +28,7 @@ class Sample(db.Model):
     thaw_count = db.Column(db.Integer, default=0, nullable=False)
     expiration_date = db.Column(db.DateTime, nullable=False)
     discarded = db.Column(db.Boolean, default=False, nullable=False)
-    
+
     @property
     def expiry_date(self):
         return self.expiration_date
@@ -42,11 +43,11 @@ class Sample(db.Model):
             date_time = datetime.now()
         date_change = timedelta(days=180)
         self.expiration_date = date_time + date_change
-    
+
     # Associations
-        # plate association here
-        # box association here
-    
+    plate = db.relationship("Plate", back_populates="samples")
+    # box association here
+
     def to_dict(self):
         return {
             "id": self.id,
