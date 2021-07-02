@@ -1,6 +1,6 @@
 from flask import Blueprint, request
 from flask_login import login_required
-from app.models import db, Sample, Well
+from app.models import db, Sample, Well, Plate
 from app.forms import SampleForm
 
 sample_routes = Blueprint("samples", __name__)
@@ -37,6 +37,42 @@ def new_sample():
     if form.errors:
         return {"errors": form.errors}
     return {"sample": sample.to_dict()}
+
+
+# POST /api/samples/
+@sample_routes.route("/<int:sample_id>/store", methods=["POST"])
+@login_required
+def store_sample(sample_id):
+    sample = Sample.query.get(sample_id)
+
+    request_body = request.get_json()
+    plate_id = request_body["plate_id"]
+    stored_sample = store_sample_in_well(plate_id, sample_id)
+    if stored_sample.errors:
+        return store_sample.errors
+    else:
+        db.session.commit()
+        return store_sample.success
+
+
+def store_sample_in_well(plate_id, sample_id):
+    """
+    Given a plate_id and a sample_id, attempts to place the sample in a plate
+    well. If no empty positions on given plate, returns False.
+    """
+    plate = Plate.query.get(plate_id)
+    if plate.open_well <= plate.max_well:
+        # if there's an opening on the plate....
+        sample_well = Well(well_position=plate.open_well,
+                           sample_id=sample_id,
+                           plate_id=plate_id,
+                           )
+        db.session.add(sample_well)
+        plate.store_sample_in_well()
+        return {"success": f"Sample #{sample_id} stored in plate #{plate_id}, \
+                            well #{plate.open_well - 1}"}
+    else:
+        return {"errors": "Given plate has no open spots"}
 
 
 # PATCH /api/samples/:id

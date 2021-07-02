@@ -16,10 +16,6 @@ class Sample(db.Model):
     __tablename__ = "samples"
 
     id = db.Column(db.Integer, primary_key=True)
-    plate_id = db.Column(db.Integer,
-                         db.ForeignKey("plates.id", ondelete="CASCADE"),
-                         nullable=True)
-    box_id = db.Column(db.Integer, nullable=True)
     sample_type = db.Column(db.Enum(SampleType), nullable=False,
                             default=SampleType.whole_blood)
     accession_date = db.Column(db.DateTime, nullable=False,
@@ -30,8 +26,9 @@ class Sample(db.Model):
     discarded = db.Column(db.Boolean, default=False, nullable=False)
 
     well_id = db.Column(db.Integer,
-                        db.ForeignKey("wells.id"),
-                        nullable=True)
+                        db.ForeignKey("wells.id", ondelete="CASCADE"),
+                        nullable=True,
+                        )
 
     @property
     def expiry_date(self):
@@ -40,7 +37,7 @@ class Sample(db.Model):
     @expiry_date.setter
     def expiry_date(self, date_time):
         """
-        Updates expiration date based on arbitrary 180-day shelf life. In the 
+        Updates expiration date based on arbitrary 180-day shelf life. In the
         future, have a variable expiration date based on sample type.
         """
         if date_time is None:
@@ -49,15 +46,12 @@ class Sample(db.Model):
         self.expiration_date = date_time + date_change
 
     # Associations
-    plate = db.relationship("Plate", back_populates="samples", uselist=False)
     well = db.relationship("Well", back_populates="sample", uselist=False)
     # TODO: box association will go here
 
     def to_dict(self):
         return {
             "id": self.id,
-            "plate_id": self.plate_id,
-            "box_id": self.box_id,
             "sample_type": self.sample_type.value,
             "accession_date": self.accession_date,
             "store_date": self.store_date,
