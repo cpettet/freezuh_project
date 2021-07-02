@@ -21,8 +21,8 @@ class SampleForm(FlaskForm):
     box_id = IntegerField("box_id")
     sample_type = StringField("sample_type", validators=[
                               DataRequired(), sample_type_exists])
-    accession_date = DateTimeField("accession_date")
-    store_date = DateTimeField("store_date")
+    accession_date = DateTimeField("accession_date", format="%Y-%m-%dT%H:%M")
+    store_date = DateTimeField("store_date", format="%Y-%m-%dT%H:%M")
     thaw_count = IntegerField("thaw_count")
-    expiry_date = DateTimeField("expiry_date")
+    expiry_date = DateTimeField("expiry_date", format="%Y-%m-%dT%H:%M")
     discarded = BooleanField("discarded")
