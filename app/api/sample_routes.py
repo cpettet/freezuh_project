@@ -1,16 +1,18 @@
 from flask import Blueprint, request
 from flask_login import login_required
-from app.models import db, Sample
+from app.models import db, Sample, Well
 from app.forms import SampleForm
 
 sample_routes = Blueprint("samples", __name__)
 
+
 # GET /api/samples/
 @sample_routes.route("/", methods=["GET"])
-# @login_required
+@login_required
 def get_samples():
     samples = Sample.query.all()
     return {"samples": [sample.to_dict() for sample in samples]}
+
 
 # POST /api/samples/
 @sample_routes.route("/", methods=["POST"])
@@ -30,10 +32,12 @@ def new_sample():
             discarded=form.data["discarded"],
         )
         db.session.add(sample)
+        Well.create_sample_well(sample)
         db.session.commit()
     if form.errors:
         return {"errors": form.errors}
     return {"sample": sample.to_dict()}
+
 
 # PATCH /api/samples/:id
 @sample_routes.route("/<int:sample_id>", methods=["PATCH"])
@@ -53,6 +57,7 @@ def edit_sample(sample_id):
 
     db.session.commit()
     return {"sample": sample.to_dict()}
+
 
 # DELETE /api/samples/:id
 @sample_routes.route("/<int:sample_id>", methods=["DELETE"])

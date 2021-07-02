@@ -29,6 +29,10 @@ class Sample(db.Model):
     expiration_date = db.Column(db.DateTime, nullable=False)
     discarded = db.Column(db.Boolean, default=False, nullable=False)
 
+    well_id = db.Column(db.Integer,
+                        db.ForeignKey("wells.id"),
+                        nullable=True)
+
     @property
     def expiry_date(self):
         return self.expiration_date
@@ -45,8 +49,9 @@ class Sample(db.Model):
         self.expiration_date = date_time + date_change
 
     # Associations
-    plate = db.relationship("Plate", back_populates="samples")
-    # box association here
+    plate = db.relationship("Plate", back_populates="samples", uselist=False)
+    well = db.relationship("Well", back_populates="sample", uselist=False)
+    # TODO: box association will go here
 
     def to_dict(self):
         return {
