@@ -1,5 +1,4 @@
-from app.models import db, Plate, Well
-from datetime import datetime
+from app.models import db, Plate
 
 
 def seed_wells():

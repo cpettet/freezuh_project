@@ -14,9 +14,6 @@ class Well(db.Model):
                          nullable=False
                          )
 
-    # self.sample.plate_id => plate => plate.samples => # of samples =>
-    #   # + 1 => next available => if # + 1 < 96 => add to plate
-
     # Associations
     plate = db.relationship("Plate", back_populates="wells")
     sample = db.relationship("Sample", back_populates="well",
