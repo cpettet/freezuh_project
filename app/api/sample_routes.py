@@ -1,16 +1,18 @@
 from flask import Blueprint, request
 from flask_login import login_required
-from app.models import db, Sample
+from app.models import db, Sample, Well, Plate
 from app.forms import SampleForm
 
 sample_routes = Blueprint("samples", __name__)
 
+
 # GET /api/samples/
 @sample_routes.route("/", methods=["GET"])
-# @login_required
+@login_required
 def get_samples():
     samples = Sample.query.all()
     return {"samples": [sample.to_dict() for sample in samples]}
+
 
 # POST /api/samples/
 @sample_routes.route("/", methods=["POST"])
@@ -20,8 +22,6 @@ def new_sample():
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         sample = Sample(
-            plate_id=form.data["plate_id"],
-            box_id=form.data["box_id"],
             sample_type=form.data["sample_type"],
             accession_date=form.data["accession_date"],
             store_date=form.data["store_date"],
@@ -30,10 +30,15 @@ def new_sample():
             discarded=form.data["discarded"],
         )
         db.session.add(sample)
+        if form.data["plate_id"]:
+            plate_id = form.data["plate_id"]
+            plate = Plate.query.get(plate_id)
+            plate.store_sample_in_well(sample.id)
         db.session.commit()
     if form.errors:
         return {"errors": form.errors}
     return {"sample": sample.to_dict()}
+
 
 # PATCH /api/samples/:id
 @sample_routes.route("/<int:sample_id>", methods=["PATCH"])
@@ -41,9 +46,16 @@ def new_sample():
 def edit_sample(sample_id):
     sample = Sample.query.get(sample_id)
     request_body = request.get_json()
-    # check for any properties and patch them
+    print("Here's the request body:", request_body)
+
+    if sample.get_plate_id() != request_body["plate_id"]:
+        plate_id = request_body["plate_id"]
+        plate = Plate.query.get(plate_id)
+        plate.store_sample_in_well(sample_id)
+        # TODO: error handling
     sample.plate_id = request_body["plate_id"]
-    sample.box_id = request_body["box_id"]
+    # TODO: change following line to allow for box_ids
+    # sample.box_id = request_body["box_id"]
     sample.sample_type = request_body["sample_type"]
     sample.accession_date = request_body["accession_date"]
     sample.store_date = request_body["store_date"]
@@ -53,6 +65,7 @@ def edit_sample(sample_id):
 
     db.session.commit()
     return {"sample": sample.to_dict()}
+
 
 # DELETE /api/samples/:id
 @sample_routes.route("/<int:sample_id>", methods=["DELETE"])
