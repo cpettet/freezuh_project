@@ -2,10 +2,12 @@ import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import session from "./session";
 import samples from "./sample";
+import plates from "./plate";
 
 const rootReducer = combineReducers({
     session,
-    samples
+    samples,
+    plates,
 });
 
 let enhancer;

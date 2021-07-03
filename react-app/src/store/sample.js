@@ -66,7 +66,6 @@ export const editSample = (data) => async (dispatch) => {
 };
 
 export const deleteSample = (data) => async (dispatch) => {
-  console.log("Data before fetch", data)
   const response = await fetch(`/api/samples/${data.id}`, {
     method: "DELETE",
   });

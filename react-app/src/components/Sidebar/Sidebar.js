@@ -10,6 +10,7 @@ function Sidebar() {
   return (
     <div className={style.sidebar}>
       <Switch>
+        {/* Routes for samples */}
         <Route path="/samples/new">
           <SampleForm />
         </Route>
@@ -19,8 +20,15 @@ function Sidebar() {
         <Route path="/samples/:sampleId/edit">
           <SampleEdit />
         </Route>
+        {/* Routes for /plates */}
         <Route path="/plates/new">
           <PlateForm />
+        </Route>
+        <Route exact path="/plates/:plateId">
+          <h1>Welcome to the plate show page for....</h1>
+        </Route>
+        <Route path="/plates/:plateId/edit">
+          <h1>Welcome to the EDIT page for plate....</h1>
         </Route>
       </Switch>
     </div>
