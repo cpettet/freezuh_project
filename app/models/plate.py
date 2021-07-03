@@ -55,6 +55,12 @@ class Plate(db.Model):
         """
         return [well.sample.to_dict() for well in self.wells]
 
+    def get_samples_ids(self):
+        """
+        Gets all samples on the plate that are associated through the wells.
+        """
+        return [well.sample.to_dict()["id"] for well in self.wells]
+
     def discard_plate(self):
         """
         Sets the plate's discarded value to True. Iterates through all stored
@@ -84,5 +90,5 @@ class Plate(db.Model):
             "discarded": self.discarded,
             "open_position": self.open_well,
             "max_position": self.max_well,
-            "samples": self.get_samples(),
+            "samples": self.get_samples_ids(),
         }

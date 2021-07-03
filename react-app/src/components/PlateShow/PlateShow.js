@@ -7,14 +7,14 @@ import Plate from "../Plate/Plate";
 
 function Plates() {
   const dispatch = useDispatch();
-  const statePlateIds = useSelector((state) => state.plates.allIds);
+  const statePlates = useSelector((state) => Object.values(state.plates.byId));
 
   useEffect(() => {
     dispatch(getPlates());
   }, [dispatch]);
 
-  const plates = statePlateIds.map(plateId => {
-      return <Plate key={plateId} plateId={plateId} />;
+  const plates = statePlates.map(plate => {
+      return <Plate key={plate.id} plate={plate} />;
   })
 
   return (
