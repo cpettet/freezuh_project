@@ -4,7 +4,6 @@ from datetime import datetime
 
 def seed_plates():
     demo1 = Plate(store_date=datetime.now())
-
     db.session.add(demo1)
     db.session.commit()
 

@@ -1,4 +1,5 @@
 from . import db
+from .well import Well
 # plate
 #   one-to-many table
 #   position/well would be enum: positions 1-96
@@ -26,18 +27,33 @@ class Plate(db.Model):
     max_well = db.Column(db.Integer, default=96, nullable=False)
     stored = db.Column(db.Boolean, default=False, nullable=False)
 
-    def store_sample_in_well(self):
+    # Associations
+    # rack = db.relationship("Rack", back_populates="plates")
+    wells = db.relationship(
+        "Well",
+        back_populates="plate",
+        passive_deletes=True,
+        cascade="all,delete-orphan",
+    )
+
+    def store_sample_in_well(self, sample_id):
         """
         After finding the first available space for a sample, stores a sample
         in the space, and moves the next available spot up by one.
         """
-        self.open_well += 1
-
-    # Associations
-    # rack = db.relationship("Rack", back_populates="plates")
-    wells = db.relationship("Well", back_populates="plate",
-                            passive_deletes=True,
-                            cascade="all,delete-orphan")
+        if self.open_well <= self.max_well:
+            sample_well = Well(
+                well_position=self.open_well,
+                # sample_id=sample_id,
+                plate_id=self.id,
+            )
+            db.session.add(sample_well)
+            self.open_well += 1
+            db.session.commit()
+            return {"success": f"Sample #{sample_id} stored in plate \
+                            #{self.id}, well #{self.open_well - 1}"}
+        else:
+            return {"errors": "Given plate has no open spots"}
 
     def get_samples(self):
         """
