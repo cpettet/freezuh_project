@@ -1,16 +1,7 @@
 from . import db
 from .well import Well
 from .sample import Sample
-from datetime import date, datetime
-# plate
-#   one-to-many table
-#   position/well would be enum: positions 1-96
-#   STILL keep track of next available position
-#       well 1: sample 1
-#       well 2: sample 2
-#       well 3: empty
-#       ...
-#       well 96: empty
+from datetime import datetime
 
 
 class Plate(db.Model):

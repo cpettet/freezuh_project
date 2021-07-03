@@ -1,6 +1,4 @@
 from . import db
-from .plate import Plate
-from .well import Well
 from datetime import datetime, timedelta
 from enum import Enum
 
@@ -47,20 +45,23 @@ class Sample(db.Model):
         date_change = timedelta(days=180)
         self.expiration_date = date_time + date_change
 
-    def get_plate(self):
-        """"""
-        pass
+    def get_plate_id(self):
+        return self.well.plate_id if self.well else "N/A"
 
-    def get_sample_position(self):
+    def get_sample_position(self) -> tuple:
         """
         Gets the sample position from the plate based on the plate size.
         Assumes that the plate is filled vertically.
 
-        Example: A1-H1, A2-H2, ... A12-H12.
+        Example: A1 -> (0, 1), H1 -> (1, 0) D2 -> (1, 4), H12 -> (12, 0)
         """
-        plate_number = self.well.plate_id
-        # number_in_plate = Well.query
-        # TODO: START HERE
+        if self.well:
+            well_position = self.well.well_position
+            column_number = well_position // 8
+            row_number = well_position % 8
+            return (column_number, row_number)
+        else:
+            return "N/A"
 
     # Associations
     well = db.relationship("Well", back_populates="sample", uselist=False)
@@ -75,6 +76,6 @@ class Sample(db.Model):
             "thaw_count": self.thaw_count,
             "expiration_date": self.expiration_date,
             "discarded": self.discarded,
-            "plate_id": self.get_plate(),
+            "plate_id": self.get_plate_id(),
             "sample_position": self.get_sample_position(),
         }
