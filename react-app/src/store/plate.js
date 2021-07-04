@@ -44,6 +44,7 @@ export const createPlate = (data) => async (dispatch) => {
 
   if (response.ok) {
     const newPlate = await response.json();
+    console.log("New plate:", newPlate)
     dispatch(post(newPlate));
     return newPlate;
   }

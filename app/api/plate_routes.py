@@ -8,7 +8,7 @@ plate_routes = Blueprint("plates", __name__)
 
 # GET /api/plates/
 @plate_routes.route("/", methods=["GET"])
-# @login_required
+@login_required
 def get_plates():
     plates = Plate.query.all()
     return {"plates": [plate.to_dict() for plate in plates]}
@@ -16,7 +16,7 @@ def get_plates():
 
 # POST /api/plates/
 @plate_routes.route("/", methods=["POST"])
-# @login_required
+@login_required
 def new_plate():
     form = PlateForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
@@ -26,7 +26,7 @@ def new_plate():
             thaw_count=form.data["thaw_count"],
             store_date=form.data["store_date"],
             discarded=form.data["discarded"],
-            max_position=form.data["max_position"],
+            max_well=form.data["max_well"],
         )
         db.session.add(plate)
         db.session.commit()
@@ -46,7 +46,7 @@ def edit_plate(plate_id):
     plate.thaw_count = request_body["thaw_count"]
     plate.store_date = request_body["store_date"]
     plate.discarded = request_body["discarded"]
-    plate.max_position = request_body["max_position"]
+    plate.max_well = request_body["max_well"]
     db.session.commit()
     return {"plate": plate.to_dict()}
 
