@@ -44,14 +44,13 @@ export const createPlate = (data) => async (dispatch) => {
 
   if (response.ok) {
     const newPlate = await response.json();
-    console.log("New plate:", newPlate)
     dispatch(post(newPlate));
     return newPlate;
   }
 };
 
 export const editPlate = (data) => async (dispatch) => {
-  const response = await fetch(`/api/samples/${data.id}`, {
+  const response = await fetch(`/api/plates/${data.id}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -67,7 +66,7 @@ export const editPlate = (data) => async (dispatch) => {
 };
 
 export const deletePlate = (data) => async (dispatch) => {
-  const response = await fetch(`/api/samples/${data.id}`, {
+  const response = await fetch(`/api/plates/${data.id}`, {
     method: "DELETE",
   });
 

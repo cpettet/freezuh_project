@@ -6,12 +6,12 @@ import SampleForm from "./Forms/SampleForm";
 import SidebarSampleShow from "./Shows/SidebarSampleShow";
 import SidebarPlateShow from "./Shows/SidebarPlateShow/SidebarPlateShow";
 import SampleEdit from "./Forms/SampleEdit/SampleEdit";
+import PlateEdit from "./Forms/PlateEdit/PlateEdit";
 
 function Sidebar() {
   return (
     <div className={style.sidebar}>
       <Switch>
-        {/* Routes for samples */}
         <Route path="/samples/new">
           <SampleForm />
         </Route>
@@ -21,7 +21,6 @@ function Sidebar() {
         <Route path="/samples/:sampleId/edit">
           <SampleEdit />
         </Route>
-        {/* Routes for /plates */}
         <Route path="/plates/new">
           <PlateForm />
         </Route>
@@ -29,7 +28,7 @@ function Sidebar() {
           <SidebarPlateShow />
         </Route>
         <Route path="/plates/:plateId/edit">
-          <h1>Welcome to the EDIT page for plate....</h1>
+          <PlateEdit />
         </Route>
       </Switch>
     </div>

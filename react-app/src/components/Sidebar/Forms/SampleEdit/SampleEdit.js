@@ -55,7 +55,7 @@ function SampleForm() {
 
   const submitSample = async (e) => {
     e.preventDefault();
-    const editedSample = await dispatch(
+    await dispatch(
       editSample({
         id: sample.id,
         box_id: boxId,
@@ -68,8 +68,7 @@ function SampleForm() {
         expiry_date: expirationDate,
       })
     );
-    const newSampleId = editedSample.sample.id;
-    history.push(`/samples/${newSampleId}`);
+    history.push(`/samples/${sampleId}`);
   };
 
   return (

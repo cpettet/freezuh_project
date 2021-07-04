@@ -89,6 +89,6 @@ class Plate(db.Model):
             "store_date": self.store_date,
             "discarded": self.discarded,
             "open_position": self.open_well,
-            "max_position": self.max_well,
+            "max_well": self.max_well,
             "samples": self.get_samples_ids(),
         }
