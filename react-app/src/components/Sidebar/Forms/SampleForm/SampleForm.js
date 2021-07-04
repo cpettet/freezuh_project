@@ -41,7 +41,6 @@ function SampleForm() {
 
   const submitSample = async (e) => {
     e.preventDefault();
-    console.log(accessionDate)
     const newSample = await dispatch(
       createSample({
         ...(boxId && { box_id: boxId }),
@@ -54,7 +53,6 @@ function SampleForm() {
         discarded: false,
       })
     );
-    console.log(newSample)
     const newSampleId = newSample.sample.id;
     history.push(`/samples/${newSampleId}`);
   };
@@ -110,7 +108,9 @@ function SampleForm() {
           onChange={(e) => setStoreDate(e.target.value)}
         />
       </div>
-      <button className={style.navbar__form__submit}>Submit</button>
+      <button type="submit" className={style.navbar__form__submit}>
+        Submit
+      </button>
     </form>
   );
 }

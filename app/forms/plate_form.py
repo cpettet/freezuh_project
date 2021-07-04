@@ -8,6 +8,6 @@ class PlateForm(FlaskForm):
     thaw_count = IntegerField("thaw_count")
     store_date = DateTimeField("store_date", format="%Y-%m-%dT%H:%M")
     discarded = BooleanField("discarded")
-    max_position = IntegerField("max_position",
-                                validators=[NumberRange(min=6, max=3456)])
+    max_well = IntegerField("max_position",
+                            validators=[NumberRange(min=6, max=3456)])
     stored = BooleanField("stored")

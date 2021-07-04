@@ -4,7 +4,9 @@ import style from "./Sidebar.module.css";
 import PlateForm from "./Forms/PlateForm";
 import SampleForm from "./Forms/SampleForm";
 import SidebarSampleShow from "./Shows/SidebarSampleShow";
+import SidebarPlateShow from "./Shows/SidebarPlateShow/SidebarPlateShow";
 import SampleEdit from "./Forms/SampleEdit/SampleEdit";
+import PlateEdit from "./Forms/PlateEdit/PlateEdit";
 
 function Sidebar() {
   return (
@@ -21,6 +23,12 @@ function Sidebar() {
         </Route>
         <Route path="/plates/new">
           <PlateForm />
+        </Route>
+        <Route exact path="/plates/:plateId">
+          <SidebarPlateShow />
+        </Route>
+        <Route path="/plates/:plateId/edit">
+          <PlateEdit />
         </Route>
       </Switch>
     </div>

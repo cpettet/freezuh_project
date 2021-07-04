@@ -9,7 +9,7 @@ import ProtectedRoute from "./components/Authorization/ProtectedRoute";
 import Freezers from "./components/Freezers";
 import Racks from "./components/Racks";
 import Boxes from "./components/Boxes";
-import Plates from "./components/Plates";
+import PlateShow from "./components/PlateShow";
 import SampleShow from "./components/SampleShow";
 import Sidebar from "./components/Sidebar";
 
@@ -50,7 +50,7 @@ function App() {
             <Boxes />
           </ProtectedRoute>
           <ProtectedRoute path="/plates">
-            <Plates />
+            <PlateShow />
           </ProtectedRoute>
           <ProtectedRoute path="/samples">
             <SampleShow />
