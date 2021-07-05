@@ -59,7 +59,7 @@ function Navigation() {
               Racks
             </NavLink>
           </div>
-          <div className={style["link__container"]}>
+          {/* <div className={style["link__container"]}>
             <NavLink
               to="/boxes"
               className={style.link}
@@ -67,7 +67,7 @@ function Navigation() {
             >
               Boxes
             </NavLink>
-          </div>
+          </div> */}
           <div className={style["link__container"]}>
             <NavLink
               // Set the isActive to change container color
@@ -122,7 +122,7 @@ function Navigation() {
             placeholder="Search by Rack ID"
           />
         </div>
-        <div className={style["select-box"]}>
+        {/* <div className={style["select-box"]}>
           <Select
             color="#6838A0"
             options={demo_freezers}
@@ -135,7 +135,7 @@ function Navigation() {
             dropdownHeight="200px"
             placeholder="Search by Box ID"
           />
-        </div>
+        </div> */}
         <div className={style["select-box"]}>
           <Select
             color="#6838A0"
