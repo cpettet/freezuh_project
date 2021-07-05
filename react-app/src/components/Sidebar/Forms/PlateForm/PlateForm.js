@@ -45,6 +45,7 @@ function PlateForm() {
               setStored(true);
               setStoreDate(getInputDateTime());
             }}
+            onChange={() => setStored(true)}
           />
           Yes
         </label>
@@ -57,6 +58,7 @@ function PlateForm() {
               setStored(false);
               setStoreDate(null);
             }}
+            onChange={() => setStored(false)}
           />
           No
         </label>
