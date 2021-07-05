@@ -12,6 +12,7 @@ import Boxes from "./components/Boxes";
 import PlateShow from "./components/PlateShow";
 import SampleShow from "./components/SampleShow";
 import Sidebar from "./components/Sidebar";
+import PlateZoom from "./components/PlateZoom/PlateZoom";
 
 function App() {
   const dispatch = useDispatch();
@@ -48,6 +49,9 @@ function App() {
           </ProtectedRoute>
           <ProtectedRoute path="/boxes">
             <Boxes />
+          </ProtectedRoute>
+          <ProtectedRoute path="/plates/:plateId(\d+)">
+            <PlateZoom />
           </ProtectedRoute>
           <ProtectedRoute path="/plates">
             <PlateShow />
