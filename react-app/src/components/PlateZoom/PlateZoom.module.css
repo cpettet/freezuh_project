@@ -17,6 +17,55 @@
     }
 }
 
+tr, col {
+  transition: all 0.3s;
+}
+
+table {
+    border-collapse: collapse;
+    border: 1px solid #26143a;
+}
+
+td {
+    margin: 0.125rem;
+    height: 4rem;
+    width: 4rem;
+}
+
+.plate__header {
+    background-color: #a487c6;
+}
+
+.plate__well {
+    display: table-cell;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.plate__well__inner {
+    display: block;
+    background-color: transparent;
+    border: none;
+    height: 3.5rem;
+    width: 3.5rem;
+}
+
+.plate__well-filled {
+    background-color: #e4c671;
+}
+
+.plate__well-empty {
+    background-color: #fff2cc;
+}
+
+/* This is not working */
+.plate__row:hover, tr {
+  background-color: rgba(0, 140, 203, 0.2);
+}
+
+col:hover {
+  background-color: rgba(0, 140, 203, 0.2);
+}
 
 .plate__row:nth-child(even) {
     background-color: #d7d7e3;
@@ -26,18 +75,6 @@
     background-color: #c8c8d9;
 }
 
-.plate__header {
-    background-color: #a487c6;
-}
-
-.plate__well, .box__pos {
-    border: 0.125rem solid black;
-    margin: 0.40rem;
-    height: 2rem;
-    width: 4.5rem;
-    border-radius: 50%;
-    overflow: hidden;
-}
 
 /* 
 .plate__row, .box__row {
@@ -47,8 +84,6 @@
     height: 6rem;
     overflow: hidden;
 }
-
-
 
 .inner {
     border: 0.25rem solid black;

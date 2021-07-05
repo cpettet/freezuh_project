@@ -19,6 +19,22 @@ function PlateZoom() {
     7: "H",
   };
 
+  function classesForWell(wellNumber, colClass) {
+    if (plate.samples.includes(wellNumber)) {
+      return `${style[colClass]} ${style.plate__header} ${style["plate__well-filled"]} ${style.plate__well}`;
+    } else {
+      return `${style[colClass]} ${style.plate__header} ${style["plate__well-empty"]} ${style.plate__well}`;
+    }
+  }
+
+  function sampleInTable(wellNumber) {
+    if (plate.samples.includes(wellNumber)) {
+      return `/samples/${wellNumber}`;
+    } else {
+      return `/plates/${plateId}`;
+    }
+  }
+
   function tableBody() {
     const rows = [];
     for (let row = 0; row < numRows; row++) {
@@ -27,25 +43,26 @@ function PlateZoom() {
       for (let col = 0; col < numCols; col++) {
         const cellId = `cell-${row}:${col}`;
         const colClass = `col-${col}`;
-        const sampleNumber = 1 + row + col * 8;
+        const wellNumber = 1 + row + col * 8;
         // Setting up the row header
         if (col === 0) {
           cellsInRow.push(
-            <th scope="row" key={cellId} className={`${style.rowClass} ${style.plate__header}`}>
-            {rowNameConversion[row]}
+            <th
+              scope="row"
+              key={rowClass}
+              className={`${style[rowClass]} ${style.plate__header} ${style.plate__header__row}`}
+            >
+              {rowNameConversion[row]}
             </th>
           );
         }
         cellsInRow.push(
-          <td
-            key={cellId}
-            className={`${style[colClass]} ${style.plate__well}`}
-          >
-            <Link to={`/samples/${sampleNumber}`}>
-              {cellId}
-              {/* {// This is for debugging purposes
-              `\nSample #: ${sampleNumber}`} */}
-              <div></div>
+          <td key={cellId} className={classesForWell(wellNumber, colClass)}>
+            <Link to={sampleInTable(wellNumber)}>
+              <div
+                className={style["plate__well__inner"]}
+                // THIS IS WRONG RIGHT HERE, CHECK BACK
+              >{plate.samples.includes(wellNumber) ? `#: ${wellNumber}` : ""}</div>
             </Link>
           </td>
         );
@@ -60,65 +77,67 @@ function PlateZoom() {
   }
 
   return (
-    <table className={style.plate}>
-      <colgroup>
-        <col span="1" className="row-names" />
-        <col span="1" className="col-1" />
-        <col span="1" className="col-2" />
-        <col span="1" className="col-3" />
-        <col span="1" className="col-4" />
-        <col span="1" className="col-5" />
-        <col span="1" className="col-6" />
-        <col span="1" className="col-7" />
-        <col span="1" className="col-8" />
-        <col span="1" className="col-9" />
-        <col span="1" className="col-10" />
-        <col span="1" className="col-11" />
-        <col span="1" className="col-12" />
-      </colgroup>
-      <thead>
-        <tr className={style.plate__row}>
-          <th className={style.plate__header} scope="col" />
-          <th className={style.plate__header} scope="col">
-            1
-          </th>
-          <th className={style.plate__header} scope="col">
-            2
-          </th>
-          <th className={style.plate__header} scope="col">
-            3
-          </th>
-          <th className={style.plate__header} scope="col">
-            4
-          </th>
-          <th className={style.plate__header} scope="col">
-            5
-          </th>
-          <th className={style.plate__header} scope="col">
-            6
-          </th>
-          <th className={style.plate__header} scope="col">
-            7
-          </th>
-          <th className={style.plate__header} scope="col">
-            8
-          </th>
-          <th className={style.plate__header} scope="col">
-            9
-          </th>
-          <th className={style.plate__header} scope="col">
-            10
-          </th>
-          <th className={style.plate__header} scope="col">
-            11
-          </th>
-          <th className={style.plate__header} scope="col">
-            12
-          </th>
-        </tr>
-      </thead>
-      <tbody>{tableBody()}</tbody>
-    </table>
+    <div>
+      <table className={style.plate}>
+        <colgroup>
+          <col span="12" className="row-names" />
+          <col span="1" className="col-1" />
+          <col span="1" className="col-2" />
+          <col span="1" className="col-3" />
+          <col span="1" className="col-4" />
+          <col span="1" className="col-5" />
+          <col span="1" className="col-6" />
+          <col span="1" className="col-7" />
+          <col span="1" className="col-8" />
+          <col span="1" className="col-9" />
+          <col span="1" className="col-10" />
+          <col span="1" className="col-11" />
+          <col span="1" className="col-12" />
+        </colgroup>
+        <thead>
+          <tr className={style.plate__row}>
+            <th className={style.plate__header} scope="col" />
+            <th className={style.plate__header} scope="col">
+              1
+            </th>
+            <th className={style.plate__header} scope="col">
+              2
+            </th>
+            <th className={style.plate__header} scope="col">
+              3
+            </th>
+            <th className={style.plate__header} scope="col">
+              4
+            </th>
+            <th className={style.plate__header} scope="col">
+              5
+            </th>
+            <th className={style.plate__header} scope="col">
+              6
+            </th>
+            <th className={style.plate__header} scope="col">
+              7
+            </th>
+            <th className={style.plate__header} scope="col">
+              8
+            </th>
+            <th className={style.plate__header} scope="col">
+              9
+            </th>
+            <th className={style.plate__header} scope="col">
+              10
+            </th>
+            <th className={style.plate__header} scope="col">
+              11
+            </th>
+            <th className={style.plate__header} scope="col">
+              12
+            </th>
+          </tr>
+        </thead>
+        <tbody>{tableBody()}</tbody>
+      </table>
+    </div>
   );
 }
 
