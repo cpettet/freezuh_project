@@ -30,11 +30,14 @@ def new_sample():
             discarded=form.data["discarded"],
         )
         db.session.add(sample)
-        if form.data["plate_id"]:
-            plate_id = form.data["plate_id"]
-            plate = Plate.query.get(plate_id)
-            plate.store_sample_in_well(sample.id)
         db.session.commit()
+        if form.data["plate_id"] is not None:
+            plate_id = form.data["plate_id"]
+            # print("\n\nPlate ID:", plate_id)
+            plate = Plate.query.get(plate_id)
+            print("\n\nPlate is:", plate.to_dict())
+            print("Sample ID is:", sample.id)
+            plate.store_sample_in_well(sample.id)
     if form.errors:
         return {"errors": form.errors}
     return {"sample": sample.to_dict()}

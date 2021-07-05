@@ -20,7 +20,7 @@ function PlateZoom() {
   };
 
   function classesForWell(wellNumber, colClass) {
-    if (plate.samples.includes(wellNumber)) {
+    if (plate.samples.length > wellNumber) {
       return `${style[colClass]} ${style.plate__header} ${style["plate__well-filled"]} ${style.plate__well}`;
     } else {
       return `${style[colClass]} ${style.plate__header} ${style["plate__well-empty"]} ${style.plate__well}`;
@@ -28,8 +28,8 @@ function PlateZoom() {
   }
 
   function sampleInTable(wellNumber) {
-    if (plate.samples.includes(wellNumber)) {
-      return `/samples/${wellNumber}`;
+    if (plate.samples.length > wellNumber) {
+      return `/samples/${plate.samples[wellNumber]}`;
     } else {
       return `/plates/${plateId}`;
     }
@@ -43,7 +43,7 @@ function PlateZoom() {
       for (let col = 0; col < numCols; col++) {
         const cellId = `cell-${row}:${col}`;
         const colClass = `col-${col}`;
-        const wellNumber = 1 + row + col * 8;
+        const wellNumber = row + col * 8;
         // Setting up the row header
         if (col === 0) {
           cellsInRow.push(
@@ -61,8 +61,7 @@ function PlateZoom() {
             <Link to={sampleInTable(wellNumber)}>
               <div
                 className={style["plate__well__inner"]}
-                // THIS IS WRONG RIGHT HERE, CHECK BACK
-              >{plate.samples.includes(wellNumber) ? `#: ${wellNumber}` : ""}</div>
+              >{plate.samples.length > wellNumber ? `#: ${plate.samples[wellNumber]}` : ""}</div>
             </Link>
           </td>
         );
@@ -78,6 +77,7 @@ function PlateZoom() {
 
   return (
     <div>
+      <Link to="/plates">Return to all plates</Link>
       <table className={style.plate}>
         <colgroup>
           <col span="12" className="row-names" />

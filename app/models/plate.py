@@ -40,8 +40,9 @@ class Plate(db.Model):
             )
             sample = Sample.query.get(sample_id)
             sample.store_date = datetime.now()
-            sample.well_id = self.open_well
             db.session.add(sample_well)
+            db.session.flush()
+            sample.well_id = sample_well.id
             self.open_well += 1
             db.session.commit()
             return {"success": f"Sample #{sample_id} stored in plate \
@@ -59,7 +60,7 @@ class Plate(db.Model):
         """
         Gets all samples on the plate that are associated through the wells.
         """
-        return [well.sample.to_dict()["id"] for well in self.wells]
+        return [well.sample.id for well in self.wells]
 
     def discard_plate(self):
         """

@@ -13,46 +13,35 @@ function SampleForm() {
     ["Plasma", "plasma"],
     ["CF DNA", "cf_dna"],
   ];
-  const [plateId, setPlateId] = useState(null);
-  const [boxId, setBoxId] = useState(null);
+  const [plateId, setPlateId] = useState("");
+  // const [boxId, setBoxId] = useState();
   const [sampleType, setSampleType] = useState(SAMPLE_TYPES[0][1]);
   const [accessionDate, setAccessionDate] = useState(getInputDateTime());
-  const [storeDate, setStoreDate] = useState(null);
+  // const [storeDate, setStoreDate] = useState();
 
   const firstPlateId = (e) => {
     e.preventDefault();
-    if (boxId === "") {
-      setPlateId(1);
-    } else {
-      setBoxId("");
-      setPlateId(1);
-    }
   };
 
   const firstBoxId = (e) => {
     e.preventDefault();
-    if (plateId === "") {
-      setBoxId(1);
-    } else {
-      setPlateId("");
-      setBoxId(1);
-    }
   };
 
   const submitSample = async (e) => {
     e.preventDefault();
     const newSample = await dispatch(
       createSample({
-        ...(boxId && { box_id: boxId }),
+        // ...(boxId && { box_id: boxId }),
         ...(plateId && { plate_id: plateId }),
         ...(accessionDate && { accession_date: accessionDate }),
-        ...(storeDate && { store_date: storeDate }),
+        // ...(storeDate && { store_date: storeDate }),
         // ...(expirationDate && { expiry_date: expirationDate }),
         sample_type: sampleType,
         thaw_count: 0,
         discarded: false,
       })
     );
+    console.log("\nNew sample is:", newSample)
     const newSampleId = newSample.sample.id;
     history.push(`/samples/${newSampleId}`);
   };
@@ -69,7 +58,7 @@ function SampleForm() {
         />
       </div>
       <button onClick={firstPlateId}>Populate Open Plate ID</button>
-      <div className={style.navbar__form__boxId}>
+      {/* <div className={style.navbar__form__boxId}>
         <label htmlFor="box_id">Box Id: </label>
         <input
           value={boxId}
@@ -78,7 +67,7 @@ function SampleForm() {
           placeholder="Enter box Id"
         />
       </div>
-      <button onClick={firstBoxId}>Populate Open Box ID</button>
+      <button onClick={firstBoxId}>Populate Open Box ID</button> */}
       <div className={style.navbar__form__sampleType}>
         <label htmlFor="sample_type">Sample Type: </label>
         <select
@@ -100,14 +89,14 @@ function SampleForm() {
           onChange={(e) => setAccessionDate(e.target.value)}
         />
       </div>
-      <div>
+      {/* <div>
         <label htmlFor="store_date">Storage Date:</label>
         <input
           type="datetime-local"
           value={storeDate}
           onChange={(e) => setStoreDate(e.target.value)}
         />
-      </div>
+      </div> */}
       <button type="submit" className={style.navbar__form__submit}>
         Submit
       </button>

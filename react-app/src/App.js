@@ -50,11 +50,11 @@ function App() {
           <ProtectedRoute path="/boxes">
             <Boxes />
           </ProtectedRoute>
-          <ProtectedRoute exact path="/plates">
-            <PlateShow />
-          </ProtectedRoute>
-          <ProtectedRoute path="/plates/:plateId">
+          <ProtectedRoute path="/plates/:plateId(\d+)">
             <PlateZoom />
+          </ProtectedRoute>
+          <ProtectedRoute path="/plates">
+            <PlateShow />
           </ProtectedRoute>
           <ProtectedRoute path="/samples">
             <SampleShow />
