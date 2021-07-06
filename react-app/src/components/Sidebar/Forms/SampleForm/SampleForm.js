@@ -23,9 +23,9 @@ function SampleForm() {
     e.preventDefault();
   };
 
-  const firstBoxId = (e) => {
-    e.preventDefault();
-  };
+  // const firstBoxId = (e) => {
+  //   e.preventDefault();
+  // };
 
   const submitSample = async (e) => {
     e.preventDefault();

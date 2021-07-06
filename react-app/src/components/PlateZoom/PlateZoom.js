@@ -1,10 +1,12 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import style from "./PlateZoom.module.css";
+import { getPlates } from "../../store/plate";
 
 function PlateZoom() {
   const { plateId } = useParams();
+  const dispatch = useDispatch();
   const plate = useSelector((state) => state.plates.byId[plateId]);
   const numRows = 8;
   const numCols = 12;
@@ -19,8 +21,12 @@ function PlateZoom() {
     7: "H",
   };
 
+  useEffect(() => {
+    dispatch(getPlates())
+  }, [dispatch]);
+
   function classesForWell(wellNumber, colClass) {
-    if (plate.samples.length > wellNumber) {
+    if (plate?.samples.length > wellNumber) {
       return `${style[colClass]} ${style.plate__header} ${style["plate__well-filled"]} ${style.plate__well}`;
     } else {
       return `${style[colClass]} ${style.plate__header} ${style["plate__well-empty"]} ${style.plate__well}`;
@@ -28,7 +34,7 @@ function PlateZoom() {
   }
 
   function sampleInTable(wellNumber) {
-    if (plate.samples.length > wellNumber) {
+    if (plate?.samples.length > wellNumber) {
       return `/samples/${plate.samples[wellNumber]}`;
     } else {
       return `/plates/${plateId}`;
@@ -59,9 +65,11 @@ function PlateZoom() {
         cellsInRow.push(
           <td key={cellId} className={classesForWell(wellNumber, colClass)}>
             <Link to={sampleInTable(wellNumber)}>
-              <div
-                className={style["plate__well__inner"]}
-              >{plate.samples.length > wellNumber ? `#: ${plate.samples[wellNumber]}` : ""}</div>
+              <div className={style["plate__well__inner"]}>
+                {plate?.samples.length > wellNumber
+                  ? `#: ${plate?.samples[wellNumber]}`
+                  : ""}
+              </div>
             </Link>
           </td>
         );

@@ -1,10 +1,7 @@
-from app.models.plate import Plate
+from datetime import datetime
 from . import db
 from .rack_position import RackPosition
 from .plate import Plate
-from datetime import datetime
-
-from app.models import rack_position
 
 
 class Rack(db.Model):
@@ -14,6 +11,7 @@ class Rack(db.Model):
     freezer_id = db.Column(db.Integer, nullable=True)
     open_position = db.Column(db.Integer, default=1, nullable=False)
     max_position = db.Column(db.Integer, default=25, nullable=False)
+    discarded = db.Column(db.Boolean, default=False, nullable=False)
 
     # Associations
     # freezer_position = db.relationship("FreezerPosition",

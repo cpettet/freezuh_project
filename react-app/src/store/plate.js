@@ -1,12 +1,12 @@
 // constants
-const GET_PLATE = "sample/GET_PLATE";
+const GET_ALL_PLATES = "sample/GET_PLATES";
 const POST_PLATE = "sample/POST_PLATE";
 const EDIT_PLATE = "sample/EDIT_PLATE";
 const DELETE_PLATE = "sample/DELETE_PLATE";
 
 // action creators
-const get = (payload) => ({
-  type: GET_PLATE,
+const getAll = (payload) => ({
+  type: GET_ALL_PLATES,
   payload,
 });
 
@@ -29,7 +29,7 @@ const deleteAction = (payload) => ({
 export const getPlates = () => async (dispatch) => {
   const response = await fetch("/api/plates/");
   const data = await response.json();
-  dispatch(get(data.plates));
+  dispatch(getAll(data.plates));
   return data;
 };
 
@@ -92,7 +92,7 @@ const initialState = {
 // reducer
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case GET_PLATE: {
+    case GET_ALL_PLATES: {
       const newState = { ...state };
       action.payload.forEach((plate) => {
         newState.byId[plate.id] = plate;

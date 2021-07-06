@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import style from "./PlateEdit.module.css";
-import { editPlate } from "../../../../store/plate";
+import { editPlate, getPlates } from "../../../../store/plate";
 import getInputDateTime from "../../../../utils/getInputDateTime";
 
 function PlateEdit() {
@@ -11,19 +11,23 @@ function PlateEdit() {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const [rackId, setRackId] = useState(plate.rack_id);
-  const [thawCount, setThawCount] = useState(plate.thaw_count);
+  const [rackId, setRackId] = useState(plate?.rack_id);
+  const [thawCount, setThawCount] = useState(plate?.thaw_count);
   const [storeDate, setStoreDate] = useState(
-    getInputDateTime(plate.store_date)
+    getInputDateTime(plate?.store_date)
   );
-  const [discarded, setDiscarded] = useState(plate.discarded);
-  const [maxWell, setMaxWell] = useState(plate.max_well);
+  const [discarded, setDiscarded] = useState(plate?.discarded);
+  const [maxWell, setMaxWell] = useState(plate?.max_well);
+
+  useEffect(() => {
+    dispatch(getPlates())
+  }, [dispatch])
 
   const submitPlate = async (e) => {
     e.preventDefault();
     await dispatch(
       editPlate({
-        id: plate.id,
+        id: plate?.id,
         rack_id: rackId,
         thaw_count: thawCount,
         store_date: storeDate,
@@ -41,7 +45,7 @@ function PlateEdit() {
 
   return (
     <form className={style.navbar__form} onSubmit={submitPlate}>
-      <h3>Editing Plate #{plate.id}</h3>
+      <h3>Editing Plate #{plate?.id}</h3>
       <div>
         <label htmlFor="rack_id">Rack ID:</label>
         <input
