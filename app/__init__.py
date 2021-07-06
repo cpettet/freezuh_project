@@ -12,6 +12,7 @@ from .api.auth_routes import auth_routes
 from .api.user_routes import user_routes
 from .api.sample_routes import sample_routes
 from .api.plate_routes import plate_routes
+from .api.rack_routes import rack_routes
 
 from .seeds import seed_commands
 
@@ -38,6 +39,7 @@ app.register_blueprint(user_routes, url_prefix="/api/users")
 app.register_blueprint(auth_routes, url_prefix="/api/auth")
 app.register_blueprint(sample_routes, url_prefix="/api/samples")
 app.register_blueprint(plate_routes, url_prefix="/api/plates")
+app.register_blueprint(rack_routes, url_prefix="/api/racks")
 
 db.init_app(app)
 Migrate(app, db)

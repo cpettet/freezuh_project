@@ -58,6 +58,15 @@ td {
     background-color: #fff2cc;
 }
 
+.plate__well:hover, .plate__well__inner:hover {
+    background-color: #987920;
+    color: white;
+}
+
+a {
+    text-decoration: none;
+}
+
 /* This is not working */
 .plate__row:hover, tr {
   background-color: rgba(0, 140, 203, 0.2);

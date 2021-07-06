@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import style from "./Plate.module.css";
-import image from "./Plate-Final.min.svg";
+import image from "./Plate-Finalv2.min.svg";
 
 function Plate({ plate }) {
   return (

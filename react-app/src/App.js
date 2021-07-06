@@ -7,12 +7,13 @@ import LoginForm from "./components/Authorization/LoginForm"
 import SignUpForm from "./components/Authorization/SignUpForm"
 import ProtectedRoute from "./components/Authorization/ProtectedRoute";
 import Freezers from "./components/Freezers";
-import Racks from "./components/Racks";
+import RackShow from "./components/RackShow";
 import Boxes from "./components/Boxes";
 import PlateShow from "./components/PlateShow";
 import SampleShow from "./components/SampleShow";
 import Sidebar from "./components/Sidebar";
 import PlateZoom from "./components/PlateZoom/PlateZoom";
+import RackZoom from "./components/RackZoom/RackZoom";
 
 function App() {
   const dispatch = useDispatch();
@@ -44,14 +45,17 @@ function App() {
           <ProtectedRoute path="/freezers">
             <Freezers />
           </ProtectedRoute>
-          <ProtectedRoute path="/racks">
-            <Racks />
-          </ProtectedRoute>
-          <ProtectedRoute path="/boxes">
+          {/* <ProtectedRoute path="/boxes">
             <Boxes />
-          </ProtectedRoute>
+          </ProtectedRoute> */}
           <ProtectedRoute path="/plates/:plateId(\d+)">
             <PlateZoom />
+          </ProtectedRoute>
+          <ProtectedRoute path="/racks/:rackId(\d+)">
+            <RackZoom />
+          </ProtectedRoute>
+          <ProtectedRoute path="/racks">
+            <RackShow />
           </ProtectedRoute>
           <ProtectedRoute path="/plates">
             <PlateShow />

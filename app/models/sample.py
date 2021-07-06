@@ -26,7 +26,10 @@ class Sample(db.Model):
     discarded = db.Column(db.Boolean, default=False, nullable=False)
 
     well_id = db.Column(db.Integer,
-                        db.ForeignKey("wells.id", ondelete="CASCADE"),
+                        db.ForeignKey(
+                            "wells.id",
+                            # ondelete="CASCADE"
+                            ),
                         nullable=True,
                         )
 

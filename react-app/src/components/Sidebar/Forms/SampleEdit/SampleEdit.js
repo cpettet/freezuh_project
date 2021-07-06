@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import style from "./SampleEdit.module.css";
-import { editSample } from "../../../../store/sample";
+import { editSample, getSamples } from "../../../../store/sample";
 import getInputDateTime from "../../../../utils/getInputDateTime";
 
 function SampleForm() {
@@ -16,20 +16,24 @@ function SampleForm() {
     ["CF DNA", "cf_dna"],
   ];
 
-  const [plateId, setPlateId] = useState(sample.plate_id);
-  const [boxId, setBoxId] = useState(sample.box_id);
-  const [sampleType, setSampleType] = useState(sample.sample_type);
+  const [plateId, setPlateId] = useState(sample?.plate_id);
+  const [boxId, setBoxId] = useState(sample?.box_id);
+  const [sampleType, setSampleType] = useState(sample?.sample_type);
   const [accessionDate, setAccessionDate] = useState(
-    getInputDateTime(sample.accession_date)
+    getInputDateTime(sample?.accession_date)
   );
   const [storeDate, setStoreDate] = useState(
-    getInputDateTime(sample.store_date)
+    getInputDateTime(sample?.store_date)
   );
   const [expirationDate, setExpirationDate] = useState(
-    getInputDateTime(sample.expiration_date)
+    getInputDateTime(sample?.expiration_date)
   );
-  const [thawCount, setThawCount] = useState(sample.thaw_count);
-  const [discarded, setDiscarded] = useState(sample.discarded);
+  const [thawCount, setThawCount] = useState(sample?.thaw_count);
+  const [discarded, setDiscarded] = useState(sample?.discarded);
+
+  useEffect(() => {
+    dispatch(getSamples())
+  }, [dispatch])
 
   const firstPlateId = (e) => {
     // TODO: This isn't working yet, come back later
@@ -57,7 +61,7 @@ function SampleForm() {
     e.preventDefault();
     await dispatch(
       editSample({
-        id: sample.id,
+        id: sample?.id,
         box_id: boxId,
         plate_id: plateId,
         accession_date: accessionDate,
@@ -73,7 +77,7 @@ function SampleForm() {
 
   return (
     <form className={style.navbar__form} onSubmit={submitSample}>
-      <h3>Editing Sample #{sample.id}</h3>
+      <h3>Editing Sample #{sample?.id}</h3>
       <div className={style.navbar__form__plateId}>
         <label htmlFor="plate_id">Plate Id: </label>
         <input
@@ -83,7 +87,7 @@ function SampleForm() {
           placeholder="Enter plate Id"
         />
       </div>
-      <button onClick={firstPlateId}>Populate Open Plate ID</button>
+      {/* <button onClick={firstPlateId}>Populate Open Plate ID</button>
       <div className={style.navbar__form__boxId}>
         <label htmlFor="box_id">Box Id: </label>
         <input
@@ -92,7 +96,7 @@ function SampleForm() {
           type="number"
           placeholder="Enter box Id"
         />
-      </div>
+      </div> */}
       <button onClick={firstBoxId}>Populate Open Box ID</button>
       <div className={style.navbar__form__sampleType}>
         <label htmlFor="sample_type">Sample Type: </label>

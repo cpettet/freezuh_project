@@ -11,22 +11,32 @@ class Plate(db.Model):
     __tablename__ = "plates"
 
     id = db.Column(db.Integer, primary_key=True)
-    rack_id = db.Column(db.Integer, nullable=True)
     thaw_count = db.Column(db.Integer, default=0, nullable=False)
     store_date = db.Column(db.DateTime, nullable=True)
     discarded = db.Column(db.Boolean, default=False, nullable=False)
-
     open_well = db.Column(db.Integer, default=1, nullable=False)
     max_well = db.Column(db.Integer, default=96, nullable=False)
+    rack_position_id = db.Column(db.Integer,
+                                 db.ForeignKey(
+                                     "rack_positions.id",
+                                     #  ondelete="CASCADE",
+                                 ),
+                                 nullable=True,
+                                 )
 
     # Associations
-    # rack = db.relationship("Rack", back_populates="plates")
+    rack_position = db.relationship("RackPosition",
+                                    back_populates="plate",
+                                    uselist=False)
     wells = db.relationship(
         "Well",
         back_populates="plate",
         passive_deletes=True,
         cascade="all,delete-orphan",
     )
+
+    def get_rack_id(self):
+        return self.rack_position.rack_id if self.rack_position else "N/A"
 
     def store_sample_in_well(self, sample_id):
         """
@@ -42,6 +52,10 @@ class Plate(db.Model):
             sample.store_date = datetime.now()
             db.session.add(sample_well)
             db.session.flush()
+            if sample.well_id is not None:
+                old_well = Well.query.get(sample.well_id)
+                db.session.delete(old_well)
+                db.session.commit()
             sample.well_id = sample_well.id
             self.open_well += 1
             db.session.commit()
@@ -85,7 +99,8 @@ class Plate(db.Model):
     def to_dict(self):
         return {
             "id": self.id,
-            "rack_id": self.rack_id,
+            "rack_id": self.get_rack_id(),
+            "rack_position_id": self.rack_position_id,
             "thaw_count": self.thaw_count,
             "store_date": self.store_date,
             "discarded": self.discarded,

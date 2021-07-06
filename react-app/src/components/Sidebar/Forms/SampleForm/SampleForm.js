@@ -23,9 +23,9 @@ function SampleForm() {
     e.preventDefault();
   };
 
-  const firstBoxId = (e) => {
-    e.preventDefault();
-  };
+  // const firstBoxId = (e) => {
+  //   e.preventDefault();
+  // };
 
   const submitSample = async (e) => {
     e.preventDefault();
@@ -41,7 +41,6 @@ function SampleForm() {
         discarded: false,
       })
     );
-    console.log("\nNew sample is:", newSample)
     const newSampleId = newSample.sample.id;
     history.push(`/samples/${newSampleId}`);
   };

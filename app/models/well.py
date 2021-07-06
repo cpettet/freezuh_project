@@ -1,4 +1,3 @@
-from sqlalchemy.orm import backref
 from . import db
 
 
@@ -18,7 +17,7 @@ class Well(db.Model):
     # Associations
     plate = db.relationship("Plate", back_populates="wells")
     sample = db.relationship("Sample", back_populates="well",
-                             passive_deletes=True,
-                             cascade="all,delete-orphan",
+                             #  passive_deletes=True,
+                             #  cascade="all,delete-orphan",
                              uselist=False
                              )

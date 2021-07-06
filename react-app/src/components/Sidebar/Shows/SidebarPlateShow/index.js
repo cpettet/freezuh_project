@@ -1,3 +1,3 @@
-import PlateShow from "./PlateShow";
+import SidebarPlateShow from "./SidebarPlateShow";
 
-export default PlateShow;
+export default SidebarPlateShow;

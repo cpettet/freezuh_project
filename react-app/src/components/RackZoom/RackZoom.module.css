@@ -1,0 +1,77 @@
+.rack, .rack__main, .rack__top-handles, .item, .column {
+    font-size: 16px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.rack {
+    background-color: #a487c6;
+    height: fit-content;
+    width: fit-content;
+    flex-direction: column;
+    margin: 1rem;
+    padding: 0.5rem;
+    padding-top: 0rem;
+}
+
+.rack__main, .rack__top-handles {
+    flex-direction: row;
+}
+
+.rack__top-handles {
+    justify-content: space-around;
+    align-items: center;
+    width: 25rem;
+}
+
+.column {
+    background-color: #c2afd9;
+    height: 15rem;
+    width: 5rem;
+    border: 0.25rem solid #a487c6;
+}
+
+.handle {
+    background-color: #a487c6;
+    position: relative;
+}
+
+.handle__top {
+    height: 0.5rem;
+    width: 2rem;
+    top: -0.5rem;
+}
+
+.handle__left, .handle__right {
+    height: 2rem;
+    width: 0.5rem;
+}
+
+.handle__left {
+    left: -1rem;
+}
+
+.handle__right {
+    right: -1rem;
+}
+
+.item {
+    width: 4.5rem;
+    height: 3rem;
+    border: 1px solid #a487c6;
+}
+
+.item:hover {
+    background-color: #987920;
+}
+
+.filled {
+    background-color: #e4c671;
+}
+
+.empty {
+    background-color: #fff2cc;
+}

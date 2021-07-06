@@ -3,11 +3,13 @@ import thunk from "redux-thunk";
 import session from "./session";
 import samples from "./sample";
 import plates from "./plate";
+import racks from "./rack";
 
 const rootReducer = combineReducers({
     session,
     samples,
     plates,
+    racks,
 });
 
 let enhancer;
