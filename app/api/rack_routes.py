@@ -52,8 +52,8 @@ def edit_rack(rack_id):
 def delete_rack(rack_id):
     rack = Rack.query.get(rack_id)
     if len(rack.get_plate_ids()) == 0:
-        db.session.delete(rack)
+        rack.discarded = True
         db.session.commit()
-        return {"deleted": True, "message": "Rack deleted"}
+        return {"deleted": True, "rack": rack.to_dict()}
     return {"deleted": False,
             "message": f"Rack has following plates: {rack.get_plate_ids()}"}

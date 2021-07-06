@@ -17,8 +17,10 @@ class Plate(db.Model):
     open_well = db.Column(db.Integer, default=1, nullable=False)
     max_well = db.Column(db.Integer, default=96, nullable=False)
     rack_position_id = db.Column(db.Integer,
-                                 db.ForeignKey("rack_positions.id",
-                                               ondelete="CASCADE"),
+                                 db.ForeignKey(
+                                     "rack_positions.id",
+                                     #  ondelete="CASCADE",
+                                 ),
                                  nullable=True,
                                  )
 
@@ -50,6 +52,10 @@ class Plate(db.Model):
             sample.store_date = datetime.now()
             db.session.add(sample_well)
             db.session.flush()
+            if sample.well_id is not None:
+                old_well = Well.query.get(sample.well_id)
+                db.session.delete(old_well)
+                db.session.commit()
             sample.well_id = sample_well.id
             self.open_well += 1
             db.session.commit()

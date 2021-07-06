@@ -13,6 +13,6 @@ class RackPosition(db.Model):
     # Associations
     rack = db.relationship("Rack", back_populates="rack_positions")
     plate = db.relationship("Plate", back_populates="rack_position",
-                            passive_deletes=True,
-                            cascade="all,delete-orphan",
+                            # passive_deletes=True,
+                            # cascade="all,delete-orphan",
                             uselist=False)

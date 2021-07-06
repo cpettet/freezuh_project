@@ -37,6 +37,11 @@ class Rack(db.Model):
             plate.store_date = datetime.now()
             db.session.add(rack_position)
             db.session.flush()
+            if plate.rack_position_id is not None:
+                old_rack_position = (RackPosition.query.
+                                     get(plate.rack_position_id))
+                db.session.delete(old_rack_position)
+                db.session.commit()
             plate.rack_position_id = rack_position.id
             self.open_position += 1
             db.session.commit()
@@ -68,4 +73,5 @@ class Rack(db.Model):
             "open_position": self.open_position,
             "max_position": self.max_position,
             "plates": self.get_plates_ids(),
+            "discarded": self.discarded,
         }

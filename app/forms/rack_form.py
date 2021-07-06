@@ -5,6 +5,6 @@ from wtforms.validators import NumberRange
 
 
 class RackForm(FlaskForm):
-    freezer_id = IntegerField("freezer_id", min=1)
+    freezer_id = IntegerField("freezer_id")
     max_position = IntegerField("max_position",
                                 validators=[NumberRange(min=None, max=25)])

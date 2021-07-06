@@ -83,7 +83,7 @@ function PlateEdit() {
         />
       </div>
       <div>
-        <label htmlFor="discarded">Sample Discarded: </label>
+        <label htmlFor="discarded">Plate Discarded: </label>
         <label>
           <input
             type="radio"

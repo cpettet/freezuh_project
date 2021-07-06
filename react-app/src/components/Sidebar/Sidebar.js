@@ -3,11 +3,13 @@ import { Switch, Route } from "react-router";
 import style from "./Sidebar.module.css";
 import PlateForm from "./Forms/PlateForm";
 import SampleForm from "./Forms/SampleForm";
+import RackForm from "./Forms/RackForm";
 import SidebarSampleShow from "./Shows/SidebarSampleShow";
 import SidebarPlateShow from "./Shows/SidebarPlateShow";
+import SidebarRackShow from "./Shows/SidebarRackShow";
 import SampleEdit from "./Forms/SampleEdit/SampleEdit";
 import PlateEdit from "./Forms/PlateEdit/PlateEdit";
-import SidebarRackShow from "./Shows/SidebarRackShow";
+import RackEdit from "./Forms/RackEdit";
 
 function Sidebar() {
   return (
@@ -31,8 +33,14 @@ function Sidebar() {
         <Route path="/plates/:plateId/edit">
           <PlateEdit />
         </Route>
+        <Route path="/racks/new">
+          <RackForm />
+        </Route>
         <Route exact path="/racks/:rackId">
           <SidebarRackShow />
+        </Route>
+        <Route path="/racks/:rackId/edit">
+          <RackEdit />
         </Route>
       </Switch>
     </div>
