@@ -38,10 +38,14 @@ def new_rack():
 def edit_rack(rack_id):
     rack = Rack.query.get(rack_id)
     request_body = request.get_json()
-
-    # TODO: come back for freezer_id
     # PATCH into the database
+    # TODO: come back for freezer_id
+    # if rack.get_freezer_id() != request_body["freezer_id"]:
+    #     freezer_id = request_body["freezer_id"]
+    #     freezer = Rack.query.get(freezer_id)
+    #     freezer.store_rack_in_position(rack.id)
     rack.max_position = request_body["max_position"]
+    rack.discarded = request_body["discarded"]
     db.session.commit()
     return {"rack": rack.to_dict()}
 
@@ -51,7 +55,7 @@ def edit_rack(rack_id):
 @login_required
 def delete_rack(rack_id):
     rack = Rack.query.get(rack_id)
-    if len(rack.get_plate_ids()) == 0:
+    if len(rack.get_plates_ids()) == 0:
         rack.discarded = True
         db.session.commit()
         return {"deleted": True, "rack": rack.to_dict()}

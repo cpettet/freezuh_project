@@ -41,7 +41,6 @@ function SampleForm() {
         discarded: false,
       })
     );
-    console.log("\nNew sample is:", newSample)
     const newSampleId = newSample.sample.id;
     history.push(`/samples/${newSampleId}`);
   };
