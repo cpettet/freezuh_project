@@ -14,7 +14,7 @@ function Racks() {
   }, [dispatch]);
 
   const racks = stateRacks.map(rack => {
-    return <Rack key={rack.id} plate={rack} />
+    return <Rack key={rack.id} rack={rack} />
   })
 
   return (
