@@ -4,7 +4,9 @@ from datetime import datetime
 
 def seed_plates():
     demo1 = Plate()
+    demo2 = Plate()
     db.session.add(demo1)
+    db.session.add(demo2)
     db.session.commit()
 
 

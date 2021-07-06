@@ -11,16 +11,21 @@ class Plate(db.Model):
     __tablename__ = "plates"
 
     id = db.Column(db.Integer, primary_key=True)
-    rack_id = db.Column(db.Integer, nullable=True)
     thaw_count = db.Column(db.Integer, default=0, nullable=False)
     store_date = db.Column(db.DateTime, nullable=True)
     discarded = db.Column(db.Boolean, default=False, nullable=False)
-
     open_well = db.Column(db.Integer, default=1, nullable=False)
     max_well = db.Column(db.Integer, default=96, nullable=False)
+    rack_position_id = db.Column(db.Integer,
+                                 db.ForeignKey("rack_positions.id",
+                                               ondelete="CASCADE"),
+                                 nullable=True,
+                                 )
 
     # Associations
-    # rack = db.relationship("Rack", back_populates="plates")
+    rack_position = db.relationship("RackPosition",
+                                    back_populates="plate",
+                                    uselist=False)
     wells = db.relationship(
         "Well",
         back_populates="plate",

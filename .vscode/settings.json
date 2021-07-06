@@ -2,6 +2,8 @@
     "python.linting.pycodestyleEnabled": true,
     "python.linting.enabled": true,
     "cSpell.words": [
-        "ondelete"
+        "ondelete",
+        "position",
+        "rack"
     ]
 }

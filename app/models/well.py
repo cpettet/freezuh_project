@@ -1,4 +1,3 @@
-from sqlalchemy.orm import backref
 from . import db
 
 
