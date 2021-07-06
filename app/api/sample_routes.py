@@ -33,10 +33,7 @@ def new_sample():
         db.session.commit()
         if form.data["plate_id"] is not None:
             plate_id = form.data["plate_id"]
-            # print("\n\nPlate ID:", plate_id)
             plate = Plate.query.get(plate_id)
-            print("\n\nPlate is:", plate.to_dict())
-            print("Sample ID is:", sample.id)
             plate.store_sample_in_well(sample.id)
     if form.errors:
         return {"errors": form.errors}
@@ -49,7 +46,6 @@ def new_sample():
 def edit_sample(sample_id):
     sample = Sample.query.get(sample_id)
     request_body = request.get_json()
-    print("Here's the request body:", request_body)
 
     if sample.get_plate_id() != request_body["plate_id"]:
         plate_id = request_body["plate_id"]

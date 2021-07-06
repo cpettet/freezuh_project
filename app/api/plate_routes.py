@@ -1,3 +1,4 @@
+from app.models.rack import Rack
 from flask import Blueprint, request
 from flask_login import login_required
 from app.models import db, Plate
@@ -22,7 +23,6 @@ def new_plate():
     form["csrf_token"].data = request.cookies["csrf_token"]
     if form.validate_on_submit():
         plate = Plate(
-            rack_id=form.data["rack_id"],
             thaw_count=form.data["thaw_count"],
             store_date=form.data["store_date"],
             discarded=form.data["discarded"],
@@ -30,6 +30,10 @@ def new_plate():
         )
         db.session.add(plate)
         db.session.commit()
+        if form.data["rack_id"] is not None:
+            rack_id = form.data["rack_id"]
+            rack = Rack.query.get(rack_id)
+            rack.store_plate_in_position(plate.id)
     if form.errors:
         return {"errors": form.errors}
     return {"plate": plate.to_dict()}
@@ -41,6 +45,11 @@ def new_plate():
 def edit_plate(plate_id):
     plate = Plate.query.get(plate_id)
     request_body = request.get_json()
+
+    if plate.get_rack_id() != request_body["rack_id"]:
+        rack_id = request_body["rack_id"]
+        rack = Rack.query.get(rack_id)
+        rack.store_plate_in_position(plate.id)
     # PATCH into the database
     plate.rack_id = request_body["rack_id"]
     plate.thaw_count = request_body["thaw_count"]
