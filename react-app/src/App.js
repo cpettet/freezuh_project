@@ -6,7 +6,7 @@ import Navigation from "./components/Navigation";
 import LoginForm from "./components/Authorization/LoginForm"
 import SignUpForm from "./components/Authorization/SignUpForm"
 import ProtectedRoute from "./components/Authorization/ProtectedRoute";
-import Freezers from "./components/Freezers";
+import FreezerShow from "./components/FreezerShow";
 import RackShow from "./components/RackShow";
 import Boxes from "./components/Boxes";
 import PlateShow from "./components/PlateShow";
@@ -43,7 +43,7 @@ function App() {
             <SignUpForm />
           </Route>
           <ProtectedRoute path="/freezers">
-            <Freezers />
+            <FreezerShow />
           </ProtectedRoute>
           {/* <ProtectedRoute path="/boxes">
             <Boxes />

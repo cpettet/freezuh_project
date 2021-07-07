@@ -1,3 +1,3 @@
-import SampleEdit from "./SampleEditForm";
+import SampleEdit from "./SampleEdit";
 
 export default SampleEdit;

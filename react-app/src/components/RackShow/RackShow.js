@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import style from "./RackShow.module.css";
 import { getRacks } from "../../store/rack";
-import Rack from "../Rack/Rack";
+import Rack from "../Rack";
 import newRackIcon from "./Rack-NEW.min.svg"
 
 function Racks() {

@@ -44,7 +44,7 @@ export const createFreezer = (data) => async (dispatch) => {
 
   if (res.ok) {
     const newFreezer = await res.json();
-    dispatchEvent(post(newFreezer));
+    dispatch(post(newFreezer));
     return newFreezer;
   }
 };
