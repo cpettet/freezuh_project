@@ -1,5 +1,5 @@
 // constants
-const GET_RACK = "rack/";
+const GET_RACK = "rack/GET_RACK";
 const POST_RACK = "rack/POST_RACK";
 const EDIT_RACK = "rack/EDIT_RACK";
 const DELETE_RACK = "rack/DELETE_RACK";
