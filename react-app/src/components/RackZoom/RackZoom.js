@@ -15,41 +15,70 @@ function RackZoom() {
     dispatch(getRacks());
   }, [dispatch]);
 
+  function getItemClassName(rackPosition) {
+    if (rack?.plates[rackPosition]) {
+      return `${style.inner} ${style.filled}`;
+    } else {
+      return `${style.inner} ${style.empty}`;
+    }
+  }
+
+  function getItemLink(rackPosition) {
+    if (rack?.plates[rackPosition]) {
+      console.log("Plate at position:", rackPosition);
+      return `/plates/${rack?.plates[rackPosition]}`;
+    } else {
+      return `/racks/${rackId}`;
+    }
+  }
+
+  function rackBody() {
+    const rows = [];
+    for (let col = 0; col < numCols; col++) {
+      const colClass = style.column;
+      const cellsInRow = [];
+      for (let row = 0; row < numRows; row++) {
+        const rackPosition = row + col * 5;
+        cellsInRow.push(
+          <Link key={rackPosition} to={getItemLink(rackPosition)}>
+            <div className={style.item}>
+              <div className={getItemClassName(rackPosition)}>
+                {rack?.plates[rackPosition]}
+              </div>
+            </div>
+          </Link>
+        );
+      }
+      rows.push(<div className={colClass}>{cellsInRow}</div>);
+    }
+    return rows;
+  }
+
   return (
     <div>
       <Link to="/racks">Return to all racks</Link>
-      <div class={style.rack}>
-        <div class={style["rack__top-handles"]}>
+      <div className={style.rack}>
+        <div className={style["rack__top-handles"]}>
           <div
-            class={`${style.handle} ${style.handle__top} ${style.handle__1}`}
+            className={`${style.handle} ${style.handle__top} ${style.handle__1}`}
           ></div>
           <div
-            class={`${style.handle} ${style.handle__top} ${style.handle__2}`}
+            className={`${style.handle} ${style.handle__top} ${style.handle__2}`}
           ></div>
           <div
-            class={`${style.handle} ${style.handle__top} ${style.handle__3}`}
+            className={`${style.handle} ${style.handle__top} ${style.handle__3}`}
           ></div>
           <div
-            class={`${style.handle} ${style.handle__top} ${style.handle__4}`}
+            className={`${style.handle} ${style.handle__top} ${style.handle__4}`}
           ></div>
           <div
-            class={`${style.handle} ${style.handle__top} ${style.handle__5}`}
+            className={`${style.handle} ${style.handle__top} ${style.handle__5}`}
           ></div>
         </div>
-        <div class={style.rack__main}>
-          <div class={`${style.handle} ${style.handle__left}`}></div>
-          <div class={`${style.column} ${style.column__1}`}>
-            <div class={`${style.item} ${style.filled}`}></div>
-            <div class={`${style.item} ${style.filled}`}></div>
-            <div class={`${style.item} ${style.empty}`}></div>
-            <div class={`${style.item} ${style.empty}`}></div>
-            <div class={`${style.item} ${style.empty}`}></div>
-          </div>
-          <div class={`${style.column} ${style.column__2}`}></div>
-          <div class={`${style.column} ${style.column__3}`}></div>
-          <div class={`${style.column} ${style.column__4}`}></div>
-          <div class={`${style.column} ${style.column__5}`}></div>
-          <div class={`${style.handle} ${style.handle__right}`}></div>
+        <div className={style.rack__main}>
+          <div className={`${style.handle} ${style.handle__left}`}></div>
+          {rackBody()}
+          <div className={`${style.handle} ${style.handle__right}`}></div>
         </div>
       </div>
     </div>
