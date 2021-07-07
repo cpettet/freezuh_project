@@ -8,20 +8,29 @@ class Rack(db.Model):
     __tablename__ = "racks"
 
     id = db.Column(db.Integer, primary_key=True)
-    freezer_id = db.Column(db.Integer, nullable=True)
     open_position = db.Column(db.Integer, default=1, nullable=False)
     max_position = db.Column(db.Integer, default=25, nullable=False)
     discarded = db.Column(db.Boolean, default=False, nullable=False)
+    freezer_position_id = db.Column(
+        db.Integer,
+        db.ForeignKey("freezer_positions.id"),
+        nullable=True,
+        )
 
     # Associations
-    # freezer_position = db.relationship("FreezerPosition",
-    #                                    back_populates="rack")
+    freezer_position = db.relationship("FreezerPosition",
+                                       back_populates="rack",
+                                       uselist=False)
     rack_positions = db.relationship(
         "RackPosition",
         back_populates="rack",
         passive_deletes=True,
         cascade="all,delete-orphan",
     )
+
+    def get_freezer_id(self):
+        return (self.freezer_position.freezer_id if self.freezer_position
+                else "N/A")
 
     def store_plate_in_position(self, plate_id):
         """
@@ -69,7 +78,8 @@ class Rack(db.Model):
     def to_dict(self):
         return {
             "id": self.id,
-            "freezer_id": self.freezer_id,
+            "freezer_id": self.get_freezer_id(),
+            "freezer_position_id": self.freezer_position_id,
             "open_position": self.open_position,
             "max_position": self.max_position,
             "plates": self.get_plates_ids(),

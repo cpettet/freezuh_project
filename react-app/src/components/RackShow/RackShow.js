@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import style from "./RackShow.module.css";
 import { getRacks } from "../../store/rack";
-import Rack from "../Rack/Rack";
+import Rack from "../Rack";
+import newRackIcon from "./Rack-NEW.min.svg"
 
 function Racks() {
   const dispatch = useDispatch();
@@ -19,7 +20,9 @@ function Racks() {
 
   return (
     <div className={style.racks}>
-      <Link to="/racks/new">New Rack</Link>
+      <Link to="/racks/new">
+        <img src={newRackIcon} alt="create new rack" className={style["new-rack__icon"]} />
+      </Link>
       {racks}
     </div>
   );

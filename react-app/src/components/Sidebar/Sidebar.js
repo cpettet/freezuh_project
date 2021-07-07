@@ -4,12 +4,15 @@ import style from "./Sidebar.module.css";
 import PlateForm from "./Forms/PlateForm";
 import SampleForm from "./Forms/SampleForm";
 import RackForm from "./Forms/RackForm";
+import FreezerForm from "./Forms/FreezerForm";
 import SidebarSampleShow from "./Shows/SidebarSampleShow";
 import SidebarPlateShow from "./Shows/SidebarPlateShow";
 import SidebarRackShow from "./Shows/SidebarRackShow";
-import SampleEdit from "./Forms/SampleEdit/SampleEdit";
-import PlateEdit from "./Forms/PlateEdit/PlateEdit";
+import SidebarFreezerShow from "./Shows/SidebarFreezerShow";
+import SampleEdit from "./Forms/SampleEdit";
+import PlateEdit from "./Forms/PlateEdit";
 import RackEdit from "./Forms/RackEdit";
+import FreezerEdit from "./Forms/FreezerEdit";
 
 function Sidebar() {
   return (
@@ -41,6 +44,15 @@ function Sidebar() {
         </Route>
         <Route path="/racks/:rackId/edit">
           <RackEdit />
+        </Route>
+        <Route path="/freezers/new">
+          <FreezerForm />
+        </Route>
+        <Route exact path="/freezers/:freezerId">
+          <SidebarFreezerShow />
+        </Route>
+        <Route path="/freezers/:freezerId/edit">
+          <FreezerEdit />
         </Route>
       </Switch>
     </div>

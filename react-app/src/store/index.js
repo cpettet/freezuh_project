@@ -4,12 +4,14 @@ import session from "./session";
 import samples from "./sample";
 import plates from "./plate";
 import racks from "./rack";
+import freezers from "./freezer"
 
 const rootReducer = combineReducers({
     session,
     samples,
     plates,
     racks,
+    freezers,
 });
 
 let enhancer;

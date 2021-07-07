@@ -1,6 +1,6 @@
 from flask import Blueprint, request
 from flask_login import login_required
-from app.models import db, Rack
+from app.models import db, Rack, Freezer
 from app.forms import RackForm
 
 rack_routes = Blueprint("racks", __name__)
@@ -26,7 +26,10 @@ def new_rack():
         )
         db.session.add(rack)
         db.session.commit()
-        # TODO: come back for freezer_id
+        if form.data["freezer_id"] is not None:
+            freezer_id = form.data["freezer_id"]
+            freezer = Freezer.query.get(freezer_id)
+            freezer.store_rack_in_position(rack.id)
     if form.errors:
         return {"errors": form.errors}
     return {"rack": rack.to_dict()}
@@ -39,11 +42,10 @@ def edit_rack(rack_id):
     rack = Rack.query.get(rack_id)
     request_body = request.get_json()
     # PATCH into the database
-    # TODO: come back for freezer_id
-    # if rack.get_freezer_id() != request_body["freezer_id"]:
-    #     freezer_id = request_body["freezer_id"]
-    #     freezer = Rack.query.get(freezer_id)
-    #     freezer.store_rack_in_position(rack.id)
+    if rack.get_freezer_id() != request_body["freezer_id"]:
+        freezer_id = request_body["freezer_id"]
+        freezer = Freezer.query.get(freezer_id)
+        freezer.store_rack_in_position(rack.id)
     rack.max_position = request_body["max_position"]
     rack.discarded = request_body["discarded"]
     db.session.commit()

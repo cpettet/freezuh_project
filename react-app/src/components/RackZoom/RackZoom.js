@@ -25,7 +25,6 @@ function RackZoom() {
 
   function getItemLink(rackPosition) {
     if (rack?.plates[rackPosition]) {
-      console.log("Plate at position:", rackPosition);
       return `/plates/${rack?.plates[rackPosition]}`;
     } else {
       return `/racks/${rackId}`;
@@ -35,7 +34,6 @@ function RackZoom() {
   function rackBody() {
     const rows = [];
     for (let col = 0; col < numCols; col++) {
-      const colClass = style.column;
       const cellsInRow = [];
       for (let row = 0; row < numRows; row++) {
         const rackPosition = row + col * 5;
@@ -49,7 +47,7 @@ function RackZoom() {
           </Link>
         );
       }
-      rows.push(<div className={colClass}>{cellsInRow}</div>);
+      rows.push(<div className={style.column}>{cellsInRow}</div>);
     }
     return rows;
   }

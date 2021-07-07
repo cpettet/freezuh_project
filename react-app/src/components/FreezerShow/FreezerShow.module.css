@@ -1,0 +1,9 @@
+.new-freezer__icon {
+  height: 6rem;
+}
+
+.freezers {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}

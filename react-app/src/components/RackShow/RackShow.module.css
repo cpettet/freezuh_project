@@ -1,0 +1,9 @@
+.new-rack__icon {
+    height: 5rem;
+}
+
+.racks {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
