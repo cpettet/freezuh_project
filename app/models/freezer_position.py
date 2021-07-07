@@ -15,7 +15,7 @@ class FreezerPosition(db.Model):
     # Associations
     freezer = db.relationship("Freezer", back_populates="freezer_positions")
     rack = db.relationship(
-        "Plate",
+        "Rack",
         back_populates="freezer_position",
         uselist=False
     )

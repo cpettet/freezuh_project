@@ -29,7 +29,8 @@ class Rack(db.Model):
     )
 
     def get_freezer_id(self):
-        return self.freezer_position.freezer_id
+        return (self.freezer_position.freezer_id if self.freezer_position
+                else "N/A")
 
     def store_plate_in_position(self, plate_id):
         """

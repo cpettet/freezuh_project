@@ -9,7 +9,7 @@ class Freezer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     open_position = db.Column(db.Integer, default=1, nullable=False)
     max_position = db.Column(db.Integer, default=25, nullable=False)
-    discarded = db.Column(db.Boolean, default=False, nullable=False)
+    active = db.Column(db.Boolean, default=True, nullable=False)
 
     # Associations
     freezer_positions = db.relationship(
@@ -59,5 +59,5 @@ class Freezer(db.Model):
             "open_position": self.open_position,
             "max_position": self.max_position,
             "racks": self.get_racks_ids(),
-            "discarded": self.discarded,
+            "active": self.active,
         }
