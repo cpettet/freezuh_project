@@ -64,8 +64,9 @@
     border: 1px solid #a487c6;
 }
 
-.item:hover {
+.inner:hover {
     background-color: #987920;
+    color: #fff2cc;
 }
 
 .filled {
@@ -74,4 +75,12 @@
 
 .empty {
     background-color: #fff2cc;
+}
+
+.inner {
+    width: 4.4rem;
+    height: 2.8rem;
+    border: 1px solid #26143a;
+    font-size: 2rem;
+    text-align: center;
 }
