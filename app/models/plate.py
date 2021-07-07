@@ -19,7 +19,6 @@ class Plate(db.Model):
     rack_position_id = db.Column(db.Integer,
                                  db.ForeignKey(
                                      "rack_positions.id",
-                                     #  ondelete="CASCADE",
                                  ),
                                  nullable=True,
                                  )

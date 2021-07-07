@@ -25,13 +25,11 @@ class Sample(db.Model):
     expiration_date = db.Column(db.DateTime, nullable=False)
     discarded = db.Column(db.Boolean, default=False, nullable=False)
 
-    well_id = db.Column(db.Integer,
-                        db.ForeignKey(
-                            "wells.id",
-                            # ondelete="CASCADE"
-                            ),
-                        nullable=True,
-                        )
+    well_id = db.Column(
+        db.Integer,
+        db.ForeignKey("wells.id"),
+        nullable=True,
+    )
 
     @property
     def expiry_date(self):
