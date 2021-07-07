@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import style from "./SampleShow.module.css";
 import { getSamples } from "../../store/sample";
 import Sample from "../Sample";
+import newSampleIcon from "./Sample-Tube-NEW.min.svg"
 
 function SampleShow() {
   const dispatch = useDispatch();
@@ -21,7 +22,9 @@ function SampleShow() {
 
   return (
     <div className={style.samples}>
-      <Link to="/samples/new">New Sample</Link>
+      <Link to="/samples/new">
+        <img src={newSampleIcon} alt="new sample" className={style["new-sample__icon"]}/>
+      </Link>
       {samples}
     </div>
   );

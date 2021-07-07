@@ -2,13 +2,13 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="250mm"
-   height="250mm"
-   viewBox="0 0 250 250"
+   width="203.38013mm"
+   height="257.76184mm"
+   viewBox="0 0 203.38013 257.76184"
    version="1.1"
    id="svg5"
    inkscape:version="1.1 (c4e8f9e, 2021-05-24)"
-   sodipodi:docname="Sample-Tube.svg"
+   sodipodi:docname="Sample-Tube-Final.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -24,21 +24,26 @@
      inkscape:document-units="mm"
      showgrid="false"
      width="250mm"
-     inkscape:zoom="0.70351819"
-     inkscape:cx="324.79615"
-     inkscape:cy="459.83175"
-     inkscape:window-width="1920"
-     inkscape:window-height="1027"
-     inkscape:window-x="1440"
+     inkscape:zoom="0.43720222"
+     inkscape:cx="362.53247"
+     inkscape:cy="463.1724"
+     inkscape:window-width="1312"
+     inkscape:window-height="847"
+     inkscape:window-x="0"
      inkscape:window-y="25"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1"
+     fit-margin-top="5"
+     fit-margin-right="5"
+     fit-margin-left="5"
+     fit-margin-bottom="5" />
   <defs
      id="defs2" />
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(-24.25821,3.5020707)">
     <g
        id="g4530"
        transform="rotate(30,103.08225,111.76023)">

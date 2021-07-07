@@ -2,9 +2,9 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="286mm"
-   height="214mm"
-   viewBox="0 0 286 214"
+   width="294.41965mm"
+   height="221.51895mm"
+   viewBox="0 0 294.41965 221.51895"
    version="1.1"
    id="svg5"
    inkscape:version="1.1 (c4e8f9e, 2021-05-24)"
@@ -29,23 +29,28 @@
      units="mm"
      width="250mm"
      inkscape:zoom="0.54883845"
-     inkscape:cx="449.13034"
-     inkscape:cy="319.76623"
-     inkscape:window-width="1920"
-     inkscape:window-height="1027"
-     inkscape:window-x="1440"
-     inkscape:window-y="25"
-     inkscape:window-maximized="1"
+     inkscape:cx="465.52861"
+     inkscape:cy="334.34246"
+     inkscape:window-width="1312"
+     inkscape:window-height="847"
+     inkscape:window-x="0"
+     inkscape:window-y="205"
+     inkscape:window-maximized="0"
      inkscape:current-layer="layer1"
      inkscape:object-paths="true"
      inkscape:object-nodes="false"
-     inkscape:snap-text-baseline="true" />
+     inkscape:snap-text-baseline="true"
+     fit-margin-top="5"
+     fit-margin-left="5"
+     fit-margin-right="5"
+     fit-margin-bottom="5" />
   <defs
      id="defs2" />
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(4.2274842,3.9188886)">
     <path
        id="path46394"
        style="fill:#c8c8d9;fill-opacity:1;stroke:#9e9ebd;stroke-width:0.964;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import style from "./PlateShow.module.css";
 import { getPlates } from "../../store/plate";
 import Plate from "../Plate/Plate";
+import newIcon from "./Plate-Finalv2-NEW.min.svg"
 
 function Plates() {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ function Plates() {
 
   return (
     <div className={style.plates}>
-      <Link to="/plates/new">New Plate</Link>
+      <Link to="/plates/new"><img src={newIcon} alt={`create new plate`} className={style["new-plate__icon"]}/></Link>
       {plates}
     </div>
   );
