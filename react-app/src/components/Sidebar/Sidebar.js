@@ -12,6 +12,7 @@ import SidebarFreezerShow from "./Shows/SidebarFreezerShow";
 import SampleEdit from "./Forms/SampleEdit";
 import PlateEdit from "./Forms/PlateEdit";
 import RackEdit from "./Forms/RackEdit";
+import FreezerEdit from "./Forms/FreezerEdit";
 
 function Sidebar() {
   return (
@@ -51,7 +52,7 @@ function Sidebar() {
           <SidebarFreezerShow />
         </Route>
         <Route path="/freezers/:freezerId/edit">
-          <h1>Editing the freezer!</h1>
+          <FreezerEdit />
         </Route>
       </Switch>
     </div>

@@ -14,6 +14,7 @@ import SampleShow from "./components/SampleShow";
 import Sidebar from "./components/Sidebar";
 import PlateZoom from "./components/PlateZoom/PlateZoom";
 import RackZoom from "./components/RackZoom/RackZoom";
+import FreezerZoom from "./components/FreezerZoom";
 
 function App() {
   const dispatch = useDispatch();
@@ -42,9 +43,6 @@ function App() {
           <Route path="/sign-up" exact={true}>
             <SignUpForm />
           </Route>
-          <ProtectedRoute path="/freezers">
-            <FreezerShow />
-          </ProtectedRoute>
           {/* <ProtectedRoute path="/boxes">
             <Boxes />
           </ProtectedRoute> */}
@@ -54,14 +52,20 @@ function App() {
           <ProtectedRoute path="/racks/:rackId(\d+)">
             <RackZoom />
           </ProtectedRoute>
-          <ProtectedRoute path="/racks">
-            <RackShow />
+          <ProtectedRoute path="/freezers/:freezerId(\d+)">
+            <FreezerZoom />
           </ProtectedRoute>
           <ProtectedRoute path="/plates">
             <PlateShow />
           </ProtectedRoute>
+          <ProtectedRoute path="/racks">
+            <RackShow />
+          </ProtectedRoute>
           <ProtectedRoute path="/samples">
             <SampleShow />
+          </ProtectedRoute>
+          <ProtectedRoute path="/freezers">
+            <FreezerShow />
           </ProtectedRoute>
           <Route exact path="/">
             <div className="body">Welcome</div>
