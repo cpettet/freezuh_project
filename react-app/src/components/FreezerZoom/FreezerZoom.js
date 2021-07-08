@@ -61,7 +61,7 @@ function FreezerZoom() {
             class={`${style["display-housing__first"]} ${style.first}`}
           ></div>
           <div class={`${style["display-housing__second"]} ${style.second}`}>
-            <div class={freezer?.display}>
+            <div class={style.display}>
               <span class={style.display__id__text}>ID:</span>
               <span class={style.display__id__number}>{freezerId}</span>
             </div>

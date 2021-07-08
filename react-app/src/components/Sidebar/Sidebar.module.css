@@ -1,3 +1,13 @@
 .sidebar {
-    background-color: tomato;
+    background-color: #ccccee;
+    width: 25%;
+    min-width: 25%;
+    transition: 500ms;
+    height: 100%;
+    /* position: fixed; */
+    /* left: 0 */
+}
+
+.sidebar-hidden {
+    /* left: -90%; */
 }

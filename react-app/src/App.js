@@ -8,7 +8,6 @@ import SignUpForm from "./components/Authorization/SignUpForm"
 import ProtectedRoute from "./components/Authorization/ProtectedRoute";
 import FreezerShow from "./components/FreezerShow";
 import RackShow from "./components/RackShow";
-import Boxes from "./components/Boxes";
 import PlateShow from "./components/PlateShow";
 import SampleShow from "./components/SampleShow";
 import Sidebar from "./components/Sidebar";
@@ -43,9 +42,6 @@ function App() {
           <Route path="/sign-up" exact={true}>
             <SignUpForm />
           </Route>
-          {/* <ProtectedRoute path="/boxes">
-            <Boxes />
-          </ProtectedRoute> */}
           <ProtectedRoute path="/plates/:plateId(\d+)">
             <PlateZoom />
           </ProtectedRoute>
@@ -68,7 +64,7 @@ function App() {
             <FreezerShow />
           </ProtectedRoute>
           <Route exact path="/">
-            <div className="body">Welcome</div>
+            <div className="body">This is where my splash page would go, if I had one!</div>
           </Route>
         </Switch>
       </div>
