@@ -32,6 +32,10 @@ class Rack(db.Model):
         return (self.freezer_position.freezer_id if self.freezer_position
                 else "N/A")
 
+    def get_freezer_position(self):
+        return (self.freezer_position.freezer_position if self.freezer_position
+                else "N/A")
+
     def store_plate_in_position(self, plate_id):
         """
         After finding the first available position for a rack, stores a rack in
@@ -79,7 +83,7 @@ class Rack(db.Model):
         return {
             "id": self.id,
             "freezer_id": self.get_freezer_id(),
-            "freezer_position_id": self.freezer_position_id,
+            "freezer_position": self.get_freezer_position(),
             "open_position": self.open_position,
             "max_position": self.max_position,
             "plates": self.get_plates_ids(),
