@@ -1,0 +1,29 @@
+.sidebar__container {
+    margin: 0.75rem;
+}
+
+.sidebar__header-inactive {
+    color: red;
+}
+
+.sidebar__header-active {
+    color: green;
+}
+
+.properties {
+    display: flex;
+    flex-direction: column;
+}
+
+.property {
+    display: flex;
+    flex-direction: row;
+}
+
+.property__key {
+    font-weight: 600;
+}
+
+.property__value {
+    margin-left: 0.5rem;
+}

@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router";
-import style from "./SidebarFreezerShow.module.css";
+import style from "../Show.module.css";
 import { deleteFreezer } from "../../../../store/freezer";
 
 function SidebarFreezerShow() {
@@ -22,18 +22,35 @@ function SidebarFreezerShow() {
   };
 
   return (
-    <div className={style.sidebar__freezer}>
-      {freezer && !freezer.active && <h1>Freezer is inactive</h1>}
-      <h2>Freezer number: {freezerId}</h2>
-      {freezer &&
-        Object.keys(freezer).map((key) => (
-          <div key={key}>
-            {key}: {String(freezer[key])}
+    <div className={style.sidebar__container}>
+      <h3 className={style.sidebar__header}>
+        Freezer {freezerId}:{" "}
+        {freezer?.active ? (
+          <span className={style["sidebar__header-active"]}>ACTIVE</span>
+        ) : (
+          <span className={style["sidebar__header-inactive"]}>INACTIVE</span>
+        )}
+      </h3>
+      <div className={style.properties}>
+        <div className={style.property}>
+          <div className={style.property__key}>Max racks:</div>
+          <div className={style.property__value}>{freezer?.max_position}</div>
+        </div>
+        <div className={style.property}>
+          <div className={style.property__key}>Racks stored:</div>
+          <div className={style.property__value}>
+            {freezer && freezer.racks && freezer.racks.join(", ")}
+            {freezer && freezer.racks.length === 0 && "none"}
           </div>
-        ))}
+        </div>
+      </div>
       <div className={style.sidebar__buttons}>
-        <button onClick={onEdit}>Edit Freezer</button>
-        <button onClick={onDelete}>Disable Freezer</button>
+        <button onClick={onEdit} className={style.sidebar__buttons__edit}>
+          Edit Properties
+        </button>
+        <button onClick={onDelete} className={style.sidebar__buttons__delete}>
+          Deactivate
+        </button>
       </div>
     </div>
   );
