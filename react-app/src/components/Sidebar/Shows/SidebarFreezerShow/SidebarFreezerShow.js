@@ -45,10 +45,16 @@ function SidebarFreezerShow() {
         </div>
       </div>
       <div className={style.sidebar__buttons}>
-        <button onClick={onEdit} className={style.sidebar__buttons__edit}>
+        <button
+          onClick={onEdit}
+          className={`${style.sidebar__buttons__edit} ${style.sidebar__buttons__button}`}
+        >
           Edit Properties
         </button>
-        <button onClick={onDelete} className={style.sidebar__buttons__delete}>
+        <button
+          onClick={onDelete}
+          className={`${style.sidebar__buttons__delete} ${style.sidebar__buttons__button}`}
+        >
           Deactivate
         </button>
       </div>

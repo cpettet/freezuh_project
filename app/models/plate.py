@@ -37,6 +37,10 @@ class Plate(db.Model):
     def get_rack_id(self):
         return self.rack_position.rack_id if self.rack_position else "N/A"
 
+    def get_rack_position(self):
+        return (self.rack_position.rack_position if self.rack_position
+                else "N/A")
+
     def store_sample_in_well(self, sample_id):
         """
         After finding the first available space for a sample, stores a sample
@@ -99,7 +103,7 @@ class Plate(db.Model):
         return {
             "id": self.id,
             "rack_id": self.get_rack_id(),
-            "rack_position_id": self.rack_position_id,
+            "rack_position": self.get_rack_position(),
             "thaw_count": self.thaw_count,
             "store_date": self.store_date,
             "discarded": self.discarded,
