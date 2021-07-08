@@ -33,7 +33,7 @@ function SidebarSampleShow() {
   };
 
   console.log(
-    rowNameConversion[String(parseInt(sample?.sample_position[1]) - 1)]
+    sample?.store_date
   );
 
   return (
@@ -43,7 +43,7 @@ function SidebarSampleShow() {
         {sample?.discarded ? (
           <span className={style["sidebar__header-inactive"]}>DISCARDED</span>
         ) : (
-          <span className={style["sidebar__header-active"]}>PRESENT</span>
+          sample?.store_date && true ? <span className={style["sidebar__header-active"]}>STORED</span> : <span className={style["sidebar__header-neutral"]}>NOT STORED</span>
         )}
       </h3>
       <div className={style.properties}>

@@ -88,6 +88,9 @@ class Plate(db.Model):
         for well in self.wells:
             sample = well.sample
             sample.discarded = True
+        if self.rack_position_id:
+            db.session.delete(self.rack_position)
+        db.session.commit()
 
     def thaw_plate(self):
         """
