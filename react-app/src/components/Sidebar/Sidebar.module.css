@@ -1,12 +1,18 @@
 .sidebar {
+    display: flex;
     background-color: #f4f4f7;
     border-right: 2px solid #9e9ebd;
     width: 25%;
     min-width: 25%;
     transition: 500ms;
-    height: 100%;
-    /* position: fixed; */
-    /* left: 0 */
+    /* height: 220%; */
+    min-height: 73vh;
+    bottom: 0;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .sidebar-hidden {
