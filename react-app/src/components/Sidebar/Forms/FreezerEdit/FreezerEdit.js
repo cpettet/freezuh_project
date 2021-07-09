@@ -31,6 +31,7 @@ function FreezerEdit() {
 
   return (
     <form className={style.navbar__form} onSubmit={submitFreezer}>
+      <h3 className={style.form__header}>Editing Freezer #{freezer?.id}</h3>
       <div className={style.property}>
         <label htmlFor="max_position" className={style.property__label}>
           Max positions:{" "}
@@ -71,7 +72,9 @@ function FreezerEdit() {
           No
         </label>
       </div>
-      <button className={style.sidebar__button} type="submit">Submit Changes</button>
+      <button className={style.sidebar__button} type="submit">
+        Submit Changes
+      </button>
     </form>
   );
 }

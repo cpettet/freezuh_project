@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
-import style from "./FreezerForm.module.css";
+import style from "../Form.module.css";
 import { createFreezer } from "../../../../store/freezer";
 
 function FreezerForm() {
@@ -24,9 +24,13 @@ function FreezerForm() {
 
   return (
     <form className={style.navbar__form} onSubmit={submitFreezer}>
-      <div>
-        <label htmlFor="max_position">Max positions: </label>
+      <h3 className={style.form__header}>Creating new freezer</h3>
+      <div className={style.property}>
+        <label htmlFor="max_position" className={style.property__label}>
+          Max positions:{" "}
+        </label>
         <input
+          className={style.property__field}
           value={maxPosition}
           onChange={(e) => setMaxPosition(e.target.value)}
           type="number"
@@ -35,9 +39,12 @@ function FreezerForm() {
         />
       </div>
       <div>
-        <label htmlFor="active">Freezer Active: </label>
+        <label htmlFor="active" className={style.property__label}>
+          Freezer Active:{" "}
+        </label>
         <label>
           <input
+            className={style.property__field}
             type="radio"
             name="active"
             value="true"
@@ -48,6 +55,7 @@ function FreezerForm() {
         </label>
         <label>
           <input
+            className={style.property__field}
             type="radio"
             name="active"
             value="false"
@@ -57,7 +65,9 @@ function FreezerForm() {
           No
         </label>
       </div>
-      <button type="submit">Create Freezer</button>
+      <button type="submit" className={style.sidebar__button}>
+        Create Freezer
+      </button>
     </form>
   );
 }

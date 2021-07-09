@@ -5,14 +5,15 @@
     color: #26143a;
 }
 
-.navbar__field-hidden {
-    /* CHANGE WHEN GETTING TO IT */
-    display: none;
+.form__header {
+    margin-top: 0;
+    margin-bottom: 1rem;
 }
 
 .property {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     margin-bottom: 0.25rem;
 }
 
@@ -23,18 +24,25 @@
 .property__field {
     margin-left: 0.5rem;
     font-size: 1rem;
+    height: 1.5rem;
+}
+
+.property__field-small {
+    width: 35%;
+}
+
+.property-hidden {
+    display: none;
 }
 
 .sidebar__button {
     border: 1px solid #26143a;
     background-color: #fff2cc;
     box-sizing: content-box;
-    border-radius: 10%;
-    height: 1.5rem;
+    border-radius: 5%;
+    height: 1.75rem;
     font-size: 1rem;
     font-weight: 600;
-    padding: 0.75rem;
-    margin: 0.5rem;
     transition: all 100ms ease;
     position: relative;
 }

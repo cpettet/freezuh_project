@@ -32,10 +32,6 @@ function SidebarSampleShow() {
     history.push(`/samples/${sampleId}/edit`);
   };
 
-  console.log(
-    sample?.store_date
-  );
-
   return (
     <div className={style.sidebar__container}>
       <h3 className={style.sidebar__header}>
