@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import style from "./SampleEdit.module.css";
+import style from "../Form.module.css";
 import { editSample, getSamples } from "../../../../store/sample";
 import getInputDateTime from "../../../../utils/getInputDateTime";
 
@@ -17,7 +17,6 @@ function SampleForm() {
   ];
 
   const [plateId, setPlateId] = useState(sample?.plate_id);
-  const [boxId, setBoxId] = useState(sample?.box_id);
   const [sampleType, setSampleType] = useState(sample?.sample_type);
   const [accessionDate, setAccessionDate] = useState(
     getInputDateTime(sample?.accession_date)
@@ -32,29 +31,12 @@ function SampleForm() {
   const [discarded, setDiscarded] = useState(sample?.discarded);
 
   useEffect(() => {
-    dispatch(getSamples())
-  }, [dispatch])
+    dispatch(getSamples());
+  }, [dispatch]);
 
   const firstPlateId = (e) => {
     // TODO: This isn't working yet, come back later
     e.preventDefault();
-    if (boxId === "") {
-      setPlateId(1);
-    } else {
-      setBoxId("");
-      setPlateId(1);
-    }
-  };
-
-  const firstBoxId = (e) => {
-    // TODO: Come back once database is more fleshed out
-    e.preventDefault();
-    if (plateId === "") {
-      setBoxId(1);
-    } else {
-      setPlateId("");
-      setBoxId(1);
-    }
   };
 
   const submitSample = async (e) => {
@@ -62,7 +44,6 @@ function SampleForm() {
     await dispatch(
       editSample({
         id: sample?.id,
-        box_id: boxId,
         plate_id: plateId,
         accession_date: accessionDate,
         store_date: storeDate,
@@ -77,30 +58,26 @@ function SampleForm() {
 
   return (
     <form className={style.navbar__form} onSubmit={submitSample}>
-      <h3>Editing Sample #{sample?.id}</h3>
-      <div className={style.navbar__form__plateId}>
-        <label htmlFor="plate_id">Plate Id: </label>
+      <h3 className={style.form__header}>Editing Sample #{sample?.id}</h3>
+      <div className={style.property}>
+        <label htmlFor="plate_id" className={style.property__label}>
+          Plate Id:
+        </label>
         <input
+          className={style.property__field}
           value={plateId}
           onChange={(e) => setPlateId(e.target.value)}
           type="number"
           placeholder="Enter plate Id"
         />
+        <button onClick={firstPlateId}>Get ID</button>
       </div>
-      {/* <button onClick={firstPlateId}>Populate Open Plate ID</button>
-      <div className={style.navbar__form__boxId}>
-        <label htmlFor="box_id">Box Id: </label>
-        <input
-          value={boxId}
-          onChange={(e) => setBoxId(e.target.value)}
-          type="number"
-          placeholder="Enter box Id"
-        />
-      </div> */}
-      <button onClick={firstBoxId}>Populate Open Box ID</button>
-      <div className={style.navbar__form__sampleType}>
-        <label htmlFor="sample_type">Sample Type: </label>
+      <div className={style.property}>
+        <label htmlFor="sample_type" className={style.property__label}>
+          Sample Type:
+        </label>
         <select
+          className={style.property__field}
           value={sampleType}
           onChange={(e) => setSampleType(e.target.value)}
         >
@@ -111,43 +88,58 @@ function SampleForm() {
           ))}
         </select>
       </div>
-      <div>
-        <label htmlFor="accession_date">Accession Date:</label>
+      <div className={style.property}>
+        <label htmlFor="accession_date" className={style.property__label}>
+          Accession Date:
+        </label>
         <input
+          className={style.property__field}
           type="datetime-local"
           value={accessionDate}
           onChange={(e) => setAccessionDate(e.target.value)}
         />
       </div>
-      <div>
-        <label htmlFor="store_date">Storage Date:</label>
+      <div className={style.property}>
+        <label htmlFor="store_date" className={style.property__label}>
+          Storage Date:
+        </label>
         <input
+          className={style.property__field}
           type="datetime-local"
           value={storeDate}
           onChange={(e) => setStoreDate(e.target.value)}
         />
       </div>
-      <div>
-        <label htmlFor="expiration_date">Expiration Date:</label>
+      <div className={style.property}>
+        <label htmlFor="expiration_date" className={style.property__label}>
+          Expiration Date:
+        </label>
         <input
+          className={style.property__field}
           type="datetime-local"
           value={expirationDate}
           onChange={(e) => setExpirationDate(e.target.value)}
         />
       </div>
-      <div>
-        <label htmlFor="thaw_count">Thaw Count: </label>
+      <div className={style.property}>
+        <label htmlFor="thaw_count" className={style.property__label}>
+          Thaw Count:
+        </label>
         <input
+          className={style.property__field}
           value={thawCount}
           onChange={(e) => setThawCount(e.target.value)}
           type="number"
-          placeholder="Enter times sample was thawed"
+          placeholder="Times thawed"
         />
       </div>
-      <div>
-        <label htmlFor="discarded">Sample Discarded: </label>
+      <div className={style.property}>
+        <label htmlFor="discarded" className={style.property__label}>
+          Sample Discarded:
+        </label>
         <label>
           <input
+            className={style.property__field}
             type="radio"
             name="discarded"
             value="true"
@@ -158,6 +150,7 @@ function SampleForm() {
         </label>
         <label>
           <input
+            className={style.property__field}
             type="radio"
             name="discarded"
             value="false"
@@ -167,7 +160,7 @@ function SampleForm() {
           No
         </label>
       </div>
-      <button className={style.navbar__form__submit}>Submit</button>
+      <button className={style.sidebar__button} type="submit">Submit</button>
     </form>
   );
 }
