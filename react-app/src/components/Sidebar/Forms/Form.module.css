@@ -6,8 +6,10 @@
 }
 
 .form__header {
-    margin-top: 0;
-    margin-bottom: 1rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid #9e9ebd;
+    margin-top: 0.85rem;
+    margin-bottom: 0.85rem;
 }
 
 .property {
