@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import style from "./PlateEdit.module.css";
+import style from "../Form.module.css";
 import { editPlate, getPlates } from "../../../../store/plate";
 import getInputDateTime from "../../../../utils/getInputDateTime";
 
@@ -45,47 +45,62 @@ function PlateEdit() {
 
   return (
     <form className={style.navbar__form} onSubmit={submitPlate}>
-      <h3>Editing Plate #{plate?.id}</h3>
-      <div>
-        <label htmlFor="rack_id">Rack ID:</label>
+      <h3 className={style.form__header}>Editing Plate #{plate?.id}</h3>
+      <div className={style.property}>
+        <label htmlFor="rack_id" className={style.property__label}>
+          Rack ID:
+        </label>
         <input
+          className={`${style.property__field} ${style["property__field-small"]}`}
           value={rackId}
           onChange={(e) => setRackId(e.target.value)}
           type="number"
-          placeholder="Enter rack Id"
+          placeholder="Enter ID"
         />
+        <button onClick={getFirstOpenRackPosition} className={style.sidebar__button}>Get Rack ID</button>
       </div>
-      <div>
-        <label htmlFor="max_well">Maximum number of wells:</label>
+      <div className={style.property}>
+        <label htmlFor="max_well" className={style.property__label}>
+          Maximum wells:
+        </label>
         <input
+          className={style.property__field}
           value={maxWell}
           onChange={(e) => setMaxWell(e.target.value)}
           type="number"
           placeholder="Enter max wells"
         />
       </div>
-      <button onClick={getFirstOpenRackPosition}>Populate Rack ID</button>
-      <div>
-        <label htmlFor="store_date">Storage Date:</label>
+      <div className={style.property}>
+        <label htmlFor="store_date" className={style.property__label}>
+          Storage Date:
+        </label>
         <input
+          className={style.property__field}
           type="datetime-local"
           value={storeDate}
           onChange={(e) => setStoreDate(e.target.value)}
         />
       </div>
-      <div>
-        <label htmlFor="thaw_count">Thaw Count: </label>
+      <div className={style.property}>
+        <label htmlFor="thaw_count" className={style.property__label}>
+          Thaw Count:{" "}
+        </label>
         <input
+          className={style.property__field}
           value={thawCount}
           onChange={(e) => setThawCount(e.target.value)}
           type="number"
           placeholder="Enter times sample was thawed"
         />
       </div>
-      <div>
-        <label htmlFor="discarded">Plate Discarded: </label>
+      <div className={style.property}>
+        <label htmlFor="discarded" className={style.property__label}>
+          Plate Discarded:{" "}
+        </label>
         <label>
           <input
+            className={style.property__field}
             type="radio"
             name="discarded"
             value="true"
@@ -96,6 +111,7 @@ function PlateEdit() {
         </label>
         <label>
           <input
+            className={style.property__field}
             type="radio"
             name="discarded"
             value="false"
@@ -105,7 +121,7 @@ function PlateEdit() {
           No
         </label>
       </div>
-      <button type="submit">Submit Changes</button>
+      <button className={style.sidebar__button} type="submit">Submit Changes</button>
     </form>
   );
 }

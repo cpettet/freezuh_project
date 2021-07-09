@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
-import style from "./RackForm.module.css";
+import style from "../Form.module.css";
 import { createRack } from "../../../../store/rack";
 
 function RackForm() {
@@ -30,22 +30,32 @@ function RackForm() {
 
   return (
     <form className={style.navbar__form} onSubmit={submitRack}>
-      <div>
-        <label htmlFor="freezer_id">Freezer Id: </label>
+      <h3 className={style.form__header}>Creating new rack</h3>
+      <div className={style.property}>
+        <label htmlFor="freezer_id" className={style.property__label}>
+          Freezer Id:{" "}
+        </label>
         <input
+          className={style["property__field-small"]}
           value={freezerId}
           onChange={(e) => setFreezerId(e.target.value)}
           type="number"
-          placeholder="Enter open freezer Id"
+          placeholder="Enter ID"
           min="1"
         />
-        <button onClick={getFirstOpenFreezerPosition}>
-          Populate Freezer ID
+        <button
+          className={style.sidebar__button}
+          onClick={getFirstOpenFreezerPosition}
+        >
+          Get ID
         </button>
       </div>
-      <div>
-        <label htmlFor="max_position">Max positions: </label>
+      <div className={style.property}>
+        <label className={style.property__label} htmlFor="max_position">
+          Max positions:{" "}
+        </label>
         <input
+          className={style.property__field}
           value={maxPosition}
           onChange={(e) => setMaxPosition(e.target.value)}
           type="number"
@@ -53,7 +63,9 @@ function RackForm() {
           min="1"
         />
       </div>
-      <button type="submit">Create Rack</button>
+      <button className={style.sidebar__button} type="submit">
+        Create Rack
+      </button>
     </form>
   );
 }

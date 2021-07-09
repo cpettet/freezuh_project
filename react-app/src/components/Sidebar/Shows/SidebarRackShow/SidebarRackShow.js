@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router";
-import style from "./SidebarRackShow.module.css";
+import style from "../Show.module.css";
 import { deleteRack } from "../../../../store/rack";
 
 function SidebarRackShow() {
@@ -22,18 +22,49 @@ function SidebarRackShow() {
   };
 
   return (
-    <div className={style.sidebar__rack}>
-      {rack && rack.discarded && <h1>Rack has been discarded</h1>}
-      <h2>Rack number: {rackId}</h2>
-      {rack &&
-        Object.keys(rack).map((key) => (
-          <div key={key}>
-            {key}: {String(rack[key])}
+    <div className={style.sidebar__container}>
+      <h3 className={style.sidebar__header}>
+        Rack {rackId}:{" "}
+        {rack?.discarded ? (
+          <span className={style["sidebar__header-inactive"]}>INACTIVE</span>
+        ) : (
+          <span className={style["sidebar__header-active"]}>ACTIVE</span>
+        )}
+      </h3>
+      <div className={style.property}>
+        <div className={style.property__key}>Stored in freezer:</div>
+        <div className={style.property__value}>{rack?.freezer_id}</div>
+      </div>
+      <div className={style.property}>
+        <div className={style.property__key}>Stored in position:</div>
+        <div className={style.property__value}>{rack?.freezer_position}</div>
+      </div>
+      <div className={style.properties}>
+        <div className={style.property}>
+          <div className={style.property__key}>Max plates:</div>
+          <div className={style.property__value}>{rack?.max_position}</div>
+        </div>
+        <div className={style.property}>
+          <div className={style.property__key}>Plates stored:</div>
+          <div className={style.property__value}>
+            {rack && rack.plates && rack.plates.join(", ")}
+            {rack && rack.plates.length === 0 && "none"}
           </div>
-        ))}
+        </div>
+      </div>
       <div className={style.sidebar__buttons}>
-        <button onClick={onEdit}>Edit Rack</button>
-        <button onClick={onDelete}>Discard Rack</button>
+        <button
+          onClick={onEdit}
+          className={`${style.sidebar__buttons__edit} ${style.sidebar__buttons__button}`}
+        >
+          Edit Properties
+        </button>
+        <button
+          onClick={onDelete}
+          className={`${style.sidebar__buttons__delete} ${style.sidebar__buttons__button}`}
+        >
+          Deactivate
+        </button>
       </div>
     </div>
   );

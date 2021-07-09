@@ -1,25 +1,73 @@
-import { NavLink, Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import Select from "react-dropdown-select";
+import { NavLink, Link, useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import style from "./Navigation.module.css";
 import logo from "./Freezer-Final.min.svg";
-import Select from "react-dropdown-select";
 import ProfileButton from "../ProfileButton/ProfileButton";
+import { getFreezers } from "../../store/freezer";
+import { getRacks } from "../../store/rack";
+import { getPlates } from "../../store/plate";
+import { getSamples } from "../../store/sample";
 
 function Navigation() {
-  const demo_freezers = [
-    { name: "FZR0001", id: 1 },
-    { name: "FZR0432", id: 432 },
-    { name: "FZR0223", id: 223 },
-    { name: "FZR0111", id: 111 },
-    { name: "FZR0431", id: 431 },
-    { name: "FZR0789", id: 789 },
-  ];
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const freezers = useSelector((state) => Object.values(state.freezers.byId));
+  const racks = useSelector((state) => Object.values(state.racks.byId));
+  const plates = useSelector((state) => Object.values(state.plates.byId));
+  const samples = useSelector((state) => Object.values(state.samples.byId));
 
-  // I know I will need to change this
-  const samples = useSelector(state => Object.values(state.samples.byId))
+  const [freezerId, setFreezerId] = useState("");
+  const [rackId, setRackId] = useState("");
+  const [plateId, setPlateId] = useState("");
+  const [sampleId, setSampleId] = useState("");
+
+  const setSearchValue = (type, item) => {
+    if (type === "freezer") {
+      setFreezerId(item[0]?.id);
+      setRackId("");
+      setPlateId("");
+      setSampleId("");
+    } else if (type === "rack") {
+      setFreezerId("");
+      setRackId(item[0]?.id);
+      setPlateId("");
+      setSampleId("");
+    } else if (type === "plate") {
+      setFreezerId("");
+      setRackId("");
+      setPlateId(item[0]?.id);
+      setSampleId("");
+    } else if (type === "sample") {
+      setFreezerId("");
+      setRackId("");
+      setPlateId("");
+      setSampleId(item[0]?.id);
+    }
+  };
+
+  useEffect(() => {
+    dispatch(getFreezers);
+    dispatch(getRacks);
+    dispatch(getPlates);
+    dispatch(getSamples);
+    setFreezerId("")
+  }, [dispatch]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (freezerId) {
+      history.push(`/freezers/${freezerId}`);
+    } else if (rackId) {
+      history.push(`/racks/${rackId}`);
+    } else if (plateId) {
+      history.push(`/plates/${plateId}`);
+    } else if (sampleId) {
+      history.push(`/samples/${sampleId}`);
+    } else {
+      history.push("/about-me");
+    }
   };
 
   return (
@@ -59,15 +107,6 @@ function Navigation() {
               Racks
             </NavLink>
           </div>
-          {/* <div className={style["link__container"]}>
-            <NavLink
-              to="/boxes"
-              className={style.link}
-              activeClassName={style["link-selected"]}
-            >
-              Boxes
-            </NavLink>
-          </div> */}
           <div className={style["link__container"]}>
             <NavLink
               // Set the isActive to change container color
@@ -96,10 +135,11 @@ function Navigation() {
         <div className={style["select-box"]}>
           <Select
             color="#6838A0"
-            options={demo_freezers}
+            options={freezers}
             clearable={true}
-            onChange={(value) => console.log(value)}
-            labelField="name"
+            clearOnSelect={true}
+            onChange={(value) => setSearchValue("freezer", value)}
+            labelField="id"
             separator={true}
             searchBy="id"
             keepSelectedInList={true}
@@ -111,10 +151,10 @@ function Navigation() {
         <div className={style["select-box"]}>
           <Select
             color="#6838A0"
-            options={demo_freezers}
+            options={racks}
             clearable={true}
-            onChange={(value) => console.log(value)}
-            labelField="name"
+            onChange={(value) => setSearchValue("rack", value)}
+            labelField="id"
             separator={true}
             searchBy="id"
             keepSelectedInList={true}
@@ -122,27 +162,13 @@ function Navigation() {
             placeholder="Search by Rack ID"
           />
         </div>
-        {/* <div className={style["select-box"]}>
-          <Select
-            color="#6838A0"
-            options={demo_freezers}
-            clearable={true}
-            onChange={(value) => console.log(value)}
-            labelField="name"
-            separator={true}
-            searchBy="id"
-            keepSelectedInList={true}
-            dropdownHeight="200px"
-            placeholder="Search by Box ID"
-          />
-        </div> */}
         <div className={style["select-box"]}>
           <Select
             color="#6838A0"
-            options={demo_freezers}
+            options={plates}
             clearable={true}
-            onChange={(value) => console.log(value)}
-            labelField="name"
+            onChange={(value) => setSearchValue("plate", value)}
+            labelField="id"
             separator={true}
             searchBy="id"
             keepSelectedInList={true}
@@ -155,13 +181,13 @@ function Navigation() {
             color="#6838A0"
             options={samples}
             clearable={true}
-            onChange={(value) => console.log(value)}
-            labelField="name"
+            onChange={(value) => setSearchValue("sample", value)}
+            labelField="id"
             separator={true}
             searchBy="id"
             keepSelectedInList={true}
             dropdownHeight="200px"
-            placeholder="Search by Sample ID"
+            placeholder="Select a Sample ID"
           />
         </div>
         <button className={style.submit}>GO</button>

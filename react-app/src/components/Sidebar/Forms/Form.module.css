@@ -1,10 +1,8 @@
-.form__authorization {
+.navbar__form {
     display: flex;
-    width: 100%;
     flex-direction: column;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: center;
+    margin: 0.75rem;
+    color: #26143a;
 }
 
 .form__header {
@@ -24,21 +22,20 @@
 }
 
 .property__field {
+    margin-left: 0.5rem;
     font-size: 1rem;
     height: 1.5rem;
-    width: 100%;
 }
 
-.form__buttons {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-content: flex-end;
-    justify-content: space-evenly;
-    align-items: stretch;
+.property__field-small {
+    width: 35%;
 }
 
-.form__button {
+.property-hidden {
+    display: none;
+}
+
+.sidebar__button {
     border: 1px solid #26143a;
     background-color: #fff2cc;
     box-sizing: content-box;
@@ -50,12 +47,7 @@
     position: relative;
 }
 
-.form__button:hover {
+.sidebar__button:hover {
     background-color: #ffe8a6;
     top: -0.10rem;
-}
-
-.form__additional {
-    font-size: 0.85rem;
-    margin: 0.45rem;
 }

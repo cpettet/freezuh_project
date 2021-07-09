@@ -1,6 +1,7 @@
-html, body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+html,
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -9,6 +10,7 @@ html, body {
   width: 100%;
   margin: 0px;
   font-size: 16px;
+  background-color: #f4f4f7;
 }
 
 #root {
@@ -16,7 +18,7 @@ html, body {
 }
 
 .code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
@@ -25,5 +27,5 @@ html, body {
   flex-direction: row;
   width: 100%;
   height: 100%;
-  background-color: thistle;
+  background-color: #f4f4f7;
 }

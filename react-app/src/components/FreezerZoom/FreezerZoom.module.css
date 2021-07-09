@@ -37,8 +37,8 @@
 
 .display {
     height: 2.5rem;
-    width: 5rem;
-    font-family: "Montserrat",-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',sans-serif;;
+    width: 3rem;
+    /* font-family: "Montserrat",-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',sans-serif;; */
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-between;

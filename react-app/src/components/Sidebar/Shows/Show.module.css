@@ -1,0 +1,63 @@
+.sidebar__container {
+    margin: 0.75rem;
+    color: #26143a;
+}
+
+.sidebar__header-inactive {
+    color: red;
+}
+
+.sidebar__header-active {
+    color: green;
+}
+
+.properties {
+    display: flex;
+    flex-direction: column;
+}
+
+.property {
+    display: flex;
+    flex-direction: row;
+}
+
+.property__key {
+    font-weight: 600;
+}
+
+.property__value {
+    margin-left: 0.5rem;
+}
+
+.sidebar__buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.sidebar__buttons__button {
+    border: 1px solid #26143a;
+    background-color: #fff2cc;
+    box-sizing: content-box;
+    border-radius: 10%;
+    height: 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.75rem;
+    margin: 0.5rem;
+    transition: all 100ms ease;
+    position: relative;
+}
+
+.sidebar__buttons__button:hover {
+    background-color: #ffe8a6;
+    top: -0.10rem;
+}
+
+.sidebar__buttons__edit {
+    color: #26143a;
+}
+
+.sidebar__buttons__delete {
+    color: red;
+}

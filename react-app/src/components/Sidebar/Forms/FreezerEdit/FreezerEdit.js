@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import style from "./FreezerEdit.module.css";
+import style from "../Form.module.css";
 import { editFreezer, getFreezers } from "../../../../store/freezer";
 
 function FreezerEdit() {
@@ -31,20 +31,27 @@ function FreezerEdit() {
 
   return (
     <form className={style.navbar__form} onSubmit={submitFreezer}>
-      <div>
-        <label htmlFor="max_position">Max positions: </label>
+      <h3 className={style.form__header}>Editing Freezer #{freezer?.id}</h3>
+      <div className={style.property}>
+        <label htmlFor="max_position" className={style.property__label}>
+          Max positions:{" "}
+        </label>
         <input
+          className={style.property__field}
           value={maxPosition}
           onChange={(e) => setMaxPosition(e.target.value)}
           type="number"
-          placeholder="Enter max positions in freezer"
+          placeholder="Max racks in freezer"
           min="1"
         />
       </div>
-      <div>
-        <label htmlFor="active">Freezer Active: </label>
+      <div className={style.property}>
+        <label htmlFor="active" className={style.property__label}>
+          Freezer Active:{" "}
+        </label>
         <label>
           <input
+            className={style.property__field}
             type="radio"
             name="active"
             value="true"
@@ -55,6 +62,7 @@ function FreezerEdit() {
         </label>
         <label>
           <input
+            className={style.property__field}
             type="radio"
             name="active"
             value="false"
@@ -64,7 +72,9 @@ function FreezerEdit() {
           No
         </label>
       </div>
-      <button type="submit">Submit Changes</button>
+      <button className={style.sidebar__button} type="submit">
+        Submit Changes
+      </button>
     </form>
   );
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Switch, Route } from "react-router";
 import style from "./Sidebar.module.css";
 import PlateForm from "./Forms/PlateForm";
@@ -15,47 +15,65 @@ import RackEdit from "./Forms/RackEdit";
 import FreezerEdit from "./Forms/FreezerEdit";
 
 function Sidebar() {
+  const [sidebarShow, setSidebarShow] = useState(true);
+
+  const toggleSidebar = (e) => setSidebarShow((prev) => !prev);
+
   return (
-    <div className={style.sidebar}>
-      <Switch>
-        <Route path="/samples/new">
-          <SampleForm />
-        </Route>
-        <Route exact path="/samples/:sampleId">
-          <SidebarSampleShow />
-        </Route>
-        <Route path="/samples/:sampleId/edit">
-          <SampleEdit />
-        </Route>
-        <Route path="/plates/new">
-          <PlateForm />
-        </Route>
-        <Route exact path="/plates/:plateId">
-          <SidebarPlateShow />
-        </Route>
-        <Route path="/plates/:plateId/edit">
-          <PlateEdit />
-        </Route>
-        <Route path="/racks/new">
-          <RackForm />
-        </Route>
-        <Route exact path="/racks/:rackId">
-          <SidebarRackShow />
-        </Route>
-        <Route path="/racks/:rackId/edit">
-          <RackEdit />
-        </Route>
-        <Route path="/freezers/new">
-          <FreezerForm />
-        </Route>
-        <Route exact path="/freezers/:freezerId">
-          <SidebarFreezerShow />
-        </Route>
-        <Route path="/freezers/:freezerId/edit">
-          <FreezerEdit />
-        </Route>
-      </Switch>
-    </div>
+    <>
+          {/* <button onClick={toggleSidebar}>{"<"}</button> */}
+      <div
+        className={
+          sidebarShow
+          ? `${style.sidebar}`
+          : `${style.sidebar} ${style["sidebar-hidden"]}`
+        }
+      >
+        <Switch>
+          <Route path="/samples/new">
+            <SampleForm />
+          </Route>
+          <Route exact path="/samples/:sampleId">
+            <SidebarSampleShow />
+          </Route>
+          <Route path="/samples/:sampleId/edit">
+            <SampleEdit />
+          </Route>
+          <Route path="/plates/new">
+            <PlateForm />
+          </Route>
+          <Route exact path="/plates/:plateId">
+            <SidebarPlateShow />
+          </Route>
+          <Route path="/plates/:plateId/edit">
+            <PlateEdit />
+          </Route>
+          <Route path="/racks/new">
+            <RackForm />
+          </Route>
+          <Route exact path="/racks/:rackId">
+            <SidebarRackShow />
+          </Route>
+          <Route path="/racks/:rackId/edit">
+            <RackEdit />
+          </Route>
+          <Route path="/freezers/new">
+            <FreezerForm />
+          </Route>
+          <Route exact path="/freezers/:freezerId">
+            <SidebarFreezerShow />
+          </Route>
+          <Route path="/freezers/:freezerId/edit">
+            <FreezerEdit />
+          </Route>
+          <Route>
+            <h3>Nothing to see here!</h3>
+            <p>Click on a freezer, rack, plate, or sample to see more information! You can also edit or delete any object.</p>
+            <p>Create a new freezer, rack, plate, or sample to see the creation form.</p>
+          </Route>
+        </Switch>
+      </div>
+    </>
   );
 }
 
