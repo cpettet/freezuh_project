@@ -16,8 +16,8 @@ function Plates() {
 
   const plates = statePlates.map((plate) => {
     return (
-      <div className={style.item}>
-        <Plate key={plate.id} plate={plate} />
+      <div className={style.item} key={plate.id}>
+        <Plate plate={plate} />
       </div>
     );
   });

@@ -1,14 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import style from "../Form.module.css";
+import { getFreezers } from "../../../../store/freezer";
 import { createRack } from "../../../../store/rack";
 
 function RackForm() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const freezers = useSelector((state) => state.freezers.byId);
   const [freezerId, setFreezerId] = useState();
   const [maxPosition, setMaxPosition] = useState(25);
+
+  useEffect(() => {
+    dispatch(getFreezers());
+  }, [dispatch]);
 
   const submitRack = async (e) => {
     e.preventDefault();
@@ -23,10 +29,13 @@ function RackForm() {
     history.push(`/racks/${newRackId}`);
   };
 
-  const getFirstOpenFreezerPosition = e => {
+  const getId = (e) => {
     e.preventDefault();
-    // TODO: populate with first available position
-  }
+    const freezerForRack = Object.values(freezers)?.find(
+      (freezer) => freezer.open_position <= freezer.max_position
+    );
+    setFreezerId(freezerForRack?.id);
+  };
 
   return (
     <form className={style.navbar__form} onSubmit={submitRack}>
@@ -43,10 +52,7 @@ function RackForm() {
           placeholder="Enter ID"
           min="1"
         />
-        <button
-          className={style.sidebar__button}
-          onClick={getFirstOpenFreezerPosition}
-        >
+        <button onClick={getId} className={style.sidebar__button}>
           Get ID
         </button>
       </div>
