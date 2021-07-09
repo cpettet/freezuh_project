@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import style from "./PlateShow.module.css";
+import style from "../Item.module.css";
 import { getPlates } from "../../store/plate";
-import Plate from "../Plate/Plate";
-import newIcon from "./Plate-Finalv2-NEW.min.svg"
+import Plate from "../Plate";
+import newIcon from "./Plate-Finalv2-NEW.min.svg";
 
 function Plates() {
   const dispatch = useDispatch();
@@ -14,13 +14,26 @@ function Plates() {
     dispatch(getPlates());
   }, [dispatch]);
 
-  const plates = statePlates.map(plate => {
-      return <Plate key={plate.id} plate={plate} />;
-  })
+  const plates = statePlates.map((plate) => {
+    return (
+      <div className={style.item} key={plate.id}>
+        <Plate plate={plate} />
+      </div>
+    );
+  });
 
   return (
-    <div className={style.plates}>
-      <Link to="/plates/new"><img src={newIcon} alt={`create new plate`} className={style["new-plate__icon"]}/></Link>
+    <div className={style.items}>
+      <div className={style.item}>
+        <Link to="/plates/new" className={style.item__link}>
+          <img
+            className={style["new-item__icon"]}
+            src={newIcon}
+            alt={`create new plate`}
+          />
+          <p className={style.item__text}>NEW</p>
+        </Link>
+      </div>
       {plates}
     </div>
   );

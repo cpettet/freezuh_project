@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
+.navbar__container {
+    height: 7.85rem;
+}
+
 .navbar {
     width: 100%;
     height: fit-content;
@@ -7,6 +11,8 @@
     flex-direction: column;
     align-items: center;
     outline: 1px solid black;
+    position: fixed;
+    background-color: #f4f4f7;
 }
 
 .navbar__upper {
@@ -59,7 +65,7 @@
     font-family: 'Montserrat', sans-serif;
     text-decoration: unset;
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
 }
 
 .link-selected {

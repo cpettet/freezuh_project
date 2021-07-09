@@ -3,6 +3,7 @@
     flex-direction: column;
     margin: 0.75rem;
     color: #26143a;
+    width: 90%;
 }
 
 .form__header {

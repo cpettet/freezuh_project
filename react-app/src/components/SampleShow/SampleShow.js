@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import style from "./SampleShow.module.css";
+import style from "../Item.module.css";
 import { getSamples } from "../../store/sample";
 import Sample from "../Sample";
-import newSampleIcon from "./Sample-Tube-NEW.min.svg"
+import newSampleIcon from "./Sample-Tube-NEW.min.svg";
 
 function SampleShow() {
   const dispatch = useDispatch();
@@ -17,14 +17,25 @@ function SampleShow() {
   }, [dispatch]);
 
   const samples = stateSamples.map((sample) => {
-    return <Sample key={sample.id} sample={sample} />;
+    return (
+      <div className={style.item} key={sample.id}>
+        <Sample sample={sample} />
+      </div>
+    );
   });
 
   return (
-    <div className={style.samples}>
-      <Link to="/samples/new">
-        <img src={newSampleIcon} alt="new sample" className={style["new-sample__icon"]}/>
-      </Link>
+    <div className={style.items}>
+      <div className={style.item}>
+        <Link to="/samples/new" className={style.item__link}>
+          <img
+            className={style["new-item__icon"]}
+            src={newSampleIcon}
+            alt="new sample"
+          />
+          <p className={style.item__text}>NEW</p>
+        </Link>
+      </div>
       {samples}
     </div>
   );

@@ -3,10 +3,12 @@ import { useHistory, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import style from "../Form.module.css";
 import { editRack, getRacks } from "../../../../store/rack";
+import { getFreezers } from "../../../../store/freezer";
 
 function RackEdit() {
   const { rackId } = useParams();
   const rack = useSelector((state) => state.racks.byId[rackId]);
+  const freezers = useSelector(state => state.freezers.byId);
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -16,6 +18,7 @@ function RackEdit() {
 
   useEffect(() => {
     dispatch(getRacks());
+    dispatch(getFreezers())
   }, [dispatch]);
 
   const submitRack = async (e) => {
@@ -31,9 +34,12 @@ function RackEdit() {
     history.push(`/racks/${rackId}`);
   };
 
-  const getFirstOpenFreezerPosition = (e) => {
+  const getId = (e) => {
     e.preventDefault();
-    // TODO: populate with first available freezer position
+    const freezerForRack = Object.values(freezers)?.find(
+      (freezer) => freezer.open_position <= freezer.max_position
+    );
+    setFreezerId(freezerForRack?.id);
   };
 
   return (
@@ -50,10 +56,7 @@ function RackEdit() {
           type="number"
           placeholder="Enter ID"
         />
-        <button
-          className={style.sidebar__button}
-          onClick={getFirstOpenFreezerPosition}
-        >
+        <button onClick={getId} className={style.sidebar__button}>
           Get ID
         </button>
       </div>

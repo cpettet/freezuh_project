@@ -1,0 +1,11 @@
+.sidebar__container {
+    margin: 0.75rem;
+    color: #26143a;
+}
+
+.sidebar__header {
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid #9e9ebd;
+    margin-top: 0.85rem;
+    margin-bottom: 0.85rem;
+}

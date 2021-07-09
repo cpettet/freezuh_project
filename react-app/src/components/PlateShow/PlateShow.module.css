@@ -1,9 +1,0 @@
-.plates {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-
-.new-plate__icon {
-    height: 10rem;
-}

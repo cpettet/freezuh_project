@@ -3,11 +3,13 @@ import { useHistory, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import style from "../Form.module.css";
 import { editPlate, getPlates } from "../../../../store/plate";
+import { getRacks } from "../../../../store/rack";
 import getInputDateTime from "../../../../utils/getInputDateTime";
 
 function PlateEdit() {
   const { plateId } = useParams();
   const plate = useSelector((state) => state.plates.byId[plateId]);
+  const racks = useSelector(state => state.racks.byId)
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -21,6 +23,7 @@ function PlateEdit() {
 
   useEffect(() => {
     dispatch(getPlates())
+    dispatch(getRacks())
   }, [dispatch])
 
   const submitPlate = async (e) => {
@@ -38,9 +41,12 @@ function PlateEdit() {
     history.push(`/plates/${plateId}`);
   };
 
-  const getFirstOpenRackPosition = (e) => {
+  const getId = (e) => {
     e.preventDefault();
-    // TODO: populate with first available position
+    const rackForPlate = Object.values(racks)?.find(
+      (rack) => rack.open_position <= rack.max_position
+    );
+    setRackId(rackForPlate?.id);
   };
 
   return (
@@ -57,7 +63,9 @@ function PlateEdit() {
           type="number"
           placeholder="Enter ID"
         />
-        <button onClick={getFirstOpenRackPosition} className={style.sidebar__button}>Get Rack ID</button>
+        <button onClick={getId} className={style.sidebar__button}>
+          Get ID
+        </button>
       </div>
       <div className={style.property}>
         <label htmlFor="max_well" className={style.property__label}>
@@ -121,7 +129,9 @@ function PlateEdit() {
           No
         </label>
       </div>
-      <button className={style.sidebar__button} type="submit">Submit Changes</button>
+      <button className={style.sidebar__button} type="submit">
+        Submit Changes
+      </button>
     </form>
   );
 }
