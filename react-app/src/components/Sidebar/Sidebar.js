@@ -13,6 +13,7 @@ import SampleEdit from "./Forms/SampleEdit";
 import PlateEdit from "./Forms/PlateEdit";
 import RackEdit from "./Forms/RackEdit";
 import FreezerEdit from "./Forms/FreezerEdit";
+import SidebarEmpty from "./SidebarEmpty/SidebarEmpty";
 
 function Sidebar() {
   const [sidebarShow, setSidebarShow] = useState(true);
@@ -67,9 +68,7 @@ function Sidebar() {
             <FreezerEdit />
           </Route>
           <Route>
-            <h3>Nothing to see here!</h3>
-            <p>Click on a freezer, rack, plate, or sample to see more information! You can also edit or delete any object.</p>
-            <p>Create a new freezer, rack, plate, or sample to see the creation form.</p>
+            <SidebarEmpty />
           </Route>
         </Switch>
       </div>

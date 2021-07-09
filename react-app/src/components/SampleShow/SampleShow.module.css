@@ -1,9 +1,0 @@
-.samples {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-
-.new-sample__icon {
-    height: 5rem;
-}

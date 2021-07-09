@@ -1,20 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import style from "./Freezer.module.css";
+import style from "../Item.module.css";
 import image from "./Freezer-Final.min.svg";
 
 function Freezer({ freezer }) {
   return (
-    <div>
-      <Link to={`/freezers/${freezer.id}`}>
+    <>
+      <Link to={`/freezers/${freezer.id}`} className={style.item__link}>
         <img
           src={image}
           alt={`Freezer #${freezer.id}`}
-          className={style.freezer__icon}
+          className={style.item__icon}
         />
-        <p className={style.freezer__text}>FZR #{freezer.id}</p>
+        <p className={style.item__text}>{freezer.id}</p>
       </Link>
-    </div>
+    </>
   );
 }
 
