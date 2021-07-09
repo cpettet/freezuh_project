@@ -4,10 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import style from "../Form.module.css";
 import { editSample, getSamples } from "../../../../store/sample";
 import getInputDateTime from "../../../../utils/getInputDateTime";
+import { getPlates } from "../../../../store/plate";
 
 function SampleForm() {
   const { sampleId } = useParams();
   const sample = useSelector((state) => state.samples.byId[sampleId]);
+  const plates = useSelector((state) => state.plates?.byId);
   const dispatch = useDispatch();
   const history = useHistory();
   const SAMPLE_TYPES = [
@@ -32,11 +34,15 @@ function SampleForm() {
 
   useEffect(() => {
     dispatch(getSamples());
+    dispatch(getPlates())
   }, [dispatch]);
 
-  const firstPlateId = (e) => {
-    // TODO: This isn't working yet, come back later
+  const getId = (e) => {
     e.preventDefault();
+    const plateForSample = Object.values(plates)?.find(
+      (plate) => plate.open_position === 1
+    );
+    setPlateId(plateForSample?.id);
   };
 
   const submitSample = async (e) => {
@@ -70,7 +76,7 @@ function SampleForm() {
           type="number"
           placeholder="Enter plate Id"
         />
-        <button className={style.sidebar__button} onClick={firstPlateId}>
+        <button onClick={getId} className={style.sidebar__button}>
           Get ID
         </button>
       </div>

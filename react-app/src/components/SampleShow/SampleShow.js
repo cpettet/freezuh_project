@@ -18,8 +18,8 @@ function SampleShow() {
 
   const samples = stateSamples.map((sample) => {
     return (
-      <div className={style.item}>
-        <Sample key={sample.id} sample={sample} />
+      <div className={style.item} key={sample.id}>
+        <Sample sample={sample} />
       </div>
     );
   });

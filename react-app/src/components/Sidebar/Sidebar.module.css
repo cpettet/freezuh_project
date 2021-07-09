@@ -5,9 +5,7 @@
     width: 25%;
     min-width: 25%;
     transition: 500ms;
-    /* height: 220%; */
-    min-height: 73vh;
-    bottom: 0;
+    min-height: 70.5vh;
     flex-wrap: wrap;
     flex-direction: column;
     align-content: center;

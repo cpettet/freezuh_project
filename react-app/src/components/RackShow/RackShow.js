@@ -1,28 +1,39 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import style from "./RackShow.module.css";
+import style from "../Item.module.css";
 import { getRacks } from "../../store/rack";
 import Rack from "../Rack";
-import newRackIcon from "./Rack-NEW.min.svg"
+import newRackIcon from "./Rack-NEW.min.svg";
 
 function Racks() {
   const dispatch = useDispatch();
-  const stateRacks = useSelector(state => Object.values(state.racks.byId));
+  const stateRacks = useSelector((state) => Object.values(state.racks.byId));
 
   useEffect(() => {
     dispatch(getRacks());
   }, [dispatch]);
 
-  const racks = stateRacks.map(rack => {
-    return <Rack key={rack.id} rack={rack} />
-  })
+  const racks = stateRacks.map((rack) => {
+    return (
+      <div className={style.item}>
+        <Rack key={rack.id} rack={rack} />
+      </div>
+    );
+  });
 
   return (
-    <div className={style.racks}>
-      <Link to="/racks/new">
-        <img src={newRackIcon} alt="create new rack" className={style["new-rack__icon"]} />
-      </Link>
+    <div className={style.items}>
+      <div className={style.item}>
+        <Link to="/racks/new" className={style.item__link}>
+          <img
+            className={style["new-item__icon"]}
+            src={newRackIcon}
+            alt="create new rack"
+          />
+          <p className={style.item__text}>NEW</p>
+        </Link>
+      </div>
       {racks}
     </div>
   );

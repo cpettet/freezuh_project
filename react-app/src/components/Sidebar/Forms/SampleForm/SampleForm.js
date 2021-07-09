@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import style from "../Form.module.css";
 import { createSample } from "../../../../store/sample";
+import { getPlates } from "../../../../store/plate";
 import getInputDateTime from "../../../../utils/getInputDateTime";
-import getPlateId from "../../../../utils/getPlateId";
 
 function SampleForm() {
   const dispatch = useDispatch();
@@ -14,13 +14,14 @@ function SampleForm() {
     ["Plasma", "plasma"],
     ["CF DNA", "cf_dna"],
   ];
+  const plates = useSelector((state) => state.plates?.byId);
   const [plateId, setPlateId] = useState("");
   const [sampleType, setSampleType] = useState(SAMPLE_TYPES[0][1]);
   const [accessionDate, setAccessionDate] = useState(getInputDateTime());
 
-  const firstPlateId = (e) => {
-    e.preventDefault();
-  };
+  useEffect(() => {
+    dispatch(getPlates());
+  }, [dispatch]);
 
   const submitSample = async (e) => {
     e.preventDefault();
@@ -37,6 +38,14 @@ function SampleForm() {
     history.push(`/samples/${newSampleId}`);
   };
 
+  const getId = (e) => {
+    e.preventDefault();
+    const plateForSample = Object.values(plates)?.find(
+      (plate) => plate.open_position === 1
+    );
+    setPlateId(plateForSample?.id);
+  };
+
   return (
     <form className={style.navbar__form} onSubmit={submitSample}>
       <h3 className={style.form__header}>Creating new sample</h3>
@@ -51,7 +60,7 @@ function SampleForm() {
           type="number"
           placeholder="Enter ID"
         />
-        <button className={style.sidebar__button} onClick={firstPlateId}>
+        <button onClick={getId} className={style.sidebar__button}>
           Get ID
         </button>
       </div>
