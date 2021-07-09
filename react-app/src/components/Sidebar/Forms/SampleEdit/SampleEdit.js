@@ -64,13 +64,15 @@ function SampleForm() {
           Plate Id:
         </label>
         <input
-          className={style.property__field}
+          className={style["property__field-small"]}
           value={plateId}
           onChange={(e) => setPlateId(e.target.value)}
           type="number"
           placeholder="Enter plate Id"
         />
-        <button onClick={firstPlateId}>Get ID</button>
+        <button className={style.sidebar__button} onClick={firstPlateId}>
+          Get ID
+        </button>
       </div>
       <div className={style.property}>
         <label htmlFor="sample_type" className={style.property__label}>
@@ -160,7 +162,9 @@ function SampleForm() {
           No
         </label>
       </div>
-      <button className={style.sidebar__button} type="submit">Submit</button>
+      <button className={style.sidebar__button} type="submit">
+        Submit
+      </button>
     </form>
   );
 }

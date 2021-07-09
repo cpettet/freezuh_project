@@ -39,7 +39,7 @@ function Navigation() {
       setRackId("");
       setPlateId(item[0]?.id);
       setSampleId("");
-    } else if (type === "rack") {
+    } else if (type === "sample") {
       setFreezerId("");
       setRackId("");
       setPlateId("");

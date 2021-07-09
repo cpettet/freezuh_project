@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import style from "../Form.module.css";
 import { createSample } from "../../../../store/sample";
 import getInputDateTime from "../../../../utils/getInputDateTime";
+import getPlateId from "../../../../utils/getPlateId";
 
 function SampleForm() {
   const dispatch = useDispatch();

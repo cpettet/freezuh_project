@@ -32,7 +32,9 @@ function RackForm() {
     <form className={style.navbar__form} onSubmit={submitRack}>
       <h3 className={style.form__header}>Creating new rack</h3>
       <div className={style.property}>
-        <label htmlFor="freezer_id">Freezer Id: </label>
+        <label htmlFor="freezer_id" className={style.property__label}>
+          Freezer Id:{" "}
+        </label>
         <input
           className={style["property__field-small"]}
           value={freezerId}
@@ -49,7 +51,9 @@ function RackForm() {
         </button>
       </div>
       <div className={style.property}>
-        <label htmlFor="max_position">Max positions: </label>
+        <label className={style.property__label} htmlFor="max_position">
+          Max positions:{" "}
+        </label>
         <input
           className={style.property__field}
           value={maxPosition}
