@@ -14,6 +14,7 @@ import Sidebar from "./components/Sidebar";
 import PlateZoom from "./components/PlateZoom/PlateZoom";
 import RackZoom from "./components/RackZoom/RackZoom";
 import FreezerZoom from "./components/FreezerZoom";
+import About from "./components/About";
 
 function App() {
   const dispatch = useDispatch();
@@ -63,8 +64,11 @@ function App() {
           <ProtectedRoute path="/freezers">
             <FreezerShow />
           </ProtectedRoute>
-          <Route exact path="/">
-            <div className="body">This is where my splash page would go, if I had one!</div>
+          <Route path="/about">
+            <About />
+          </Route>
+          <Route path="/">
+            <h1>Hello, this is the homepage</h1>
           </Route>
         </Switch>
       </div>
