@@ -127,6 +127,15 @@ function Navigation() {
                 Samples
               </NavLink>
             </div>
+            <div className={style["link__container"]}>
+              <NavLink
+                to="/about"
+                className={style.link}
+                activeClassName={style["link-selected"]}
+              >
+                About
+              </NavLink>
+            </div>
           </div>
           <div className={style.navbar__upper__profile}>
             <ProfileButton />
