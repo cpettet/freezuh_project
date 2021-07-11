@@ -1,0 +1,22 @@
+.about__container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1rem 5rem;
+}
+
+.content__container {
+    display: flex;
+    flex-direction: row;
+}
+
+.image {
+    height: 10rem;
+}
+
+.about__paragraph__left, .about__paragraph__right {
+    margin: 1rem;
+}

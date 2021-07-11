@@ -14,6 +14,7 @@ import PlateEdit from "./Forms/PlateEdit";
 import RackEdit from "./Forms/RackEdit";
 import FreezerEdit from "./Forms/FreezerEdit";
 import SidebarEmpty from "./SidebarEmpty/SidebarEmpty";
+import About from "./About";
 
 function Sidebar() {
   const [sidebarShow, setSidebarShow] = useState(true);
@@ -66,6 +67,9 @@ function Sidebar() {
           </Route>
           <Route path="/freezers/:freezerId/edit">
             <FreezerEdit />
+          </Route>
+          <Route path="/about">
+            <About />
           </Route>
           <Route>
             <SidebarEmpty />

@@ -65,7 +65,7 @@
     font-family: 'Montserrat', sans-serif;
     text-decoration: unset;
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1.0rem;
 }
 
 .link-selected {
@@ -75,7 +75,7 @@
 .link__container {
     display: flex;
     flex-direction: column;
-    height: 3.375rem;
+    height: 2rem;
     width: 7rem;
     border-bottom: 1px solid black;
     border-right: 1px solid black;
@@ -83,6 +83,13 @@
     justify-content: center;
     background-color: #d7d7e3;
     margin: 0.25rem;
+    transition: all 100ms ease;
+    position: relative;
+}
+
+.link__container:hover {
+    background-color: #f4f4f7;
+    top: -0.10rem;
 }
 
 .link__container-selected {
