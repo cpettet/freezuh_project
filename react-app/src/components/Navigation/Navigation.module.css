@@ -31,9 +31,12 @@
     justify-content: center;
 }
 
-.select-box {
-    font-size: 16px;
-    padding: 0.55rem 1rem;
+.select-container {
+    display: flex;
+    width: 12rem;
+    background-color: #f4f4f7;
+    border: 1px solid #26143a;
+    margin: 0.25rem;
 }
 
 .navbar__upper__logo {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Select from "react-dropdown-select";
 import { NavLink, Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import Select from "react-select";
 import style from "./Navigation.module.css";
 import logo from "./Freezer-Final.min.svg";
 import ProfileButton from "../ProfileButton/ProfileButton";
@@ -18,47 +18,63 @@ function Navigation() {
   const plates = useSelector((state) => Object.values(state.plates.byId));
   const samples = useSelector((state) => Object.values(state.samples.byId));
 
-  const [freezerId, setFreezerId] = useState("");
-  const [rackId, setRackId] = useState("");
-  const [plateId, setPlateId] = useState("");
-  const [sampleId, setSampleId] = useState("");
+  const freezerSearchOptions = freezers.map((freezer) => {
+    return { value: freezer.id, label: `Freezer ${freezer.id}` };
+  });
+
+  const rackSearchOptions = racks.map((rack) => {
+    return { value: rack.id, label: `Rack ${rack.id}` };
+  });
+
+  const plateSearchOptions = plates.map((plate) => {
+    return { value: plate.id, label: `Plate ${plate.id}` };
+  });
+
+  const sampleSearchOptions = samples.map((sample) => {
+    return { value: sample.id, label: `Sample ${sample.id}` };
+  });
+
+  const [freezerId, setFreezerId] = useState(null);
+  const [rackId, setRackId] = useState(null);
+  const [plateId, setPlateId] = useState(null);
+  const [sampleId, setSampleId] = useState(null);
 
   const setSearchValue = (type, item) => {
     if (type === "freezer") {
-      setFreezerId(item[0]?.id);
-      setRackId("");
-      setPlateId("");
-      setSampleId("");
+      setFreezerId({ value: item, label: `Freezer ${item}` });
+      setRackId(null);
+      setPlateId(null);
+      setSampleId(null);
     } else if (type === "rack") {
-      setFreezerId("");
-      setRackId(item[0]?.id);
-      setPlateId("");
-      setSampleId("");
+      setFreezerId(null);
+      setRackId({ value: item, label: `Rack ${item}` });
+      setPlateId(null);
+      setSampleId(null);
     } else if (type === "plate") {
-      setFreezerId("");
-      setRackId("");
-      setPlateId(item[0]?.id);
-      setSampleId("");
+      setFreezerId(null);
+      setRackId(null);
+      setPlateId({ value: item, label: `Plate ${item}` });
+      setSampleId(null);
     } else if (type === "sample") {
-      setFreezerId("");
-      setRackId("");
-      setPlateId("");
-      setSampleId(item[0]?.id);
+      setFreezerId(null);
+      setRackId(null);
+      setPlateId(null);
+      setSampleId({ value: item, label: `Sample ${item}` });
     }
   };
 
   const handleFormReset = (e) => {
-    setFreezerId("");
-    setRackId("");
-    setPlateId("");
-    setSampleId("");
-  }
+    setFreezerId(null);
+    setRackId(null);
+    setPlateId(null);
+    setSampleId(null);
+  };
 
   useEffect(() => {
-    dispatch(getFreezers);
-    dispatch(getRacks);
-    dispatch(getPlates);
-    dispatch(getSamples);
+    dispatch(getFreezers());
+    dispatch(getRacks());
+    dispatch(getPlates());
+    dispatch(getSamples());
     setFreezerId("");
   }, [dispatch]);
 
@@ -66,17 +82,33 @@ function Navigation() {
     e.preventDefault();
     const [fId, rId, pId, sId] = [freezerId, rackId, plateId, sampleId];
     handleFormReset();
-    if (freezerId) {
-      history.push(`/freezers/${fId}`);
-    } else if (rackId) {
-      history.push(`/racks/${rId}`);
-    } else if (plateId) {
-      history.push(`/plates/${pId}`);
-    } else if (sampleId) {
-      history.push(`/samples/${sId}`);
+    if (fId?.value) {
+      history.push(`/freezers/${fId.value}`);
+    } else if (rId?.value) {
+      history.push(`/racks/${rId.value}`);
+    } else if (pId?.value) {
+      history.push(`/plates/${pId.value}`);
+    } else if (sId?.value) {
+      history.push(`/samples/${sId.value}`);
     } else {
-      history.push("/about-me");
+      history.push("/about");
     }
+  };
+
+  const selectStyles = {
+    option: (provided, state) => ({
+      ...provided,
+      padding: 10,
+    }),
+    control: () => ({
+      width: 400,
+      display: "flex",
+    }),
+    singleValue: (provided, state) => {
+      const width = 400;
+
+      return { ...provided, width };
+    },
   };
 
   return (
@@ -155,64 +187,46 @@ function Navigation() {
           onSubmit={handleSubmit}
           onReset={handleFormReset}
         >
-          <div className={style["select-box"]}>
-            <Select
-              color="#6838A0"
-              options={freezers}
-              clearable={true}
-              clearOnSelect={true}
-              onChange={(value) => setSearchValue("freezer", value)}
-              labelField="id"
-              separator={true}
-              searchBy="id"
-              keepSelectedInList={true}
-              dropdownHeight="200px"
-              placeholder="Search by Freezer ID"
-              className={style["select-box"]}
-            />
-          </div>
-          <div className={style["select-box"]}>
-            <Select
-              color="#6838A0"
-              options={racks}
-              clearable={true}
-              onChange={(value) => setSearchValue("rack", value)}
-              labelField="id"
-              separator={true}
-              searchBy="id"
-              keepSelectedInList={true}
-              dropdownHeight="200px"
-              placeholder="Search by Rack ID"
-            />
-          </div>
-          <div className={style["select-box"]}>
-            <Select
-              color="#6838A0"
-              options={plates}
-              clearable={true}
-              onChange={(value) => setSearchValue("plate", value)}
-              labelField="id"
-              separator={true}
-              searchBy="id"
-              keepSelectedInList={true}
-              dropdownHeight="200px"
-              placeholder="Search by Plate ID"
-            />
-          </div>
-          <div className={style["select-box"]}>
-            <Select
-              color="#6838A0"
-              options={samples}
-              clearable={true}
-              onChange={(value) => setSearchValue("sample", value)}
-              labelField="id"
-              separator={true}
-              searchBy="id"
-              keepSelectedInList={true}
-              dropdownHeight="200px"
-              placeholder="Select a Sample ID"
-            />
-          </div>
+          <Select
+            options={freezerSearchOptions}
+            styles={selectStyles}
+            onChange={(e) => setSearchValue("freezer", e.value)}
+            className={style["select-container"]}
+            classNamePrefix="select-container"
+            menuPlacement="bottom"
+            placeholder="Freezer ID?"
+            value={freezerId}
+          />
+          <Select
+            options={rackSearchOptions}
+            styles={selectStyles}
+            onChange={(e) => setSearchValue("rack", e.value)}
+            className={style["select-container"]}
+            classNamePrefix="select-container"
+            menuPlacement="bottom"
+            placeholder="Rack ID?"
+            value={rackId}
+          />
+          <Select
+            options={plateSearchOptions}
+            styles={selectStyles}
+            onChange={(e) => setSearchValue("plate", e.value)}
+            className={style["select-container"]}
+            classNamePrefix="select-container"
+            menuPlacement="bottom"
+            placeholder="Plate ID?"
+            value={plateId}
+          />
+          <Select
+            options={sampleSearchOptions}
+            styles={selectStyles}
+            onChange={(e) => setSearchValue("sample", e.value)}
+            className={style["select-container"]}
+            classNamePrefix="select-container"
+            menuPlacement="bottom"
+            placeholder="Sample ID?"
+            value={sampleId}
+          />
           <button className={style.submit}>GO</button>
         </form>
       </nav>
