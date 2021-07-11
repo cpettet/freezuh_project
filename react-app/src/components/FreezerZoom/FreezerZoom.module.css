@@ -7,29 +7,29 @@
 .display-housing {
     background-color: #c2afd9;
     border-radius: 0.25rem 0.25rem 0 0;
-    height: 60px;
-    width: 240px;
+    height: 3.75rem;
+    width: 15rem;
     display: flex;
     flex-direction: row;
     border-bottom: 5px solid #6838a0;
 }
 
 .first, .third {
-    width: 30px;
+    width: 1.875rem;
 }
 
 .second {
-    width: 180px;
+    width: 11.25rem;
 }
 
 .display-housing__first, .display-housing__third {
     background-color: #a487c6;
-    height: 60px;
+    height: 3.75rem;
 }
 
 .display-housing__second {
     background-color: #c2afd9;
-    height: 60px;
+    height: 3.75rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -66,8 +66,8 @@
 }
 
 .foot {
-    height: 10px;
-    width: 15px;
+    height: 0.625rem;
+    width: 1rem;
     background-color: #302D35;
 }
 
@@ -80,7 +80,7 @@
 }
 
 .inner {
-    width: 2.85rem;
+    width: 2.885rem;
     height: 5rem;
     border: 1px solid #26143a;
     font-size: 2rem;

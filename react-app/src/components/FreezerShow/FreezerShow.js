@@ -18,8 +18,8 @@ function FreezerShow() {
 
   const freezers = stateFreezers.map((freezer) => {
     return (
-      <div className={style.item}>
-        <Freezer key={freezer.id} freezer={freezer} />
+      <div className={style.item} key={freezer.id}>
+        <Freezer freezer={freezer} />
       </div>
     );
   });
