@@ -47,6 +47,13 @@ function Navigation() {
     }
   };
 
+  const handleFormReset = (e) => {
+    setFreezerId("");
+    setRackId("");
+    setPlateId("");
+    setSampleId("");
+  }
+
   useEffect(() => {
     dispatch(getFreezers);
     dispatch(getRacks);
@@ -57,14 +64,16 @@ function Navigation() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const [fId, rId, pId, sId] = [freezerId, rackId, plateId, sampleId];
+    handleFormReset();
     if (freezerId) {
-      history.push(`/freezers/${freezerId}`);
+      history.push(`/freezers/${fId}`);
     } else if (rackId) {
-      history.push(`/racks/${rackId}`);
+      history.push(`/racks/${rId}`);
     } else if (plateId) {
-      history.push(`/plates/${plateId}`);
+      history.push(`/plates/${pId}`);
     } else if (sampleId) {
-      history.push(`/samples/${sampleId}`);
+      history.push(`/samples/${sId}`);
     } else {
       history.push("/about-me");
     }
@@ -141,7 +150,11 @@ function Navigation() {
             <ProfileButton />
           </div>
         </div>
-        <form className={style.navbar__lower} onSubmit={handleSubmit}>
+        <form
+          className={style.navbar__lower}
+          onSubmit={handleSubmit}
+          onReset={handleFormReset}
+        >
           <div className={style["select-box"]}>
             <Select
               color="#6838A0"

@@ -47,7 +47,7 @@ function FreezerZoom() {
           </Link>
         );
       }
-      cols.push(<div className={style.row}>{cellsInCol}</div>);
+      cols.push(<div className={style.row} key={row}>{cellsInCol}</div>);
     }
     return cols;
   }
@@ -55,25 +55,25 @@ function FreezerZoom() {
   return (
     <div>
       <Link to="/freezers">Return to all freezers</Link>
-      <div class={style.freezer}>
-        <div class={style["display-housing"]}>
+      <div className={style.freezer}>
+        <div className={style["display-housing"]}>
           <div
-            class={`${style["display-housing__first"]} ${style.first}`}
+            className={`${style["display-housing__first"]} ${style.first}`}
           ></div>
-          <div class={`${style["display-housing__second"]} ${style.second}`}>
-            <div class={style.display}>
-              <span class={style.display__id__text}>ID:</span>
-              <span class={style.display__id__number}>{freezerId}</span>
+          <div className={`${style["display-housing__second"]} ${style.second}`}>
+            <div className={style.display}>
+              <span className={style.display__id__text}>ID:</span>
+              <span className={style.display__id__number}>{freezerId}</span>
             </div>
           </div>
           <div
-            class={`${style["display-housing__third"]} ${style.third}`}
+            className={`${style["display-housing__third"]} ${style.third}`}
           ></div>
         </div>
-        <div class={style.door}>{freezerBody()}</div>
-        <div class={style.feet}>
-          <div class={`${style.foot} ${style.foot__left}`}></div>
-          <div class={`${style.foot} ${style.foot__right}`}></div>
+        <div className={style.door}>{freezerBody()}</div>
+        <div className={style.feet}>
+          <div className={`${style.foot} ${style.foot__left}`}></div>
+          <div className={`${style.foot} ${style.foot__right}`}></div>
         </div>
       </div>
     </div>
