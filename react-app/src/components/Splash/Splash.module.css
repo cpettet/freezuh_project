@@ -1,0 +1,23 @@
+.splash__container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1rem;
+    width: 100%;
+}
+
+.splash__header {
+    text-align: center;
+}
+
+.link__container {
+    
+}
+
+.image {
+    height: 10rem;
+    margin: 1rem;
+}

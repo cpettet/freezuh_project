@@ -15,6 +15,7 @@ import PlateZoom from "./components/PlateZoom/PlateZoom";
 import RackZoom from "./components/RackZoom/RackZoom";
 import FreezerZoom from "./components/FreezerZoom";
 import About from "./components/About";
+import Splash from "./components/Splash";
 
 function App() {
   const dispatch = useDispatch();
@@ -68,7 +69,7 @@ function App() {
             <About />
           </Route>
           <Route path="/">
-            <h1>Hello, this is the homepage</h1>
+            <Splash />
           </Route>
         </Switch>
       </div>

@@ -54,7 +54,6 @@ def edit_sample(sample_id):
         # TODO: error handling
     sample.plate_id = request_body["plate_id"]
     # TODO: change following line to allow for box_ids
-    # sample.box_id = request_body["box_id"]
     sample.sample_type = request_body["sample_type"]
     sample.accession_date = request_body["accession_date"]
     sample.store_date = request_body["store_date"]
