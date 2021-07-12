@@ -5,6 +5,12 @@ import Select from "react-select";
 import style from "./Navigation.module.css";
 import logo from "./Freezer-Final.min.svg";
 import ProfileButton from "../ProfileButton/ProfileButton";
+import aboutImage from "./About.min.svg";
+import homeImage from "./Home-Final.min.svg";
+import freezerImage from "./Freezer-Final.min.svg";
+import plateImage from "./Plate-Finalv2.min.svg";
+import rackImage from "./Rack-Final.min.svg";
+import sampleImage from "./Sample-Tube-Final.min.svg";
 import { getFreezers } from "../../store/freezer";
 import { getRacks } from "../../store/rack";
 import { getPlates } from "../../store/plate";
@@ -128,7 +134,7 @@ function Navigation() {
                 className={style.link}
                 activeClassName={style["link-selected"]}
               >
-                Home
+                <img src={homeImage} alt="home" className={style.image} /> Home
               </NavLink>
             </div>
             <div className={style["link__container"]}>
@@ -137,6 +143,11 @@ function Navigation() {
                 className={style.link}
                 activeClassName={style["link-selected"]}
               >
+                <img
+                  src={freezerImage}
+                  alt="freezers"
+                  className={style.image}
+                />{" "}
                 Freezers
               </NavLink>
             </div>
@@ -146,16 +157,17 @@ function Navigation() {
                 className={style.link}
                 activeClassName={style["link-selected"]}
               >
+                <img src={rackImage} alt="racks" className={style.image} />{" "}
                 Racks
               </NavLink>
             </div>
             <div className={style["link__container"]}>
               <NavLink
-                // Set the isActive to change container color
                 to="/plates"
                 className={style.link}
                 activeClassName={style["link-selected"]}
               >
+                <img src={plateImage} alt="plates" className={style.image} />{" "}
                 Plates
               </NavLink>
             </div>
@@ -165,6 +177,7 @@ function Navigation() {
                 className={style.link}
                 activeClassName={style["link-selected"]}
               >
+                <img src={sampleImage} alt="samples" className={style.image} />{" "}
                 Samples
               </NavLink>
             </div>
@@ -174,6 +187,7 @@ function Navigation() {
                 className={style.link}
                 activeClassName={style["link-selected"]}
               >
+                <img src={aboutImage} alt="about" className={style.image} />{" "}
                 About
               </NavLink>
             </div>
