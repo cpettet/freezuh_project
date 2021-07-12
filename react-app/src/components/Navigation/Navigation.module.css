@@ -71,6 +71,10 @@
     font-size: 1.0rem;
 }
 
+.link:hover {
+    color: #f4f4f7;
+}
+
 .link-selected {
     font-weight: 900;
 }
@@ -84,14 +88,15 @@
     border-right: 1px solid black;
     border-radius: 10%;
     justify-content: center;
-    background-color: #d7d7e3;
+    background-color: #f4f4f7;
     margin: 0.25rem;
     transition: all 100ms ease;
     position: relative;
 }
 
 .link__container:hover {
-    background-color: #f4f4f7;
+    background-color: #c2afd9;
+    color: #f4f4f7;
     top: -0.10rem;
 }
 
@@ -102,4 +107,8 @@
 .submit {
     border-radius: 50%;
     height: 2.25rem;
+}
+
+.image {
+    height: 1rem;
 }

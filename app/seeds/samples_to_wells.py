@@ -2,15 +2,18 @@ from app.models import db, Plate
 
 
 def seed_wells():
-    plate_to_add_to = Plate.query.get(1)
-    plate_to_add_to.store_sample_in_well(1)
-    plate_to_add_to.store_sample_in_well(2)
-    plate_to_add_to.store_sample_in_well(3)
-    plate_to_add_to.store_sample_in_well(4)
-    plate_to_add_to.store_sample_in_well(5)
-    plate_to_add_to.store_sample_in_well(6)
-    plate_to_add_to.store_sample_in_well(7)
-    plate_to_add_to.store_sample_in_well(8)
+    plate1 = Plate.query.get(1)
+    plate2 = Plate.query.get(2)
+    plate3 = Plate.query.get(3)
+    plate4 = Plate.query.get(4)
+    for num in range(8, 105):
+        plate1.store_sample_in_well(num)
+    for num in range(105, 200):
+        plate2.store_sample_in_well(num)
+    for num in range(200, 248):
+        plate3.store_sample_in_well(num)
+    for num in range(248, 297):
+        plate4.store_sample_in_well(num)
     db.session.commit()
 
 

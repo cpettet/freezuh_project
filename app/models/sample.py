@@ -66,7 +66,6 @@ class Sample(db.Model):
 
     # Associations
     well = db.relationship("Well", back_populates="sample", uselist=False)
-    # TODO: box association will go here
 
     def to_dict(self):
         return {

@@ -27,6 +27,17 @@ def seed_samples():
     demo8 = Sample(sample_type="whole_blood",
                    expiry_date=datetime.now(),
                    )
+    samples = []
+    for num in range(192):
+        samples.append(Sample(
+            sample_type="cf_dna",
+            expiry_date=datetime.now(),
+        ))
+    for num in range(96):
+        samples.append(Sample(
+            sample_type="whole_blood",
+            expiry_date=datetime.now(),
+        ))
     db.session.add(demo1)
     db.session.add(demo2)
     db.session.add(demo3)
@@ -35,6 +46,8 @@ def seed_samples():
     db.session.add(demo6)
     db.session.add(demo7)
     db.session.add(demo8)
+    for sample in samples:
+        db.session.add(sample)
     db.session.commit()
 
 

@@ -1,7 +1,7 @@
 function getInputDateTime(dateToConvert = Date.now()) {
   // Takes a given date and converts it to a format recognized by the
   // HTML datetime-local input element
-  const currentDateTime = new Date(dateToConvert);
+  const currentDateTime = dateToConvert ? new Date(dateToConvert) : new Date(Date.now());
   let currentMonth = currentDateTime.getMonth() + 1;
   let currentDate = currentDateTime.getDate();
   if (currentMonth < 10) currentMonth = "0" + currentMonth;
