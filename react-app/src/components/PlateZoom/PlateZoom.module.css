@@ -40,11 +40,21 @@ td {
     display: table-cell;
     border-radius: 50%;
     overflow: hidden;
+    vertical-align: middle;
+    text-align: right;
+    padding: 0px;
+}
+
+.plate__well__link {
+    display: flex;
+    border-radius: inherit;
+    justify-content: center;
 }
 
 .plate__well__inner {
     display: block;
     background-color: transparent;
+    border-radius: inherit;
     border: none;
     height: 3.5rem;
     width: 3.5rem;
@@ -58,9 +68,13 @@ td {
     background-color: #fff2cc;
 }
 
-.plate__well:hover, .plate__well__inner:hover {
+.plate__well__inner:hover {
     background-color: #987920;
     color: white;
+}
+
+.plate__well-active, .plate__well__inner-active {
+    background-color: #987920;
 }
 
 a {

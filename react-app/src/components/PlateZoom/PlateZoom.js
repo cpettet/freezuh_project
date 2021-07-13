@@ -1,12 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useHistory } from "react-router-dom";
 import style from "./PlateZoom.module.css";
 import { getPlates } from "../../store/plate";
 
 function PlateZoom() {
   const { plateId } = useParams();
+  const [activeWell, setActiveWell] = useState();
   const dispatch = useDispatch();
+  const history = useHistory();
   const plate = useSelector((state) => state.plates.byId[plateId]);
   const numRows = 8;
   const numCols = 12;
@@ -25,12 +27,18 @@ function PlateZoom() {
     dispatch(getPlates())
   }, [dispatch]);
 
+  useEffect(() => {
+    history.push(`/plates/${plateId}/well-${activeWell}`);
+  }, [history, plateId, activeWell])
+
   function classesForWell(wellNumber, colClass) {
+    let wellClass = "";
     if (plate?.samples.length > wellNumber) {
-      return `${style[colClass]} ${style.plate__header} ${style["plate__well-filled"]} ${style.plate__well}`;
+      wellClass += `${style[colClass]} ${style.plate__header} ${style["plate__well-filled"]} ${style.plate__well}`;
     } else {
-      return `${style[colClass]} ${style.plate__header} ${style["plate__well-empty"]} ${style.plate__well}`;
+      wellClass += `${style[colClass]} ${style.plate__header} ${style["plate__well-empty"]} ${style.plate__well}`;
     }
+    return wellClass;
   }
 
   function sampleInTable(wellNumber) {
@@ -39,6 +47,11 @@ function PlateZoom() {
     } else {
       return `/plates/${plateId}`;
     }
+  }
+
+  function makeWellActive(e) {
+    e.preventDefault();
+    setActiveWell(current => parseInt(e.target.id));
   }
 
   function tableBody() {
@@ -63,9 +76,21 @@ function PlateZoom() {
           );
         }
         cellsInRow.push(
-          <td key={cellId} className={classesForWell(wellNumber, colClass)}>
-            <Link to={sampleInTable(wellNumber)}>
-              <div className={style["plate__well__inner"]}>
+          <td
+            id={wellNumber}
+            key={cellId}
+            className={classesForWell(wellNumber, colClass)}
+            onClick={(e) => makeWellActive(e)}
+          >
+            <Link to={sampleInTable(wellNumber)} className={style.plate__well__link}>
+              <div
+                id={wellNumber}
+                className={
+                  wellNumber === activeWell
+                    ? `${style["plate__well__inner"]} ${style["plate__well__inner-active"]}`
+                    : style["plate__well__inner"]
+                }
+              >
                 {plate?.samples.length > wellNumber
                   ? `#: ${plate?.samples[wellNumber]}`
                   : ""}
