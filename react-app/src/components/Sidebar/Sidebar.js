@@ -14,6 +14,7 @@ import PlateEdit from "./Forms/PlateEdit";
 import RackEdit from "./Forms/RackEdit";
 import FreezerEdit from "./Forms/FreezerEdit";
 import SidebarEmpty from "./SidebarEmpty/SidebarEmpty";
+import AssignToPlate from "./Assignments/AssignToPlate";
 import About from "./About";
 
 function Sidebar() {
@@ -44,11 +45,14 @@ function Sidebar() {
           <Route path="/plates/new">
             <PlateForm />
           </Route>
-          <Route exact path="/plates/:plateId">
-            <SidebarPlateShow />
-          </Route>
           <Route path="/plates/:plateId/edit">
             <PlateEdit />
+          </Route>
+          <Route path="/plates/:plateId/well-:wellId">
+            <AssignToPlate />
+          </Route>
+          <Route path="/plates/:plateId">
+            <SidebarPlateShow />
           </Route>
           <Route path="/racks/new">
             <RackForm />

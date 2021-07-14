@@ -24,12 +24,18 @@ function PlateZoom() {
   };
 
   useEffect(() => {
-    dispatch(getPlates())
+    dispatch(getPlates());
   }, [dispatch]);
 
   useEffect(() => {
-    history.push(`/plates/${plateId}/well-${activeWell}`);
-  }, [history, plateId, activeWell])
+    // Redirect sidebar component to well-filling interface
+    console.log("Active well is:", activeWell)
+    if (parseInt(activeWell) >= 0) {
+      history.push(`/plates/${plateId}/well-${activeWell}`);
+    } else {
+      return;
+    }
+  }, [history, plateId, activeWell]);
 
   function classesForWell(wellNumber, colClass) {
     let wellClass = "";
@@ -44,14 +50,12 @@ function PlateZoom() {
   function sampleInTable(wellNumber) {
     if (plate?.samples.length > wellNumber) {
       return `/samples/${plate.samples[wellNumber]}`;
-    } else {
-      return `/plates/${plateId}`;
     }
   }
 
   function makeWellActive(e) {
     e.preventDefault();
-    setActiveWell(current => parseInt(e.target.id));
+    setActiveWell(parseInt(e.target.id));
   }
 
   function tableBody() {
@@ -82,11 +86,15 @@ function PlateZoom() {
             className={classesForWell(wellNumber, colClass)}
             onClick={(e) => makeWellActive(e)}
           >
-            <Link to={sampleInTable(wellNumber)} className={style.plate__well__link}>
+            <Link
+              to={sampleInTable(wellNumber)}
+              className={style.plate__well__link}
+              id={wellNumber}
+            >
               <div
                 id={wellNumber}
                 className={
-                  wellNumber === activeWell
+                  wellNumber === parseInt(activeWell)
                     ? `${style["plate__well__inner"]} ${style["plate__well__inner-active"]}`
                     : style["plate__well__inner"]
                 }
@@ -110,7 +118,12 @@ function PlateZoom() {
 
   return (
     <div>
-      <Link to="/plates">Return to all plates</Link>
+      <Link to="/plates">All plates</Link>
+      <span>{" > "}</span>
+      <Link to={`/plates/${plateId}`}>
+        <span onClick={(e) => setActiveWell("")}>Plate </span>
+        {plateId}
+      </Link>
       <table className={style.plate}>
         <colgroup>
           <col span="12" className="row-names" />
