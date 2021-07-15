@@ -1,4 +1,4 @@
-.navbar__form {
+.sidebar__container {
     display: flex;
     flex-direction: column;
     margin: 0.75rem;
@@ -6,22 +6,23 @@
     width: 90%;
 }
 
-.form__header {
+.sidebar__header {
     padding-bottom: 0.85rem;
     border-bottom: 1px solid #9e9ebd;
     margin-top: 0.85rem;
     margin-bottom: 0.85rem;
 }
 
-.property {
+.sidebar__section {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     margin-bottom: 0.25rem;
 }
 
 .property__label {
     font-weight: 600;
+    margin-bottom: 0.25rem;
 }
 
 .property__field {
@@ -34,8 +35,13 @@
     width: 35%;
 }
 
-.property-hidden {
+.sidebar__section-hidden {
     display: none;
+}
+
+.sidebar__text__variable {
+    text-decoration: none;
+    font-weight: 700;
 }
 
 .sidebar__button {
@@ -48,6 +54,10 @@
     font-weight: 600;
     transition: all 100ms ease;
     position: relative;
+}
+
+.sidebar__button__spaced {
+    margin: 0.25rem 0rem;
 }
 
 .sidebar__button:hover {

@@ -29,7 +29,6 @@ function PlateZoom() {
 
   useEffect(() => {
     // Redirect sidebar component to well-filling interface
-    console.log("Active well is:", activeWell)
     if (parseInt(activeWell) >= 0) {
       history.push(`/plates/${plateId}/well-${activeWell}`);
     } else {

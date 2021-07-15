@@ -7,11 +7,23 @@ import style from "../Form.module.css";
 function AssignToPlate() {
   const { wellId, plateId } = useParams();
   const [sampleId, setSampleId] = useState();
+  const [newSample, toggleNewSample] = useState();
   const samples = useSelector((state) => Object.values(state.samples.byId));
 
   const sampleSearchOptions = samples?.map((sample) => {
     return { value: sample.id, label: `Sample ${sample.id}` };
   });
+
+  const rowNameConversion = {
+    0: "A",
+    1: "B",
+    2: "C",
+    3: "D",
+    4: "E",
+    5: "F",
+    6: "G",
+    7: "H",
+  };
 
   const selectStyles = {
     option: (provided, state) => ({
@@ -19,37 +31,88 @@ function AssignToPlate() {
       padding: 10,
     }),
     control: () => ({
-      width: 250,
       display: "flex",
     }),
     singleValue: (provided, state) => {
-      const width = 400;
-
-      return { ...provided, width };
+      return { ...provided };
     },
   };
 
+  const storeSample = async e => {
+    e.preventDefault();
+    if (sampleId) {
+      return;
+    } else {
+      return;
+    }
+  }
+
   return (
-    <>
-      <button className={style.sidebar__button}>Create New Sample</button>
-      <h1>Hello!</h1>
-      <div>Welcome to assignment for plate {plateId} to well {wellId}....</div>
-      <div>
-        <label>Assign to </label>
+    <form className={style.sidebar__container} onSubmit={storeSample}>
+      <h3 className={style.sidebar__header}>
+        Assign sample to plate {plateId},{" "}
+        {`${rowNameConversion[wellId % 8]}${Math.floor(wellId / 8 + 1)}`}
+      </h3>
+      <div className={style.property}>
+        <label htmlFor="newSample" className={style.property__label}>
+          Storing new sample?{" "}
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="newSample"
+            checked={newSample === true}
+            onClick={() => {
+              toggleNewSample(true);
+            }}
+            onChange={() => toggleNewSample(true)}
+          />
+          Yes
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="existingSample"
+            checked={newSample === false}
+            onClick={() => {
+              toggleNewSample(false);
+            }}
+            onChange={() => toggleNewSample(false)}
+          />
+          No
+        </label>
       </div>
-      <Select
-        options={sampleSearchOptions}
-        styles={selectStyles}
-        onChange={(e) =>
-          setSampleId({ value: e.value, label: `${e.label}` })
+      <div
+        className={
+          newSample === true
+            ? style.sidebar__section
+            : style["sidebar__section-hidden"]
         }
-        className={style["select-container"]}
-        classNamePrefix="select-container"
-        menuPlacement="bottom"
-        placeholder="Store sample..."
-        value={sampleId}
-      />
-    </>
+      >
+        <button className={`${style.sidebar__button} ${style.sidebar__button__spaced}`}>Assign New Sample</button>
+      </div>
+      <div
+        className={
+          newSample === false
+            ? style.sidebar__section
+            : style["sidebar__section-hidden"]
+        }
+      >
+        <Select
+          options={sampleSearchOptions}
+          styles={selectStyles}
+          onChange={(e) => setSampleId({ value: e.value, label: `${e.label}` })}
+          className={style["select-container"]}
+          classNamePrefix="select-container"
+          menuPlacement="bottom"
+          placeholder="Store sample..."
+          value={sampleId}
+        />
+        <button className={style.sidebar__button}>
+          Assign Existing Sample
+        </button>
+      </div>
+    </form>
   );
 }
 
