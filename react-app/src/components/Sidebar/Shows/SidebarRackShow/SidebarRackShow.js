@@ -26,9 +26,11 @@ function SidebarRackShow() {
       <h3 className={style.sidebar__header}>
         Rack {rackId}:{" "}
         {rack?.discarded ? (
-          <span className={style["sidebar__header-inactive"]}>INACTIVE</span>
+          <span className={style["sidebar__header-inactive"]}>DISCARDED</span>
+        ) : rack?.freezer_position !== "N/A" ? (
+          <span className={style["sidebar__header-active"]}>STORED</span>
         ) : (
-          <span className={style["sidebar__header-active"]}>ACTIVE</span>
+          <span className={style["sidebar__header-neutral"]}>NOT STORED</span>
         )}
       </h3>
       <div className={style.property}>

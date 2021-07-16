@@ -61,18 +61,15 @@ class Plate(db.Model):
 
         if well_position is not False:
             # Case: well is specified
-            print("\n\nUser specified well:", well_position)
             if well_position in filled_wells:
                 return {"errors": "Specified well is filled"}
             sample_well = Well(
                 well_position=well_position,
                 plate_id=self.id,
             )
-            print("Sample well position:", sample_well.well_position)
             self._store_sample(sample, sample_well, sample_id)
         else:
             # Case: no well specified
-            print("\n\nEnding up in well_position not specified")
             next_available_well = filled_wells[-1] + 1 if (len(filled_wells) >
                                                            1) else 0
             if next_available_well > self.max_well:
