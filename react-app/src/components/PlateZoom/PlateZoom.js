@@ -10,7 +10,6 @@ function PlateZoom() {
   const dispatch = useDispatch();
   const history = useHistory();
   const plate = useSelector((state) => state.plates.byId[plateId]);
-  console.log("Plate:", plate)
   const numRows = 8;
   const numCols = 12;
   const rowNameConversion = {
@@ -39,7 +38,7 @@ function PlateZoom() {
 
   function classesForWell(wellNumber, colClass) {
     let wellClass = "";
-    if (plate?.samples.length > wellNumber) {
+    if (plate && Object.keys(plate?.samples_and_wells).includes((wellNumber + 1).toString())) {
       wellClass += `${style[colClass]} ${style.plate__header} ${style["plate__well-filled"]} ${style.plate__well}`;
     } else {
       wellClass += `${style[colClass]} ${style.plate__header} ${style["plate__well-empty"]} ${style.plate__well}`;
@@ -48,8 +47,8 @@ function PlateZoom() {
   }
 
   function sampleInTable(wellNumber) {
-    if (plate?.samples.length > wellNumber) {
-      return `/samples/${plate.samples[wellNumber]}`;
+    if (plate?.samples_and_wells[wellNumber + 1] !== undefined) {
+      return `/samples/${plate?.samples_and_wells[wellNumber + 1]}`;
     } else {
       return `/plates/${plateId}`
     }
@@ -101,8 +100,14 @@ function PlateZoom() {
                     : style["plate__well__inner"]
                 }
               >
-                {plate?.samples.length > wellNumber
-                  ? `#: ${plate?.samples[wellNumber]}`
+                {plate?.samples_and_wells[
+                  (parseInt(wellNumber) + 1).toString()
+                ] !== undefined
+                  ? `${
+                      plate?.samples_and_wells[
+                        (parseInt(wellNumber) + 1).toString()
+                      ]
+                    }`
                   : ""}
               </div>
             </Link>

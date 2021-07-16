@@ -53,12 +53,17 @@ td {
 }
 
 .plate__well__inner {
-    display: block;
+    display: flex;
     background-color: transparent;
     border-radius: inherit;
     border: none;
     height: 3.5rem;
     width: 3.5rem;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .plate__well-filled {

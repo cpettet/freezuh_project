@@ -147,5 +147,5 @@ class Plate(db.Model):
             "discarded": self.discarded,
             "max_well": self.max_well,
             "samples": self.get_samples_ids(),
-            "samples and wells": self.get_samples_wells(),
+            "samples_and_wells": self.get_samples_wells(),
         }
