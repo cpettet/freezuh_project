@@ -49,6 +49,8 @@ function PlateZoom() {
   function sampleInTable(wellNumber) {
     if (plate?.samples.length > wellNumber) {
       return `/samples/${plate.samples[wellNumber]}`;
+    } else {
+      return `/plates/${plateId}`
     }
   }
 

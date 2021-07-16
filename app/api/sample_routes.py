@@ -46,16 +46,18 @@ def new_sample():
 def edit_sample(sample_id):
     sample = Sample.query.get(sample_id)
     request_body = request.get_json()
-
+    print("\n\nRequest:", request_body)
     if sample.get_plate_id() != request_body["plate_id"]:
         plate_id = request_body["plate_id"]
         plate = Plate.query.get(plate_id)
         plate.store_sample_in_well(sample_id)
-        # TODO: error handling
-    sample.plate_id = request_body["plate_id"]
+    if sample.get_plate_id() != "N/A" and request_body["store_date"]:
+        sample.store_date = request_body["store_date"]
+    if "well_id" in request_body:
+        # assign to specific well
+        print("\n\nWell ID", request_body["well_id"])
     sample.sample_type = request_body["sample_type"]
     sample.accession_date = request_body["accession_date"]
-    sample.store_date = request_body["store_date"]
     sample.expiration_date = request_body["expiry_date"]
     sample.thaw_count = request_body["thaw_count"]
     sample.discarded = request_body["discarded"]

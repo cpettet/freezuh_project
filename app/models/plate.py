@@ -41,14 +41,15 @@ class Plate(db.Model):
         return (self.rack_position.rack_position if self.rack_position
                 else "N/A")
 
-    def store_sample_in_well(self, sample_id):
+    def store_sample_in_well(self, sample_id, well_position=False):
         """
         After finding the first available space for a sample, stores a sample
         in the space, and moves the next available spot up by one.
         """
         if self.open_well <= self.max_well:
             sample_well = Well(
-                well_position=self.open_well,
+                well_position=self.open_well if not well_position else (
+                    well_position),
                 plate_id=self.id,
             )
             sample = Sample.query.get(sample_id)

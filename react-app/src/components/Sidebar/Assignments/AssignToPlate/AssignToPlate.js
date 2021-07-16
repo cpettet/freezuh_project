@@ -1,14 +1,20 @@
 import React, { useState } from "react";
 import { useParams } from "react-router";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Select from "react-select";
 import style from "../Form.module.css";
+import { editSample } from "../../../../store/sample";
+import getInputDateTime from "../../../../utils/getInputDateTime";
 
 function AssignToPlate() {
-  const { wellId, plateId } = useParams();
+  const dispatch = useDispatch();
+  let { wellId } = useParams();
+  wellId = parseInt(wellId) + 1;
+  const { plateId } = useParams();
   const [sampleId, setSampleId] = useState();
   const [newSample, toggleNewSample] = useState();
   const samples = useSelector((state) => Object.values(state.samples.byId));
+  let sample = useSelector((state) => state.samples.byId[sampleId?.value]);
 
   const sampleSearchOptions = samples?.map((sample) => {
     return { value: sample.id, label: `Sample ${sample.id}` };
@@ -38,14 +44,29 @@ function AssignToPlate() {
     },
   };
 
-  const storeSample = async e => {
+  const storeSample = async (e) => {
     e.preventDefault();
     if (sampleId) {
-      return;
+      console.log("Sample ID", sampleId);
+      console.log("Well ID:", wellId);
+      console.log("Sample:", sample);
+      await dispatch(
+        editSample({
+          id: sample?.id,
+          plate_id: plateId,
+          accession_date: sample?.accession_date,
+          store_date: getInputDateTime(),
+          well_id: wellId,
+          thaw_count: sample?.thaw_count,
+          sample_type: sample?.sample_type,
+          discarded: sample?.discarded,
+          expiry_date: sample?.expiration_date,
+        })
+      );
     } else {
       return;
     }
-  }
+  };
 
   return (
     <form className={style.sidebar__container} onSubmit={storeSample}>
@@ -57,30 +78,32 @@ function AssignToPlate() {
         <label htmlFor="newSample" className={style.property__label}>
           Storing new sample?{" "}
         </label>
-        <label>
-          <input
-            type="radio"
-            name="newSample"
-            checked={newSample === true}
-            onClick={() => {
-              toggleNewSample(true);
-            }}
-            onChange={() => toggleNewSample(true)}
-          />
-          Yes
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="existingSample"
-            checked={newSample === false}
-            onClick={() => {
-              toggleNewSample(false);
-            }}
-            onChange={() => toggleNewSample(false)}
-          />
-          No
-        </label>
+        <div>
+          <label>
+            <input
+              type="radio"
+              name="newSample"
+              checked={newSample === true}
+              onClick={() => {
+                toggleNewSample(true);
+              }}
+              onChange={() => toggleNewSample(true)}
+            />
+            Yes
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="existingSample"
+              checked={newSample === false}
+              onClick={() => {
+                toggleNewSample(false);
+              }}
+              onChange={() => toggleNewSample(false)}
+            />
+            No
+          </label>
+        </div>
       </div>
       <div
         className={
@@ -89,7 +112,11 @@ function AssignToPlate() {
             : style["sidebar__section-hidden"]
         }
       >
-        <button className={`${style.sidebar__button} ${style.sidebar__button__spaced}`}>Assign New Sample</button>
+        <button
+          className={`${style.sidebar__button} ${style.sidebar__button__spaced}`}
+        >
+          Assign New Sample
+        </button>
       </div>
       <div
         className={
