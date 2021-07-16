@@ -14,7 +14,6 @@ class Plate(db.Model):
     thaw_count = db.Column(db.Integer, default=0, nullable=False)
     store_date = db.Column(db.DateTime, nullable=True)
     discarded = db.Column(db.Boolean, default=False, nullable=False)
-    open_well = db.Column(db.Integer, default=1, nullable=False)
     max_well = db.Column(db.Integer, default=96, nullable=False)
     rack_position_id = db.Column(db.Integer,
                                  db.ForeignKey(
@@ -74,7 +73,8 @@ class Plate(db.Model):
         else:
             # Case: no well specified
             print("\n\nEnding up in well_position not specified")
-            next_available_well = filled_wells[-1] + 1
+            next_available_well = filled_wells[-1] + 1 if (len(filled_wells) >
+                                                           1) else 0
             if next_available_well > self.max_well:
                 return {"errors": "Given plate has no open wells."}
             sample_well = Well(
@@ -97,7 +97,7 @@ class Plate(db.Model):
         sample.well_id = sample_well.id
         db.session.commit()
         return {"success": f"Sample #{sample_id} stored in plate \
-                    # {self.id}, well #{self.open_well - 1}"}
+                    # {self.id}, well #{sample_well.well_position}"}
 
     def get_samples(self):
         """
@@ -142,7 +142,6 @@ class Plate(db.Model):
             "thaw_count": self.thaw_count,
             "store_date": self.store_date,
             "discarded": self.discarded,
-            "open_position": self.open_well,
             "max_well": self.max_well,
             "samples": self.get_samples_ids(),
         }
