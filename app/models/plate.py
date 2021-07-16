@@ -45,28 +45,59 @@ class Plate(db.Model):
         """
         After finding the first available space for a sample, stores a sample
         in the space, and moves the next available spot up by one.
+
+        Queries the database and finds all well positions associated to the
+        plate.
+
+        If a well position is not specified, takes first available position and
+        assigns sample to that position. If a well position IS specified,
+        checks if position is open and either stores sample or errors.
         """
-        if self.open_well <= self.max_well:
+        filled_wells = db.session.query(Well.well_position).filter(Well.
+                                                                   plate_id ==
+                                                                   self.id).\
+            all()
+        filled_wells = [well[0] for well in filled_wells]
+        sample = Sample.query.get(sample_id)
+
+        if well_position is not False:
+            # Case: well is specified
+            print("\n\nUser specified well:", well_position)
+            if well_position in filled_wells:
+                return {"errors": "Specified well is filled"}
             sample_well = Well(
-                well_position=self.open_well if not well_position else (
-                    well_position),
+                well_position=well_position,
                 plate_id=self.id,
             )
-            sample = Sample.query.get(sample_id)
-            sample.store_date = datetime.now()
-            db.session.add(sample_well)
-            db.session.flush()
-            if sample.well_id is not None:
-                old_well = Well.query.get(sample.well_id)
-                db.session.delete(old_well)
-                db.session.commit()
-            sample.well_id = sample_well.id
-            self.open_well += 1
-            db.session.commit()
-            return {"success": f"Sample #{sample_id} stored in plate \
-                            #{self.id}, well #{self.open_well - 1}"}
+            print("Sample well position:", sample_well.well_position)
+            self._store_sample(sample, sample_well, sample_id)
         else:
-            return {"errors": "Given plate has no open spots"}
+            # Case: no well specified
+            print("\n\nEnding up in well_position not specified")
+            next_available_well = filled_wells[-1] + 1
+            if next_available_well > self.max_well:
+                return {"errors": "Given plate has no open wells."}
+            sample_well = Well(
+                well_position=next_available_well,
+                plate_id=self.id,
+            )
+            self._store_sample(sample, sample_well, sample_id)
+
+    def _store_sample(self, sample, sample_well, sample_id):
+        """
+        Helper function to store a sample in a given sample well.
+        """
+        sample.store_date = datetime.now()
+        db.session.add(sample_well)
+        db.session.flush()
+        if sample.well_id is not None:
+            old_well = Well.query.get(sample.well_id)
+            db.session.delete(old_well)
+            db.session.commit()
+        sample.well_id = sample_well.id
+        db.session.commit()
+        return {"success": f"Sample #{sample_id} stored in plate \
+                    # {self.id}, well #{self.open_well - 1}"}
 
     def get_samples(self):
         """
