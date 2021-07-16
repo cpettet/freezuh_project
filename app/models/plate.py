@@ -70,8 +70,8 @@ class Plate(db.Model):
             self._store_sample(sample, sample_well, sample_id)
         else:
             # Case: no well specified
-            next_available_well = filled_wells[-1] + 1 if (len(filled_wells) >
-                                                           1) else 0
+            next_available_well = filled_wells[-1] + 1 if (len(filled_wells) >=
+                                                           1) else 1
             if next_available_well > self.max_well:
                 return {"errors": "Given plate has no open wells."}
             sample_well = Well(
@@ -108,6 +108,12 @@ class Plate(db.Model):
         """
         return [well.sample.id for well in self.wells]
 
+    def get_samples_wells(self):
+        """
+        Gets all samples and associated plates.
+        """
+        return {well.well_position: well.sample.id for well in self.wells}
+
     def discard_plate(self):
         """
         Sets the plate's discarded value to True. Iterates through all stored
@@ -141,4 +147,5 @@ class Plate(db.Model):
             "discarded": self.discarded,
             "max_well": self.max_well,
             "samples": self.get_samples_ids(),
+            "samples and wells": self.get_samples_wells(),
         }

@@ -21,3 +21,12 @@ class Well(db.Model):
         back_populates="well",
         uselist=False,
     )
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "well_position": self.well_position,
+            "plate_id": self.plate_id,
+            "plate": self.plate,
+            "sample": self.sample,
+        }

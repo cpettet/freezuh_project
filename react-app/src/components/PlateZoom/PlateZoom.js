@@ -10,6 +10,7 @@ function PlateZoom() {
   const dispatch = useDispatch();
   const history = useHistory();
   const plate = useSelector((state) => state.plates.byId[plateId]);
+  console.log("Plate:", plate)
   const numRows = 8;
   const numCols = 12;
   const rowNameConversion = {
