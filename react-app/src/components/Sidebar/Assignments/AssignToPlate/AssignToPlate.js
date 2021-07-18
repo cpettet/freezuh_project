@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams } from "react-router";
+import { useParams, useHistory } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import Select from "react-select";
 import style from "../Form.module.css";
@@ -8,6 +8,7 @@ import getInputDateTime from "../../../../utils/getInputDateTime";
 
 function AssignToPlate() {
   const dispatch = useDispatch();
+  const history = useHistory();
   let { wellId } = useParams();
   wellId = parseInt(wellId) + 1;
   const { plateId } = useParams();
@@ -47,9 +48,6 @@ function AssignToPlate() {
   const storeSample = async (e) => {
     e.preventDefault();
     if (sampleId) {
-      console.log("Sample ID", sampleId);
-      console.log("Well ID:", wellId);
-      console.log("Sample:", sample);
       await dispatch(
         editSample({
           id: sample?.id,
@@ -63,8 +61,9 @@ function AssignToPlate() {
           expiry_date: sample?.expiration_date,
         })
       );
+      history.push(`/samples/${sampleId.value}`);
     } else {
-      return;
+      history.push("/samples/new", { wellId, plateId });
     }
   };
 
@@ -114,6 +113,7 @@ function AssignToPlate() {
       >
         <button
           className={`${style.sidebar__button} ${style.sidebar__button__spaced}`}
+          onSubmit={storeSample}
         >
           Assign New Sample
         </button>
@@ -135,7 +135,7 @@ function AssignToPlate() {
           placeholder="Store sample..."
           value={sampleId}
         />
-        <button className={style.sidebar__button}>
+        <button className={style.sidebar__button} onSubmit={storeSample}>
           Assign Existing Sample
         </button>
       </div>
