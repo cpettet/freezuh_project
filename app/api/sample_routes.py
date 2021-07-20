@@ -32,9 +32,13 @@ def new_sample():
         db.session.add(sample)
         db.session.commit()
         if form.data["plate_id"] is not None:
+            # TODO: Start working on well_id here
             plate_id = form.data["plate_id"]
             plate = Plate.query.get(plate_id)
             plate.store_sample_in_well(sample.id)
+            if form.data["well_id"] is not None:
+                well_id = form.data["well_id"]
+                plate.store_sample_in_well(sample.id, well_id)
     if form.errors:
         return {"errors": form.errors}
     return {"sample": sample.to_dict()}

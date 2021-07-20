@@ -31,15 +31,18 @@ function SampleForm() {
 
   const submitSample = async (e) => {
     e.preventDefault();
+    console.log("Well ID", wellId)
     const newSample = await dispatch(
       createSample({
         ...(plateId && { plate_id: plateId }),
+        ...(wellId && { well_id: wellId }),
         ...(accessionDate && { accession_date: accessionDate }),
         sample_type: sampleType,
         thaw_count: 0,
         discarded: false,
       })
     );
+    console.log("New sample:", newSample)
     const newSampleId = newSample.sample.id;
     history.push(`/samples/${newSampleId}`);
   };
