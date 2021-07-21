@@ -7,7 +7,7 @@ from app.models.sample import SampleType
 
 def sample_type_exists(form, field):
     """
-    Checks if the given sample_type is in the list of valid sample_types 
+    Checks if the given sample_type is in the list of valid sample_types
     presented in the model.
     """
     sample_type = field.data

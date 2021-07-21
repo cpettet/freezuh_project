@@ -2,13 +2,13 @@ from datetime import datetime
 from . import db
 from .rack_position import RackPosition
 from .plate import Plate
+from app.models import rack_position
 
 
 class Rack(db.Model):
     __tablename__ = "racks"
 
     id = db.Column(db.Integer, primary_key=True)
-    open_position = db.Column(db.Integer, default=1, nullable=False)
     max_position = db.Column(db.Integer, default=25, nullable=False)
     discarded = db.Column(db.Boolean, default=False, nullable=False)
     freezer_position_id = db.Column(
@@ -59,28 +59,28 @@ class Rack(db.Model):
             # Case: no well specified
             next_available_position = (filled_positions[-1] + 1 if
                                        len(filled_positions) >= 1 else 1)
-
-        if self.open_position <= self.max_position:
+            if next_available_position > self.max_position:
+                return {"errors": "Given rack has no openings."}
             rack_position = RackPosition(
-                rack_position=self.open_position,
+                rack_position=next_available_position,
                 rack_id=self.id,
             )
-            plate = Plate.query.get(plate_id)
-            plate.store_date = datetime.now()
-            db.session.add(rack_position)
-            db.session.flush()
-            if plate.rack_position_id is not None:
-                old_rack_position = (RackPosition.query.
-                                     get(plate.rack_position_id))
-                db.session.delete(old_rack_position)
-                db.session.commit()
-            plate.rack_position_id = rack_position.id
-            self.open_position += 1
+            self._store_plate(plate, rack_position, plate_id)
+
+    def _store_plate(self, plate, rack_position, plate_id):
+        "Helper function to store a plate in a given rack position."
+        plate.store_date = datetime.now()
+        db.session.add(rack_position)
+        db.session.flush()
+        if plate.rack_position_id is not None:
+            old_rack_position = (RackPosition.query.get(
+                plate.rack_position_id))
+            db.session.delete(old_rack_position)
             db.session.commit()
-            return {"success": f"Plate #{plate_id} stored in rack \
-                            #{self.id}, position #{self.open_position - 1}"}
-        else:
-            return {"errors": "Given rack has no open spots"}
+        plate.rack_position_id = rack_position.id
+        db.session.commit()
+        return {"success": f"Plate #{plate_id} stored in rack \
+                        #{self.id}, position #{self.open_position - 1}"}
 
     def get_plates(self):
         """
@@ -98,13 +98,17 @@ class Rack(db.Model):
         return [rack_position.plate.id for rack_position
                 in self.rack_positions]
 
+    def get_plates_positions(self):
+        return {rack_position.rack_position: rack_position.plate.id for
+                rack_position in self.rack_positions}
+
     def to_dict(self):
         return {
             "id": self.id,
             "freezer_id": self.get_freezer_id(),
             "freezer_position": self.get_freezer_position(),
-            "open_position": self.open_position,
             "max_position": self.max_position,
             "plates": self.get_plates_ids(),
+            "plates_and_positions": self.get_plates_positions(),
             "discarded": self.discarded,
         }

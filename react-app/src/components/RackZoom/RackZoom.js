@@ -1,11 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useHistory } from "react-router-dom";
 import style from "./RackZoom.module.css";
 import { getRacks } from "../../store/rack";
 
 function RackZoom() {
   const { rackId } = useParams();
+  const [activePosition, setActivePosition] = useState();
+  const history = useHistory();
   const dispatch = useDispatch();
   const rack = useSelector((state) => state.racks.byId[rackId]);
   const numRows = 5;
@@ -54,24 +56,39 @@ function RackZoom() {
 
   return (
     <div>
-      <Link to="/racks">Return to all racks</Link>
+      <Link to="/racks">All racks</Link>
+      <span>{" > "}</span>
+      <Link to={`/racks/${rackId}`}>
+        <span onClick={(e) => setActivePosition("")}>Rack </span>
+        {rackId}
+      </Link>
       <div className={style.rack}>
         <div className={style["rack__top-handles"]}>
           <div
             className={`${style.handle} ${style.handle__top} ${style.handle__1}`}
-          ></div>
+          >
+            A
+          </div>
           <div
             className={`${style.handle} ${style.handle__top} ${style.handle__2}`}
-          ></div>
+          >
+            B
+          </div>
           <div
             className={`${style.handle} ${style.handle__top} ${style.handle__3}`}
-          ></div>
+          >
+            C
+          </div>
           <div
             className={`${style.handle} ${style.handle__top} ${style.handle__4}`}
-          ></div>
+          >
+            D
+          </div>
           <div
             className={`${style.handle} ${style.handle__top} ${style.handle__5}`}
-          ></div>
+          >
+            E
+          </div>
         </div>
         <div className={style.rack__main}>
           <div className={`${style.handle} ${style.handle__left}`}></div>
