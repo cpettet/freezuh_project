@@ -7,7 +7,6 @@ import getInputDateTime from "../../../../utils/getInputDateTime";
 import { getPlates } from "../../../../store/plate";
 
 function SampleForm() {
-  const location = useLocation();
   const dispatch = useDispatch();
   const history = useHistory();
   const { sampleId } = useParams();

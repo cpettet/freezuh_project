@@ -36,11 +36,30 @@ class Rack(db.Model):
         return (self.freezer_position.freezer_position if self.freezer_position
                 else "N/A")
 
-    def store_plate_in_position(self, plate_id):
+    def store_plate_in_position(self, plate_id, rack_position=False):
         """
         After finding the first available position for a rack, stores a rack in
         the position, and moves the next open position up by one.
         """
+        filled_positions = (db.session.query(RackPosition.rack_position)
+                            .filter(RackPosition.rack_id == self.id).all())
+        filled_positions = [position[0] for position in filled_positions]
+        plate = Plate.query.get(plate_id)
+
+        if rack_position is not False:
+            # Case: rack position is specified
+            if rack_position in filled_positions:
+                return {"errors": "Specified position is filled"}
+            plate_position = RackPosition(
+                rack_position=rack_position,
+                rack_id=self.id,
+            )
+            self._store_plate(plate, plate_position, plate_id)
+        else:
+            # Case: no well specified
+            next_available_position = (filled_positions[-1] + 1 if
+                                       len(filled_positions) >= 1 else 1)
+
         if self.open_position <= self.max_position:
             rack_position = RackPosition(
                 rack_position=self.open_position,

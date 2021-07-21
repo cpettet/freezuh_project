@@ -29,7 +29,7 @@ function AssignToPlate() {
     5: "E",
     6: "F",
     7: "G",
-    8: "H",
+    0: "H",
   };
 
   const selectStyles = {
@@ -71,7 +71,9 @@ function AssignToPlate() {
     <form className={style.sidebar__container} onSubmit={storeSample}>
       <h3 className={style.sidebar__header}>
         Assign sample to plate {plateId},{" "}
-        {`${rowNameConversion[wellId % 8]}${Math.floor(wellId / 8 + 1)}`}
+        {`${rowNameConversion[wellId % 8]}${
+          wellId % 8 === 0 ? Math.floor(wellId / 8) : Math.floor(wellId / 8 + 1)
+        }`}
       </h3>
       <div className={style.property}>
         <label htmlFor="newSample" className={style.property__label}>
