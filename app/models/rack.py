@@ -2,7 +2,6 @@ from datetime import datetime
 from . import db
 from .rack_position import RackPosition
 from .plate import Plate
-from app.models import rack_position
 
 
 class Rack(db.Model):
