@@ -15,6 +15,7 @@ import RackEdit from "./Forms/RackEdit";
 import FreezerEdit from "./Forms/FreezerEdit";
 import SidebarEmpty from "./SidebarEmpty/SidebarEmpty";
 import AssignToPlate from "./Assignments/AssignToPlate";
+import AssignToRack from "./Assignments/AssignToRack";
 import About from "./About";
 
 function Sidebar() {
@@ -57,11 +58,14 @@ function Sidebar() {
           <Route path="/racks/new">
             <RackForm />
           </Route>
-          <Route exact path="/racks/:rackId">
-            <SidebarRackShow />
-          </Route>
           <Route path="/racks/:rackId/edit">
             <RackEdit />
+          </Route>
+          <Route path="/racks/:rackId/rack-position-:rackPosition">
+            <AssignToRack />
+          </Route>
+          <Route exact path="/racks/:rackId">
+            <SidebarRackShow />
           </Route>
           <Route path="/freezers/new">
             <FreezerForm />

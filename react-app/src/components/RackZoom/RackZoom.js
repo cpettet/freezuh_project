@@ -17,17 +17,31 @@ function RackZoom() {
     dispatch(getRacks());
   }, [dispatch]);
 
+  useEffect(() => {
+    // Redirect sidebar component to position-filling interface
+    if (parseInt(activePosition) >= 0) {
+      history.push(`/racks/${rackId}/rack-position-${activePosition}`);
+    } else {
+      return;
+    }
+  }, [history, rackId, activePosition]);
+
   function getItemClassName(rackPosition) {
-    if (rack?.plates[rackPosition]) {
+    if (
+      rack &&
+      Object.keys(rack?.plates_and_positions).includes(
+        (rackPosition + 1).toString()
+      )
+    ) {
       return `${style.inner} ${style.filled}`;
     } else {
       return `${style.inner} ${style.empty}`;
     }
   }
 
-  function getItemLink(rackPosition) {
-    if (rack?.plates[rackPosition]) {
-      return `/plates/${rack?.plates[rackPosition]}`;
+  function plateInRack(rackPosition) {
+    if (rack?.plates_and_positions[rackPosition + 1] !== undefined) {
+      return `/plates/${rack?.plates_and_positions[rackPosition + 1]}`;
     } else {
       return `/racks/${rackId}`;
     }
@@ -40,18 +54,44 @@ function RackZoom() {
       for (let row = 0; row < numRows; row++) {
         const rackPosition = row + col * 5;
         cellsInRow.push(
-          <Link key={rackPosition} to={getItemLink(rackPosition)}>
-            <div className={style.item}>
-              <div className={getItemClassName(rackPosition)}>
-                {rack?.plates[rackPosition]}
+          <Link
+            id={rackPosition}
+            key={rackPosition}
+            to={plateInRack(rackPosition)}
+            onClick={(e) => makePositionActive(e)}
+          >
+            <div className={style.item} key={rackPosition}>
+              <div
+                id={rackPosition}
+                key={rackPosition}
+                className={getItemClassName(rackPosition)}
+              >
+                {rack?.plates_and_positions[
+                  (parseInt(rackPosition) + 1).toString()
+                ] !== undefined
+                  ? `${
+                      rack?.plates_and_positions[
+                        (parseInt(rackPosition) + 1).toString()
+                      ]
+                    }`
+                  : ""}
               </div>
             </div>
           </Link>
         );
       }
-      rows.push(<div className={style.column}>{cellsInRow}</div>);
+      rows.push(
+        <div className={style.column} key={col}>
+          {cellsInRow}
+        </div>
+      );
     }
     return rows;
+  }
+
+  function makePositionActive(e) {
+    e.preventDefault();
+    setActivePosition(parseInt(e.target.id));
   }
 
   return (

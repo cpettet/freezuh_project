@@ -16,7 +16,7 @@ function Racks() {
 
   const racks = stateRacks.map((rack) => {
     return (
-      <div className={style.item}>
+      <div className={style.item} key={rack.id}>
         <Rack key={rack.id} rack={rack} />
       </div>
     );

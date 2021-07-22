@@ -9,7 +9,9 @@ import getInputDateTime from "../../../../utils/getInputDateTime";
 function AssignToRack() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { rackPosition, rackId } = useParams();
+  let { rackPosition } = useParams();
+  rackPosition = parseInt(rackPosition) + 1;
+  const { rackId } = useParams();
   const [plateId, setPlateId] = useState();
   const [newPlate, toggleNewPlate] = useState();
   const plates = useSelector((state) => Object.values(state.plates.byId));
@@ -46,7 +48,7 @@ function AssignToRack() {
       await dispatch(
         editPlate({
           id: plate?.id,
-          rack_id: rackId,
+          rack_id: parseInt(rackId),
           store_date: getInputDateTime(),
           rack_position: rackPosition,
           discarded: plate?.discarded,
@@ -64,8 +66,15 @@ function AssignToRack() {
     <form className={style.sidebar__container} onSubmit={storePlate}>
       <h3 className={style.sidebar__header}>
         Assign plate to rack {rackId},{" "}
-        {`${rowNameConversion[plateId % 5]}${
-          plateId % 5 === 0 ? Math.floor(plateId / 5) : Math.floor(plateId / 5 + 1)
+        {`${
+          rackPosition % 5 === 0
+            ? rowNameConversion[Math.floor(rackPosition / 5)]
+            : rowNameConversion[Math.floor(rackPosition / 5 + 1)]
+        }
+        ${
+          rackPosition % 5 === 0
+            ? 5
+            : rackPosition % 5
         }`}
       </h3>
       <div className={style.property}>
@@ -76,7 +85,7 @@ function AssignToRack() {
           <label>
             <input
               type="radio"
-              name="newPlte"
+              name="newPlate"
               checked={newPlate === true}
               onClick={() => {
                 toggleNewPlate(true);
@@ -88,7 +97,7 @@ function AssignToRack() {
           <label>
             <input
               type="radio"
-              name="existingSample"
+              name="existingPlate"
               checked={newPlate === false}
               onClick={() => {
                 toggleNewPlate(false);
@@ -127,7 +136,7 @@ function AssignToRack() {
           className={style["select-container"]}
           classNamePrefix="select-container"
           menuPlacement="bottom"
-          placeholder="Store sample..."
+          placeholder="Store plate..."
           value={plateId}
         />
         <button className={style.sidebar__button} onSubmit={storePlate}>

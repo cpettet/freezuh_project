@@ -80,7 +80,7 @@ class Rack(db.Model):
         plate.rack_position_id = rack_position.id
         db.session.commit()
         return {"success": f"Plate #{plate_id} stored in rack \
-                        #{self.id}, position #{self.open_position - 1}"}
+                        #{self.id}, position #{rack_position.id}"}
 
     def get_plates(self):
         """
