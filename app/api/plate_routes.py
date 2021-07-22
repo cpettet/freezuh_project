@@ -48,8 +48,6 @@ def new_plate():
 def edit_plate(plate_id):
     plate = Plate.query.get(plate_id)
     request_body = request.get_json()
-    print("\n\nRequest data:", request_body)
-    print("\nDatabase data:", plate.to_dict())
     if (plate.get_rack_id() != request_body["rack_id"] or
             plate.get_rack_position() != request_body["rack_position"]):
         rack_id = request_body["rack_id"]

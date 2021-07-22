@@ -58,7 +58,7 @@ function AssignToRack() {
       );
       history.push(`/plates/${plateId.value}`);
     } else {
-      history.push("/plates/new", { plateId, rackPosition });
+      history.push("/plates/new", { rackPosition, rackId });
     }
   };
 

@@ -5,6 +5,7 @@ import style from "../Form.module.css";
 import { createSample } from "../../../../store/sample";
 import { getPlates } from "../../../../store/plate";
 import getInputDateTime from "../../../../utils/getInputDateTime";
+import findMissingNumber from "../../../../utils/findMissingNumber";
 
 function SampleForm() {
   const location = useLocation();
@@ -42,7 +43,6 @@ function SampleForm() {
         discarded: false,
       })
     );
-    console.log("New sample:", newSample)
     const newSampleId = newSample.sample.id;
     history.push(`/samples/${newSampleId}`);
   };
@@ -83,26 +83,6 @@ function SampleForm() {
       getPlateId(e);
     }
   };
-
-  function findMissingNumber(wellList, min, max) {
-    /**
-     * Uses a modified binary search to find the first well in a plate.
-     */
-    if (min >= max) {
-      // base case
-      return min + 1;
-    } else {
-      // recursive case
-      const pivot = Math.floor((min + max) / 2);
-      if (wellList[pivot] === pivot + 1) {
-        // case missing is greater than pivot
-        return findMissingNumber(wellList, pivot + 1, max);
-      } else {
-        // case missing is less than pivot
-        return findMissingNumber(wellList, min, pivot);
-      }
-    }
-  }
 
   return (
     <form className={style.navbar__form} onSubmit={submitSample}>
