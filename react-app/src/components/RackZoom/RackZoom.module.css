@@ -87,3 +87,7 @@
     font-size: 2rem;
     text-align: center;
 }
+
+.inner-active {
+    background-color: #987920;
+}

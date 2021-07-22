@@ -27,16 +27,19 @@ function RackZoom() {
   }, [history, rackId, activePosition]);
 
   function getItemClassName(rackPosition) {
+    let itemClass = `${style.inner}`;
     if (
       rack &&
       Object.keys(rack?.plates_and_positions).includes(
         (rackPosition + 1).toString()
-      )
-    ) {
-      return `${style.inner} ${style.filled}`;
-    } else {
-      return `${style.inner} ${style.empty}`;
-    }
+        )
+        ) {
+          itemClass += ` ${style.filled}`
+        } else {
+          itemClass += ` ${style.empty}`;
+        }
+    if (rackPosition === parseInt(activePosition)) itemClass += ` ${style["inner-active"]}`
+    return itemClass
   }
 
   function plateInRack(rackPosition) {
