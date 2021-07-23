@@ -93,7 +93,6 @@ function RackZoom() {
   }
 
   function makePositionActive(e) {
-    e.preventDefault();
     setActivePosition(parseInt(e.target.id));
   }
 
