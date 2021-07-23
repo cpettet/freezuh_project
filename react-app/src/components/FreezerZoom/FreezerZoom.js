@@ -54,7 +54,7 @@ function FreezerZoom() {
 
   function makePositionActive(e) {
     setActivePosition(parseInt(e.target.id));
-    console.log(e.target.id)
+    console.log(e.target.id);
   }
 
   function freezerBody() {
@@ -71,8 +71,19 @@ function FreezerZoom() {
             onClick={makePositionActive}
           >
             <div className={style.item}>
-              <div className={getItemClassName(freezerPosition)} id={freezerPosition}>
-                {freezer?.racks[freezerPosition]}
+              <div
+                className={getItemClassName(freezerPosition)}
+                id={freezerPosition}
+              >
+                {freezer?.racks_and_positions[
+                  (parseInt(freezerPosition) + 1).toString()
+                ] !== undefined
+                  ? `${
+                      freezer?.racks_and_positions[
+                        (parseInt(freezerPosition) + 1).toString()
+                      ]
+                    }`
+                  : ""}
               </div>
             </div>
           </Link>

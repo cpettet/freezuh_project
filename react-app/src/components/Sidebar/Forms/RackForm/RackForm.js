@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import style from "../Form.module.css";
-import { getFreezers } from "../../../../store/freezer";
 import { createRack } from "../../../../store/rack";
+import { getFreezers } from "../../../../store/freezer";
+import findMissingNumber from "../../../../utils/findMissingNumber";
 
 function RackForm() {
+  const location = useLocation();
   const dispatch = useDispatch();
   const history = useHistory();
   const freezers = useSelector((state) => state.freezers.byId);
-  const [freezerId, setFreezerId] = useState();
+  const [freezerId, setFreezerId] = useState(
+    location.state?.freezerId ? location.state.freezerId : ""
+  );
+  const [freezerPosition, setFreezerPosition] = useState(
+    location.state?.freezerPosition ? location.state.freezerPosition : ""
+  );
   const [maxPosition, setMaxPosition] = useState(25);
 
   useEffect(() => {
@@ -21,6 +28,7 @@ function RackForm() {
     const newRack = await dispatch(
       createRack({
         ...(freezerId && { freezer_id: freezerId }),
+        ...(freezerPosition && { freezer_position: freezerPosition }),
         ...(maxPosition && { max_position: maxPosition }),
         discarded: false,
       })
@@ -29,12 +37,31 @@ function RackForm() {
     history.push(`/racks/${newRackId}`);
   };
 
-  const getId = (e) => {
+  const getFreezerId = (e) => {
     e.preventDefault();
     const freezerForRack = Object.values(freezers)?.find(
-      (freezer) => freezer.open_position <= freezer.max_position
+      (freezer) => freezer.racks.length < freezer.max_position
     );
     setFreezerId(freezerForRack?.id);
+  };
+
+  const getFreezerPosition = (e) => {
+    e.preventDefault();
+    if (freezerId) {
+      const rackPositionList = Object.keys(
+        freezers[freezerId]["racks_and_positions"]
+      ).map((position) => parseInt(position));
+      const firstEmptyPosition = findMissingNumber(rackPositionList, 0, 25);
+      if (firstEmptyPosition < parseInt(freezers[freezerId]["max_position"])) {
+        setFreezerPosition(firstEmptyPosition);
+      } else {
+        alert(`Freezer ${freezerId} is full. Please choose new rack.`);
+        setFreezerId("");
+        setFreezerPosition("");
+      }
+    } else {
+      getFreezerId(e);
+    }
   };
 
   return (
@@ -52,7 +79,22 @@ function RackForm() {
           placeholder="Enter ID"
           min="1"
         />
-        <button onClick={getId} className={style.sidebar__button}>
+        <button onClick={getFreezerId} className={style.sidebar__button}>
+          Get ID
+        </button>
+      </div>
+      <div className={style.property}>
+        <label htmlFor="freezer_position_id" className={style.property__label}>
+          Freezer Position:{" "}
+        </label>
+        <input
+          className={`${style.property__field} ${style["property__field-small"]}`}
+          value={freezerPosition}
+          onChange={(e) => setFreezerPosition(e.target.value)}
+          type="number"
+          placeholder="Enter ID"
+        />
+        <button onClick={getFreezerPosition} className={style.sidebar__button}>
           Get ID
         </button>
       </div>

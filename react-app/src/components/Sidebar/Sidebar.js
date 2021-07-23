@@ -16,6 +16,7 @@ import FreezerEdit from "./Forms/FreezerEdit";
 import SidebarEmpty from "./SidebarEmpty/SidebarEmpty";
 import AssignToPlate from "./Assignments/AssignToPlate";
 import AssignToRack from "./Assignments/AssignToRack";
+import AssignToFreezer from "./Assignments/AssignToFreezer";
 import About from "./About";
 
 function Sidebar() {
@@ -70,11 +71,14 @@ function Sidebar() {
           <Route path="/freezers/new">
             <FreezerForm />
           </Route>
-          <Route exact path="/freezers/:freezerId">
-            <SidebarFreezerShow />
-          </Route>
           <Route path="/freezers/:freezerId/edit">
             <FreezerEdit />
+          </Route>
+          <Route path="/freezers/:freezerId/freezer-position-:freezerPosition">
+            <AssignToFreezer />
+          </Route>
+          <Route exact path="/freezers/:freezerId">
+            <SidebarFreezerShow />
           </Route>
           <Route path="/about">
             <About />
