@@ -1,12 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useHistory } from "react-router-dom";
 import style from "./FreezerZoom.module.css";
 import { getFreezers } from "../../store/freezer";
 
 function FreezerZoom() {
   const { freezerId } = useParams();
+  const [activePosition, setActivePosition] = useState();
   const dispatch = useDispatch();
+  const history = useHistory();
   const freezer = useSelector((state) => state.freezers.byId[freezerId]);
   const numRows = 5;
   const numCols = 5;
@@ -15,20 +17,44 @@ function FreezerZoom() {
     dispatch(getFreezers());
   }, [dispatch]);
 
-  function getItemClassName(freezerPosition) {
-    if (freezer?.racks[freezerPosition]) {
-      return `${style.inner} ${style.filled}`;
+  useEffect(() => {
+    // Redirect sidebar component to position-filling interface
+    if (parseInt(activePosition) >= 0) {
+      history.push(`/freezers/${freezerId}/freezer-position-${activePosition}`);
     } else {
-      return `${style.inner} ${style.empty}`;
+      return;
     }
+  }, [history, freezerId, activePosition]);
+
+  function getItemClassName(freezerPosition) {
+    let itemClass = `${style.inner}`;
+    if (
+      freezer &&
+      Object.keys(freezer?.racks_and_positions).includes(
+        (freezerPosition + 1).toString()
+      )
+    ) {
+      itemClass += ` ${style.filled}`;
+    } else {
+      itemClass += ` ${style.empty}`;
+    }
+    if (freezerPosition === parseInt(activePosition)) {
+      itemClass += ` ${style["inner-active"]}`;
+    }
+    return itemClass;
   }
 
-  function getItemLink(freezerPosition) {
-    if (freezer?.racks[freezerPosition]) {
-      return `/racks/${freezer?.racks[freezerPosition]}`;
+  function rackInFreezer(freezerPosition) {
+    if (freezer?.racks_and_positions[freezerPosition + 1] !== undefined) {
+      return `/racks/${freezer?.racks_and_positions[freezerPosition + 1]}`;
     } else {
       return `/freezers/${freezerId}`;
     }
+  }
+
+  function makePositionActive(e) {
+    setActivePosition(parseInt(e.target.id));
+    console.log(e.target.id)
   }
 
   function freezerBody() {
@@ -38,16 +64,25 @@ function FreezerZoom() {
       for (let col = 0; col < numCols; col++) {
         const freezerPosition = col * 5 + row;
         cellsInCol.push(
-          <Link key={freezerPosition} to={getItemLink(freezerPosition)}>
+          <Link
+            id={freezerPosition}
+            key={freezerPosition}
+            to={rackInFreezer(freezerPosition)}
+            onClick={makePositionActive}
+          >
             <div className={style.item}>
-              <div className={getItemClassName(freezerPosition)}>
+              <div className={getItemClassName(freezerPosition)} id={freezerPosition}>
                 {freezer?.racks[freezerPosition]}
               </div>
             </div>
           </Link>
         );
       }
-      cols.push(<div className={style.row} key={row}>{cellsInCol}</div>);
+      cols.push(
+        <div className={style.row} key={row}>
+          {cellsInCol}
+        </div>
+      );
     }
     return cols;
   }
@@ -55,12 +90,20 @@ function FreezerZoom() {
   return (
     <div>
       <Link to="/freezers">Return to all freezers</Link>
+      <span>{" > "}</span>
+      <Link to={`/freezers/${freezerId}`}>
+        {" "}
+        <span onClick={(e) => setActivePosition("")}>Freezer </span>
+        {freezerId}
+      </Link>
       <div className={style.freezer}>
         <div className={style["display-housing"]}>
           <div
             className={`${style["display-housing__first"]} ${style.first}`}
           ></div>
-          <div className={`${style["display-housing__second"]} ${style.second}`}>
+          <div
+            className={`${style["display-housing__second"]} ${style.second}`}
+          >
             <div className={style.display}>
               <span className={style.display__id__text}>ID:</span>
               <span className={style.display__id__number}>{freezerId}</span>
