@@ -5,15 +5,17 @@ import style from "../Form.module.css";
 import { editPlate, getPlates } from "../../../../store/plate";
 import { getRacks } from "../../../../store/rack";
 import getInputDateTime from "../../../../utils/getInputDateTime";
+import findMissingNumber from "../../../../utils/findMissingNumber";
 
 function PlateEdit() {
   const { plateId } = useParams();
   const plate = useSelector((state) => state.plates.byId[plateId]);
-  const racks = useSelector(state => state.racks.byId)
+  const racks = useSelector((state) => state.racks.byId);
   const history = useHistory();
   const dispatch = useDispatch();
 
   const [rackId, setRackId] = useState(plate?.rack_id);
+  const [rackPosition, setRackPosition] = useState(plate?.rack_position);
   const [thawCount, setThawCount] = useState(plate?.thaw_count);
   const [storeDate, setStoreDate] = useState(
     getInputDateTime(plate?.store_date)
@@ -22,9 +24,9 @@ function PlateEdit() {
   const [maxWell, setMaxWell] = useState(plate?.max_well);
 
   useEffect(() => {
-    dispatch(getPlates())
-    dispatch(getRacks())
-  }, [dispatch])
+    dispatch(getPlates());
+    dispatch(getRacks());
+  }, [dispatch]);
 
   const submitPlate = async (e) => {
     e.preventDefault();
@@ -32,6 +34,7 @@ function PlateEdit() {
       editPlate({
         id: plate?.id,
         rack_id: rackId,
+        rack_position: rackPosition,
         thaw_count: thawCount,
         store_date: storeDate,
         discarded: discarded,
@@ -41,12 +44,31 @@ function PlateEdit() {
     history.push(`/plates/${plateId}`);
   };
 
-  const getId = (e) => {
+  const getRackId = async (e) => {
     e.preventDefault();
     const rackForPlate = Object.values(racks)?.find(
-      (rack) => rack.open_position <= rack.max_position
+      (rack) => rack.plates.length < rack.max_position
     );
     setRackId(rackForPlate?.id);
+  };
+
+  const getRackPosition = (e) => {
+    e.preventDefault();
+    if (rackId) {
+      const rackPositionList = Object.keys(
+        racks[rackId]["plates_and_positions"]
+      ).map((position) => parseInt(position));
+      const firstEmptyPosition = findMissingNumber(rackPositionList, 0, 25);
+      if (firstEmptyPosition < parseInt(racks[rackId]["max_position"])) {
+        setRackPosition(firstEmptyPosition);
+      } else {
+        alert(`Rack ${rackId} is full. Please choose new rack.`);
+        setRackId("");
+        setRackPosition("");
+      }
+    } else {
+      getRackId(e);
+    }
   };
 
   return (
@@ -63,7 +85,22 @@ function PlateEdit() {
           type="number"
           placeholder="Enter ID"
         />
-        <button onClick={getId} className={style.sidebar__button}>
+        <button onClick={getRackId} className={style.sidebar__button}>
+          Get ID
+        </button>
+      </div>
+      <div className={style.property}>
+        <label htmlFor="rack_position_id" className={style.property__label}>
+          Rack Position:{" "}
+        </label>
+        <input
+          className={`${style.property__field} ${style["property__field-small"]}`}
+          value={rackPosition}
+          onChange={(e) => setRackPosition(e.target.value)}
+          type="number"
+          placeholder="Enter ID"
+        />
+        <button onClick={getRackPosition} className={style.sidebar__button}>
           Get ID
         </button>
       </div>

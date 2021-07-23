@@ -30,6 +30,9 @@ def new_rack():
             freezer_id = form.data["freezer_id"]
             freezer = Freezer.query.get(freezer_id)
             freezer.store_rack_in_position(rack.id)
+            if form.data["freezer_position"] is not None:
+                freezer_position = form.data["freezer_position"]
+                freezer.store_rack_in_position(rack.id, freezer_position)
     if form.errors:
         return {"errors": form.errors}
     return {"rack": rack.to_dict()}
@@ -42,10 +45,15 @@ def edit_rack(rack_id):
     rack = Rack.query.get(rack_id)
     request_body = request.get_json()
     # PATCH into the database
-    if rack.get_freezer_id() != request_body["freezer_id"]:
+    if (rack.get_freezer_id() != request_body["freezer_id"] or
+            rack.get_freezer_position()) != request_body["freezer_position"]:
         freezer_id = request_body["freezer_id"]
         freezer = Freezer.query.get(freezer_id)
-        freezer.store_rack_in_position(rack.id)
+        if "freezer_position" in request_body:
+            freezer.store_rack_in_position(
+                rack.id, request_body["freezer_position"])
+        else:
+            freezer.store_rack_in_position(rack.id)
     rack.max_position = request_body["max_position"]
     rack.discarded = request_body["discarded"]
     db.session.commit()

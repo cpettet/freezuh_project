@@ -40,9 +40,12 @@
 }
 
 .handle__top {
-    height: 0.5rem;
+    height: 1rem;
     width: 2rem;
     top: -0.5rem;
+    text-align: center;
+    font-size: 1.4rem;
+    color: #f4f4f7;
 }
 
 .handle__left, .handle__right {
@@ -83,4 +86,8 @@
     border: 1px solid #26143a;
     font-size: 2rem;
     text-align: center;
+}
+
+.inner-active {
+    background-color: #987920;
 }

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import style from "../Form.module.css";
 import { editRack, getRacks } from "../../../../store/rack";
 import { getFreezers } from "../../../../store/freezer";
+import findMissingNumber from "../../../../utils/findMissingNumber";
 
 function RackEdit() {
   const { rackId } = useParams();
@@ -13,6 +14,8 @@ function RackEdit() {
   const dispatch = useDispatch();
 
   const [freezerId, setFreezerId] = useState(rack?.freezer_id);
+  const [freezerPosition, setFreezerPosition] = useState(rack?.freezer_position);
+
   const [maxPosition, setMaxPosition] = useState(rack?.max_position);
   const [discarded, setDiscarded] = useState(rack?.discarded);
 
@@ -27,6 +30,7 @@ function RackEdit() {
       editRack({
         id: rack?.id,
         freezer_id: freezerId,
+        freezer_position: freezerPosition,
         max_position: maxPosition,
         discarded: discarded,
       })
@@ -34,12 +38,31 @@ function RackEdit() {
     history.push(`/racks/${rackId}`);
   };
 
-  const getId = (e) => {
+  const getFreezerId = (e) => {
     e.preventDefault();
     const freezerForRack = Object.values(freezers)?.find(
-      (freezer) => freezer.open_position <= freezer.max_position
+      (freezer) => freezer.racks.length < freezer.max_position
     );
     setFreezerId(freezerForRack?.id);
+  };
+
+  const getFreezerPosition = (e) => {
+    e.preventDefault();
+    if (freezerId) {
+      const rackPositionList = Object.keys(
+        freezers[freezerId]["racks_and_positions"]
+      ).map((position) => parseInt(position));
+      const firstEmptyPosition = findMissingNumber(rackPositionList, 0, 25);
+      if (firstEmptyPosition < parseInt(freezers[freezerId]["max_position"])) {
+        setFreezerPosition(firstEmptyPosition);
+      } else {
+        alert(`Freezer ${freezerId} is full. Please choose new rack.`);
+        setFreezerId("");
+        setFreezerPosition("");
+      }
+    } else {
+      getFreezerId(e);
+    }
   };
 
   return (
@@ -56,7 +79,22 @@ function RackEdit() {
           type="number"
           placeholder="Enter ID"
         />
-        <button onClick={getId} className={style.sidebar__button}>
+        <button onClick={getFreezerId} className={style.sidebar__button}>
+          Get ID
+        </button>
+      </div>
+      <div className={style.property}>
+        <label htmlFor="freezer_position_id" className={style.property__label}>
+          Freezer Position:{" "}
+        </label>
+        <input
+          className={`${style.property__field} ${style["property__field-small"]}`}
+          value={freezerPosition}
+          onChange={(e) => setFreezerPosition(e.target.value)}
+          type="number"
+          placeholder="Enter ID"
+        />
+        <button onClick={getFreezerPosition} className={style.sidebar__button}>
           Get ID
         </button>
       </div>

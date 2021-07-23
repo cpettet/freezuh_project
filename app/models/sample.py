@@ -49,6 +49,9 @@ class Sample(db.Model):
     def get_plate_id(self):
         return self.well.plate_id if self.well else "N/A"
 
+    def get_well_id(self):
+        return self.well.well_position if self.well else "N/A"
+
     def get_sample_position(self) -> tuple:
         """
         Gets the sample position from the plate based on the plate size.
@@ -77,5 +80,6 @@ class Sample(db.Model):
             "expiration_date": self.expiration_date,
             "discarded": self.discarded,
             "plate_id": self.get_plate_id(),
+            "well_id": self.get_well_id(),
             "sample_position": self.get_sample_position(),
         }

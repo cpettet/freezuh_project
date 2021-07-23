@@ -25,10 +25,12 @@ function SidebarPlateShow() {
     <div className={style.sidebar__container}>
       <h3 className={style.sidebar__header}>
         Plate {plateId}:{" "}
-        {!plate?.discarded ? (
+        {plate?.discarded ? (
+          <span className={style["sidebar__header-inactive"]}>DISCARDED</span>
+        ) : plate?.store_date !== null && plate?.rack_id !== "N/A" ? (
           <span className={style["sidebar__header-active"]}>STORED</span>
         ) : (
-          <span className={style["sidebar__header-inactive"]}>DISCARDED</span>
+          <span className={style["sidebar__header-neutral"]}>NOT STORED</span>
         )}
       </h3>
       <div className={style.properties}>

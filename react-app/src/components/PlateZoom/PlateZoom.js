@@ -1,12 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useHistory } from "react-router-dom";
 import style from "./PlateZoom.module.css";
 import { getPlates } from "../../store/plate";
 
 function PlateZoom() {
   const { plateId } = useParams();
+  const [activeWell, setActiveWell] = useState();
   const dispatch = useDispatch();
+  const history = useHistory();
   const plate = useSelector((state) => state.plates.byId[plateId]);
   const numRows = 8;
   const numCols = 12;
@@ -22,23 +24,39 @@ function PlateZoom() {
   };
 
   useEffect(() => {
-    dispatch(getPlates())
+    dispatch(getPlates());
   }, [dispatch]);
 
-  function classesForWell(wellNumber, colClass) {
-    if (plate?.samples.length > wellNumber) {
-      return `${style[colClass]} ${style.plate__header} ${style["plate__well-filled"]} ${style.plate__well}`;
+  useEffect(() => {
+    // Redirect sidebar component to well-filling interface
+    if (parseInt(activeWell) >= 0) {
+      history.push(`/plates/${plateId}/well-${activeWell}`);
     } else {
-      return `${style[colClass]} ${style.plate__header} ${style["plate__well-empty"]} ${style.plate__well}`;
+      return;
     }
+  }, [history, plateId, activeWell]);
+
+  function classesForWell(wellNumber, colClass) {
+    let wellClass = "";
+    if (plate && Object.keys(plate?.samples_and_wells).includes((wellNumber + 1).toString())) {
+      wellClass += `${style[colClass]} ${style.plate__header} ${style["plate__well-filled"]} ${style.plate__well}`;
+    } else {
+      wellClass += `${style[colClass]} ${style.plate__header} ${style["plate__well-empty"]} ${style.plate__well}`;
+    }
+    return wellClass;
   }
 
   function sampleInTable(wellNumber) {
-    if (plate?.samples.length > wellNumber) {
-      return `/samples/${plate.samples[wellNumber]}`;
+    if (plate?.samples_and_wells[wellNumber + 1] !== undefined) {
+      return `/samples/${plate?.samples_and_wells[wellNumber + 1]}`;
     } else {
-      return `/plates/${plateId}`;
+      return `/plates/${plateId}`
     }
+  }
+
+  function makeWellActive(e) {
+    e.preventDefault();
+    setActiveWell(parseInt(e.target.id));
   }
 
   function tableBody() {
@@ -63,11 +81,33 @@ function PlateZoom() {
           );
         }
         cellsInRow.push(
-          <td key={cellId} className={classesForWell(wellNumber, colClass)}>
-            <Link to={sampleInTable(wellNumber)}>
-              <div className={style["plate__well__inner"]}>
-                {plate?.samples.length > wellNumber
-                  ? `#: ${plate?.samples[wellNumber]}`
+          <td
+            id={wellNumber}
+            key={cellId}
+            className={classesForWell(wellNumber, colClass)}
+            onClick={(e) => makeWellActive(e)}
+          >
+            <Link
+              to={sampleInTable(wellNumber)}
+              className={style.plate__well__link}
+              id={wellNumber}
+            >
+              <div
+                id={wellNumber}
+                className={
+                  wellNumber === parseInt(activeWell)
+                    ? `${style["plate__well__inner"]} ${style["plate__well__inner-active"]}`
+                    : style["plate__well__inner"]
+                }
+              >
+                {plate?.samples_and_wells[
+                  (parseInt(wellNumber) + 1).toString()
+                ] !== undefined
+                  ? `${
+                      plate?.samples_and_wells[
+                        (parseInt(wellNumber) + 1).toString()
+                      ]
+                    }`
                   : ""}
               </div>
             </Link>
@@ -85,7 +125,12 @@ function PlateZoom() {
 
   return (
     <div>
-      <Link to="/plates">Return to all plates</Link>
+      <Link to="/plates">All plates</Link>
+      <span>{" > "}</span>
+      <Link to={`/plates/${plateId}`}>
+        <span onClick={(e) => setActiveWell("")}>Plate </span>
+        {plateId}
+      </Link>
       <table className={style.plate}>
         <colgroup>
           <col span="12" className="row-names" />

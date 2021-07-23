@@ -7,7 +7,7 @@ from app.models.sample import SampleType
 
 def sample_type_exists(form, field):
     """
-    Checks if the given sample_type is in the list of valid sample_types 
+    Checks if the given sample_type is in the list of valid sample_types
     presented in the model.
     """
     sample_type = field.data
@@ -18,7 +18,7 @@ def sample_type_exists(form, field):
 
 class SampleForm(FlaskForm):
     plate_id = IntegerField("plate_id")
-    box_id = IntegerField("box_id")
+    well_id = IntegerField("well_id")
     sample_type = StringField("sample_type", validators=[
                               DataRequired(), sample_type_exists])
     accession_date = DateTimeField("accession_date", format="%Y-%m-%dT%H:%M")

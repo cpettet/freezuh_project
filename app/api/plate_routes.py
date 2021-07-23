@@ -34,6 +34,9 @@ def new_plate():
             rack_id = form.data["rack_id"]
             rack = Rack.query.get(rack_id)
             rack.store_plate_in_position(plate.id)
+            if form.data["rack_position"] is not None:
+                rack_position = form.data["rack_position"]
+                rack.store_plate_in_position(plate.id, rack_position)
     if form.errors:
         return {"errors": form.errors}
     return {"plate": plate.to_dict()}
@@ -45,15 +48,19 @@ def new_plate():
 def edit_plate(plate_id):
     plate = Plate.query.get(plate_id)
     request_body = request.get_json()
-
-    if plate.get_rack_id() != request_body["rack_id"]:
+    if (plate.get_rack_id() != request_body["rack_id"] or
+            plate.get_rack_position() != request_body["rack_position"]):
         rack_id = request_body["rack_id"]
         rack = Rack.query.get(rack_id)
-        rack.store_plate_in_position(plate.id)
-    # PATCH into the database
+        if "rack_position" in request_body:
+            rack.store_plate_in_position(plate_id,
+                                         request_body["rack_position"])
+        else:
+            rack.store_plate_in_position(plate.id)
+    if plate.get_rack_id() != "N/A" and request_body["store_date"]:
+        plate.store_date = request_body["store_date"]
     plate.rack_id = request_body["rack_id"]
     plate.thaw_count = request_body["thaw_count"]
-    plate.store_date = request_body["store_date"]
     plate.discarded = request_body["discarded"]
     plate.max_well = request_body["max_well"]
     db.session.commit()

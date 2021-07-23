@@ -50,6 +50,7 @@ export const createPlate = (data) => async (dispatch) => {
 };
 
 export const editPlate = (data) => async (dispatch) => {
+  console.log("Data:", data)
   const response = await fetch(`/api/plates/${data.id}`, {
     method: "PATCH",
     headers: {

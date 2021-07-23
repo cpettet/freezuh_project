@@ -35,6 +35,9 @@ def new_sample():
             plate_id = form.data["plate_id"]
             plate = Plate.query.get(plate_id)
             plate.store_sample_in_well(sample.id)
+            if form.data["well_id"] is not None:
+                well_id = form.data["well_id"]
+                plate.store_sample_in_well(sample.id, well_id)
     if form.errors:
         return {"errors": form.errors}
     return {"sample": sample.to_dict()}
@@ -46,16 +49,18 @@ def new_sample():
 def edit_sample(sample_id):
     sample = Sample.query.get(sample_id)
     request_body = request.get_json()
-
-    if sample.get_plate_id() != request_body["plate_id"]:
+    if (sample.get_plate_id() != request_body["plate_id"] or
+            sample.get_well_id() != request_body["well_id"]):
         plate_id = request_body["plate_id"]
         plate = Plate.query.get(plate_id)
-        plate.store_sample_in_well(sample_id)
-        # TODO: error handling
-    sample.plate_id = request_body["plate_id"]
+        if "well_id" in request_body:
+            plate.store_sample_in_well(sample_id, request_body["well_id"])
+        else:
+            plate.store_sample_in_well(sample_id)
+    if sample.get_plate_id() != "N/A" and request_body["store_date"]:
+        sample.store_date = request_body["store_date"]
     sample.sample_type = request_body["sample_type"]
     sample.accession_date = request_body["accession_date"]
-    sample.store_date = request_body["store_date"]
     sample.expiration_date = request_body["expiry_date"]
     sample.thaw_count = request_body["thaw_count"]
     sample.discarded = request_body["discarded"]

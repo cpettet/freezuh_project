@@ -5,6 +5,7 @@ from wtforms.validators import NumberRange
 
 class PlateForm(FlaskForm):
     rack_id = IntegerField("rack_id")
+    rack_position = IntegerField("rack_position")
     thaw_count = IntegerField("thaw_count")
     store_date = DateTimeField("store_date", format="%Y-%m-%dT%H:%M")
     discarded = BooleanField("discarded")
