@@ -15,7 +15,8 @@ function FreezerZoom() {
 
   useEffect(() => {
     dispatch(getFreezers());
-  }, [dispatch]);
+    if (!freezer) history.push("/")
+  }, [dispatch, freezer, history]);
 
   useEffect(() => {
     // Redirect sidebar component to position-filling interface

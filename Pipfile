@@ -20,6 +20,7 @@ alembic = "*"
 python-dateutil = "*"
 psycopg2-binary = "*"
 click = "*"
+boto3 = "*"
 
 [dev-packages]
 
