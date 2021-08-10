@@ -41,7 +41,6 @@ export const createSample = (data) => async (dispatch) => {
 
   if (response.ok) {
     const newSample = await response.json();
-    console.log("New sample:", newSample)
     dispatch(post(newSample));
     return newSample;
   }
@@ -50,10 +49,7 @@ export const createSample = (data) => async (dispatch) => {
 export const editSample = (data) => async (dispatch) => {
   const response = await fetch(`/api/samples/${data.id}`, {
     method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
+    body: data,
   });
 
   if (response.ok) {

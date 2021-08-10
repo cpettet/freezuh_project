@@ -46,19 +46,18 @@ function SampleForm() {
 
   const submitSample = async (e) => {
     e.preventDefault();
-    await dispatch(
-      editSample({
-        id: sample?.id,
-        plate_id: plateId,
-        well_id: wellId,
-        accession_date: accessionDate,
-        store_date: storeDate,
-        thaw_count: thawCount,
-        sample_type: sampleType,
-        discarded,
-        expiry_date: expirationDate,
-      })
-    );
+    const formData = new FormData();
+    formData.append("id", sample?.id);
+    formData.append("plate_id", plateId);
+    formData.append("well_id", wellId);
+    formData.append("accession_date", accessionDate);
+    formData.append("store_date", storeDate);
+    formData.append("thaw_count", thawCount);
+    formData.append("sample_type", sampleType);
+    formData.append("discarded", discarded);
+    formData.append("expiry_date", expirationDate);
+    formData.append("manifest", manifest);
+    await dispatch(editSample(formData));
     history.push(`/samples/${sampleId}`);
   };
 
@@ -244,7 +243,7 @@ function SampleForm() {
         <label htmlFor="manifest" className={style.property__label}>
           Manifest:{" "}
         </label>
-        {manifest && (<a href={manifest}>Current Manifest</a>)}
+        {manifest && <a href={manifest}>Current Manifest</a>}
         <input
           onChange={updateManifest}
           type="file"
