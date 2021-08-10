@@ -1,3 +1,4 @@
+from app.aws import allowed_file, get_unique_filename, upload_file_to_s3
 from flask import Blueprint, request
 from flask_login import login_required
 from app.models import db, Sample, Well, Plate
@@ -18,6 +19,22 @@ def get_samples():
 @sample_routes.route("/", methods=["POST"])
 @login_required
 def new_sample():
+    if "manifest" in request.files:
+        manifest = request.files["manifest"]
+        if not allowed_file(manifest.filename):
+            return {"errors": "file type not supported"}, 400
+
+        manifest.filename = get_unique_filename(manifest.filename)
+
+        upload = upload_file_to_s3(manifest)
+
+        if "url" not in upload:
+            return upload, 400
+
+        url = upload["url"]
+    else:
+        url = ""
+
     form = SampleForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
@@ -28,6 +45,7 @@ def new_sample():
             thaw_count=form.data["thaw_count"],
             expiry_date=form.data["expiry_date"],
             discarded=form.data["discarded"],
+            manifest_url=url,
         )
         db.session.add(sample)
         db.session.commit()

@@ -32,11 +32,17 @@ function SampleForm() {
   );
   const [thawCount, setThawCount] = useState(sample?.thaw_count);
   const [discarded, setDiscarded] = useState(sample?.discarded);
+  const [manifest, setManifest] = useState(sample?.manifest_url);
 
   useEffect(() => {
     dispatch(getSamples());
     dispatch(getPlates());
   }, [dispatch]);
+
+  const updateManifest = (e) => {
+    const file = e.target.files[0];
+    setManifest(file);
+  };
 
   const submitSample = async (e) => {
     e.preventDefault();
@@ -233,6 +239,19 @@ function SampleForm() {
           />
           No
         </label>
+      </div>
+      <div className={style.property}>
+        <label htmlFor="manifest" className={style.property__label}>
+          Manifest:{" "}
+        </label>
+        {manifest && (<a href={manifest}>Current Manifest</a>)}
+        <input
+          onChange={updateManifest}
+          type="file"
+          accept="image/*"
+          placeholder="Upload manifest"
+          className={style.property__field}
+        />
       </div>
       <button className={style.sidebar__button} type="submit">
         Submit

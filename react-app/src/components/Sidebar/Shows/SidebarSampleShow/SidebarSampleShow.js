@@ -10,8 +10,6 @@ function SidebarSampleShow() {
   const dispatch = useDispatch();
   const history = useHistory();
   const sample = useSelector((state) => state.samples.byId[sampleId]);
-  const [image, setImage] = useState(sample?.manifest_url);
-  const [imageLoading, setImageLoading] = useState(false);
 
   const rowNameConversion = {
     0: "A",
@@ -22,36 +20,6 @@ function SidebarSampleShow() {
     5: "F",
     6: "G",
     "-1": "H",
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("image", image);
-
-    // aws uploads can be a bit slow—displaying
-    // some sort of loading message is a good idea
-    setImageLoading(true);
-
-    const res = await fetch("/api/images", {
-      method: "POST",
-      body: formData,
-    });
-    if (res.ok) {
-      await res.json();
-      setImageLoading(false);
-      history.push("/images");
-    } else {
-      setImageLoading(false);
-      // a real app would probably use more advanced
-      // error handling
-      console.log("error");
-    }
-  };
-
-  const updateImage = (e) => {
-    const file = e.target.files[0];
-    setImage(file);
   };
 
   const onDelete = (e) => {
@@ -138,12 +106,15 @@ function SidebarSampleShow() {
           <div className={style.property__value}>{sample?.thaw_count}</div>
         </div>
       </div>
-      <form onSubmit={handleSubmit}>
-        <label>Upload Manifest</label>
-        <input type="file" accept="image/*" onChange={updateImage} />
-        <button type="submit">Submit</button>
-        {imageLoading && <p>Loading...</p>}
-      </form>
+      {sample?.manifest_url && (
+        <div className={style.properties}>
+          <div className={style.property}>
+            <div className={style.property__key}>
+              <a href={sample?.manifest_url}>Download manifest</a>
+            </div>
+          </div>
+        </div>
+      )}
       <div className={style.sidebar__buttons}>
         <button
           onClick={onEdit}
