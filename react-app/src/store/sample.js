@@ -49,7 +49,7 @@ export const createSample = (data) => async (dispatch) => {
 export const editSample = (data) => async (dispatch) => {
   const response = await fetch(`/api/samples/${data.id}`, {
     method: "PATCH",
-    body: data,
+    body: data.formData,
   });
 
   if (response.ok) {

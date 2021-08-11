@@ -17,7 +17,7 @@ function SampleForm() {
     ["Plasma", "plasma"],
     ["CF DNA", "cf_dna"],
   ];
-
+  const [manifestLoading, setManifestLoading] = useState(false);
   const [plateId, setPlateId] = useState(sample?.plate_id);
   const [wellId, setWellId] = useState(sample?.well_id);
   const [sampleType, setSampleType] = useState(sample?.sample_type);
@@ -47,6 +47,10 @@ function SampleForm() {
   const submitSample = async (e) => {
     e.preventDefault();
     const formData = new FormData();
+    if (manifest) {
+      formData.append("manifest", manifest);
+      setManifestLoading(true);
+    }
     formData.append("id", sample?.id);
     formData.append("plate_id", plateId);
     formData.append("well_id", wellId);
@@ -56,8 +60,7 @@ function SampleForm() {
     formData.append("sample_type", sampleType);
     formData.append("discarded", discarded);
     formData.append("expiry_date", expirationDate);
-    formData.append("manifest", manifest);
-    await dispatch(editSample(formData));
+    await dispatch(editSample({id: sample?.id, formData}));
     history.push(`/samples/${sampleId}`);
   };
 
@@ -255,6 +258,7 @@ function SampleForm() {
       <button className={style.sidebar__button} type="submit">
         Submit
       </button>
+      {manifestLoading && <p>Loading...</p>}
     </form>
   );
 }

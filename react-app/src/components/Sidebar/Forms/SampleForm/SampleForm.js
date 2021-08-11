@@ -81,7 +81,7 @@ function SampleForm() {
         (well) => parseInt(well)
       );
       const firstEmptyWell = findMissingNumber(wellList, 0, wellList.length);
-      if (firstEmptyWell < parseInt(plates[plateId]["max_well"])) {
+      if (firstEmptyWell <= parseInt(plates[plateId]["max_well"])) {
         setWellId(firstEmptyWell);
       } else {
         alert(`Plate ${plateId} is full. Please choose new plate.`);
