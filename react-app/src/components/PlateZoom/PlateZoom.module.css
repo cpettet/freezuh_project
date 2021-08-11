@@ -17,6 +17,11 @@
     }
 }
 
+.plate__container {
+    margin-left: 25%;
+    padding-left: 1rem;
+}
+
 tr, col {
   transition: all 0.3s;
 }

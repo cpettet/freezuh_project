@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useParams, useLocation } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import style from "../Form.module.css";
 import { editSample, getSamples } from "../../../../store/sample";
@@ -107,7 +107,7 @@ function SampleForm() {
         (well) => parseInt(well)
       );
       const firstEmptyWell = findMissingNumber(wellList, 0, wellList.length);
-      if (firstEmptyWell < parseInt(plates[plateId]["max_well"])) {
+      if (firstEmptyWell <= parseInt(plates[plateId]["max_well"])) {
         setWellId(firstEmptyWell);
       } else {
         alert(`Plate ${plateId} is full. Please choose new plate.`);

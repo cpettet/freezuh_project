@@ -100,7 +100,7 @@ function FreezerZoom() {
   }
 
   return (
-    <div>
+    <div className={style.freezer__container}>
       <Link to="/freezers">Return to all freezers</Link>
       <span>{" > "}</span>
       <Link to={`/freezers/${freezerId}`}>

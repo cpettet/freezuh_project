@@ -124,7 +124,7 @@ function PlateZoom() {
   }
 
   return (
-    <div>
+    <div className={style.plate__container}>
       <Link to="/plates">All plates</Link>
       <span>{" > "}</span>
       <Link to={`/plates/${plateId}`}>

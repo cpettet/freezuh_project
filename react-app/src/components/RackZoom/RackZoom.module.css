@@ -1,3 +1,8 @@
+.rack__container {
+    margin-left: 25%;
+    padding-left: 1rem;
+}
+
 .rack, .rack__main, .rack__top-handles, .item, .column {
     font-size: 16px;
     box-sizing: border-box;

@@ -1,3 +1,8 @@
+.freezer__container {
+    margin-left: 25%;
+    padding-left: 1rem;
+}
+
 .freezer {
     height: fit-content;
     width: fit-content;
