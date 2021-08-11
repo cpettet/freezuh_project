@@ -25,7 +25,8 @@ function PlateZoom() {
 
   useEffect(() => {
     dispatch(getPlates());
-  }, [dispatch]);
+    if (!plate) history.push("/");
+  }, [dispatch, plate, history]);
 
   useEffect(() => {
     // Redirect sidebar component to well-filling interface
@@ -38,7 +39,12 @@ function PlateZoom() {
 
   function classesForWell(wellNumber, colClass) {
     let wellClass = "";
-    if (plate && Object.keys(plate?.samples_and_wells).includes((wellNumber + 1).toString())) {
+    if (
+      plate &&
+      Object.keys(plate?.samples_and_wells).includes(
+        (wellNumber + 1).toString()
+      )
+    ) {
       wellClass += `${style[colClass]} ${style.plate__header} ${style["plate__well-filled"]} ${style.plate__well}`;
     } else {
       wellClass += `${style[colClass]} ${style.plate__header} ${style["plate__well-empty"]} ${style.plate__well}`;
@@ -50,7 +56,7 @@ function PlateZoom() {
     if (plate?.samples_and_wells[wellNumber + 1] !== undefined) {
       return `/samples/${plate?.samples_and_wells[wellNumber + 1]}`;
     } else {
-      return `/plates/${plateId}`
+      return `/plates/${plateId}`;
     }
   }
 
