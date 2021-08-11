@@ -14,7 +14,9 @@ function Splash() {
       </h1>
       <p>
         New here? Check the links below or the{" "}
-        <Link to="/about">about page.</Link>
+        <Link to="/about">about page. </Link>
+        <Link to="/login">Have an account? </Link>
+        <Link to="/sign-up">Want an account?</Link>
       </p>
       <div className={style.link__container}>
         <Link to="/freezers">

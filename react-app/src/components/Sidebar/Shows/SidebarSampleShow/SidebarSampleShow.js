@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -10,6 +10,10 @@ function SidebarSampleShow() {
   const dispatch = useDispatch();
   const history = useHistory();
   const sample = useSelector((state) => state.samples.byId[sampleId]);
+
+  useEffect(() => {
+    if (!sample) history.push("/");
+  }, [sample, history]);
 
   const rowNameConversion = {
     0: "A",

@@ -27,7 +27,7 @@ const LoginForm = () => {
 
   return (
     <form className={style["form__authorization"]} onSubmit={onLogin}>
-      <h3 className={style.form__header}>Login to Freezuh</h3>
+      <h3 className={style.form__header}>Login to Freezuh, Final Transformation</h3>
       <div className={style.errors}>
         {errors.map((error) => (
           <div>{error}</div>

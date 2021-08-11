@@ -28,9 +28,11 @@ const deleteAction = (payload) => ({
 // thunks
 export const getRacks = () => async (dispatch) => {
   const res = await fetch("/api/racks/");
-  const data = await res.json();
-  dispatch(get(data.racks));
-  return data;
+  if (res.ok) {
+    const data = await res.json();
+    dispatch(get(data.racks));
+    return data;
+  }
 };
 
 export const createRack = (data) => async (dispatch) => {

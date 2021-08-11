@@ -18,10 +18,14 @@ const SignUpForm = () => {
   const onSignUp = async (e) => {
     e.preventDefault();
     let data;
+    setErrors([]);
     if (password === repeatPassword) {
       data = await dispatch(signUp(username, email, password));
+    } else {
+      setErrors(["Passwords do not match"]);
+      console.log("Errors:", errors);
     }
-    if (data.errors) {
+    if (data?.errors) {
       setErrors(data.errors);
     }
   };
@@ -32,11 +36,13 @@ const SignUpForm = () => {
 
   return (
     <form className={style["form__authorization"]} onSubmit={onSignUp}>
-      <h3 className={style.form__header}>Signup for Freezuh</h3>
+      <h3 className={style.form__header}>
+        Signup for Freezuh, Final Transformation
+      </h3>
       <div className={style.errors}>
-        {errors.map((error) => (
-          <div>{error}</div>
-        ))}
+        {errors?.map((error) => {
+          return <div>{error}</div>;
+        })}
       </div>
       <div className={style.form__inputs}>
         <div className={style.form__inputs}>
@@ -47,6 +53,7 @@ const SignUpForm = () => {
             name="username"
             onChange={(e) => setUsername(e.target.value)}
             value={username}
+            required={true}
           ></input>
         </div>
         <div className={style.form__inputs}>
@@ -57,6 +64,7 @@ const SignUpForm = () => {
             name="email"
             onChange={(e) => setEmail(e.target.value)}
             value={email}
+            required={true}
           ></input>
         </div>
         <div className={style.form__inputs}>
@@ -67,6 +75,7 @@ const SignUpForm = () => {
             name="password"
             onChange={(e) => setPassword(e.target.value)}
             value={password}
+            required={true}
           ></input>
         </div>
         <div className={style.form__inputs}>

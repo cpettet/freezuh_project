@@ -28,9 +28,11 @@ const deleteAction = (payload) => ({
 // thunks
 export const getPlates = () => async (dispatch) => {
   const response = await fetch("/api/plates/");
-  const data = await response.json();
-  dispatch(getAll(data.plates));
-  return data;
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(getAll(data.plates));
+    return data;
+  }
 };
 
 export const createPlate = (data) => async (dispatch) => {

@@ -15,7 +15,8 @@ function RackZoom() {
 
   useEffect(() => {
     dispatch(getRacks());
-  }, [dispatch]);
+    if (!rack) history.push("/")
+  }, [dispatch, rack, history]);
 
   useEffect(() => {
     // Redirect sidebar component to position-filling interface
