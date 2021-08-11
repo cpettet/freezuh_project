@@ -29,8 +29,10 @@ const deleteAction = (payload) => ({
 export const getFreezers = () => async (dispatch) => {
   const res = await fetch("/api/freezers/");
   const data = await res.json();
-  dispatch(get(data));
-  return data;
+  if (res.ok) {
+    dispatch(get(data));
+    return data;
+  }
 };
 
 export const createFreezer = (data) => async (dispatch) => {

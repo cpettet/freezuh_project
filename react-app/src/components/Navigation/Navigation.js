@@ -19,10 +19,10 @@ import { getSamples } from "../../store/sample";
 function Navigation() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const freezers = useSelector((state) => Object.values(state.freezers.byId));
-  const racks = useSelector((state) => Object.values(state.racks.byId));
-  const plates = useSelector((state) => Object.values(state.plates.byId));
-  const samples = useSelector((state) => Object.values(state.samples.byId));
+  const freezers = useSelector((state) => Object.values(state?.freezers?.byId));
+  const racks = useSelector((state) => Object.values(state?.racks?.byId));
+  const plates = useSelector((state) => Object.values(state?.plates?.byId));
+  const samples = useSelector((state) => Object.values(state?.samples?.byId));
 
   const freezerSearchOptions = freezers.map((freezer) => {
     return { value: freezer.id, label: `Freezer ${freezer.id}` };
