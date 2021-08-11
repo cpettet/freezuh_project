@@ -16,6 +16,8 @@ function SampleForm() {
     ["Plasma", "plasma"],
     ["CF DNA", "cf_dna"],
   ];
+  const [manifest, setManifest] = useState(null);
+  const [manifestLoading, setManifestLoading] = useState(false);
   const plates = useSelector((state) => state.plates?.byId);
   const [plateId, setPlateId] = useState(
     location.state?.plateId ? location.state.plateId : ""
@@ -32,19 +34,25 @@ function SampleForm() {
 
   const submitSample = async (e) => {
     e.preventDefault();
-    console.log("Well ID", wellId)
-    const newSample = await dispatch(
-      createSample({
-        ...(plateId && { plate_id: plateId }),
-        ...(wellId && { well_id: wellId }),
-        ...(accessionDate && { accession_date: accessionDate }),
-        sample_type: sampleType,
-        thaw_count: 0,
-        discarded: false,
-      })
-    );
+    const formData = new FormData();
+    if (plateId) formData.append("plate_id", plateId);
+    if (wellId) formData.append("well_id", wellId);
+    if (accessionDate) formData.append("accession_date", accessionDate);
+    formData.append("sample_type", sampleType);
+    formData.append("thaw_count", 0);
+    formData.append("discarded", false);
+    if (manifest) {
+      formData.append("manifest", manifest);
+      setManifestLoading(true);
+    }
+    const newSample = await dispatch(createSample(formData));
     const newSampleId = newSample.sample.id;
     history.push(`/samples/${newSampleId}`);
+  };
+
+  const updateManifest = (e) => {
+    const file = e.target.files[0];
+    setManifest(file);
   };
 
   const getPlateId = (e) => {
@@ -73,10 +81,10 @@ function SampleForm() {
         (well) => parseInt(well)
       );
       const firstEmptyWell = findMissingNumber(wellList, 0, wellList.length);
-      if (firstEmptyWell < parseInt(plates[plateId]["max_well"])) {
+      if (firstEmptyWell <= parseInt(plates[plateId]["max_well"])) {
         setWellId(firstEmptyWell);
       } else {
-        alert(`Plate ${plateId} is full. Please choose new plate.`)
+        alert(`Plate ${plateId} is full. Please choose new plate.`);
         setPlateId("");
       }
     } else {
@@ -147,9 +155,22 @@ function SampleForm() {
           onChange={(e) => setAccessionDate(e.target.value)}
         />
       </div>
+      <div className={style.property}>
+        <label htmlFor="manifest" className={style.property__label}>
+          Manifest:{" "}
+        </label>
+        <input
+          onChange={updateManifest}
+          type="file"
+          accept="image/*"
+          placeholder="Upload manifest"
+          className={style.property__field}
+        />
+      </div>
       <button type="submit" className={style.sidebar__button}>
         Submit
       </button>
+      {manifestLoading && <p>Loading...</p>}
     </form>
   );
 }

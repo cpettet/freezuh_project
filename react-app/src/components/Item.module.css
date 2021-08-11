@@ -5,6 +5,8 @@
     align-content: flex-start;
     justify-content: flex-start;
     align-items: center;
+    margin-left: 25%;
+    padding: 1rem;
 }
 
 .item__icon {

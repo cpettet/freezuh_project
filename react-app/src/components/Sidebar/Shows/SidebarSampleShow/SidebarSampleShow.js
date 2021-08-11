@@ -38,8 +38,10 @@ function SidebarSampleShow() {
         Sample {sampleId}:{" "}
         {sample?.discarded ? (
           <span className={style["sidebar__header-inactive"]}>DISCARDED</span>
+        ) : sample?.store_date && true ? (
+          <span className={style["sidebar__header-active"]}>STORED</span>
         ) : (
-          sample?.store_date && true ? <span className={style["sidebar__header-active"]}>STORED</span> : <span className={style["sidebar__header-neutral"]}>NOT STORED</span>
+          <span className={style["sidebar__header-neutral"]}>NOT STORED</span>
         )}
       </h3>
       <div className={style.properties}>
@@ -104,6 +106,15 @@ function SidebarSampleShow() {
           <div className={style.property__value}>{sample?.thaw_count}</div>
         </div>
       </div>
+      {sample?.manifest_url && (
+        <div className={style.properties}>
+          <div className={style.property}>
+            <div className={style.property__key}>
+              <a href={sample?.manifest_url}>Download manifest</a>
+            </div>
+          </div>
+        </div>
+      )}
       <div className={style.sidebar__buttons}>
         <button
           onClick={onEdit}

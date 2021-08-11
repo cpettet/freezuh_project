@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Switch, Route } from "react-router";
 import style from "./Sidebar.module.css";
 import PlateForm from "./Forms/PlateForm";
@@ -20,16 +20,11 @@ import AssignToFreezer from "./Assignments/AssignToFreezer";
 import About from "./About";
 
 function Sidebar() {
-  const [sidebarShow, setSidebarShow] = useState(true);
-
-  const toggleSidebar = (e) => setSidebarShow((prev) => !prev);
-
   return (
     <>
-          {/* <button onClick={toggleSidebar}>{"<"}</button> */}
       <div
         className={
-          sidebarShow
+          true
           ? `${style.sidebar}`
           : `${style.sidebar} ${style["sidebar-hidden"]}`
         }

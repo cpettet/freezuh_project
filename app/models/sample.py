@@ -24,6 +24,7 @@ class Sample(db.Model):
     thaw_count = db.Column(db.Integer, default=0, nullable=False)
     expiration_date = db.Column(db.DateTime, nullable=False)
     discarded = db.Column(db.Boolean, default=False, nullable=False)
+    manifest_url = db.Column(db.String, nullable=True)
 
     well_id = db.Column(
         db.Integer,
@@ -82,4 +83,5 @@ class Sample(db.Model):
             "plate_id": self.get_plate_id(),
             "well_id": self.get_well_id(),
             "sample_position": self.get_sample_position(),
+            "manifest_url": self.manifest_url,
         }

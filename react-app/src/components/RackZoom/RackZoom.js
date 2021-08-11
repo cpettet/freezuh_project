@@ -97,7 +97,7 @@ function RackZoom() {
   }
 
   return (
-    <div>
+    <div className={style.rack__container}>
       <Link to="/racks">All racks</Link>
       <span>{" > "}</span>
       <Link to={`/racks/${rackId}`}>

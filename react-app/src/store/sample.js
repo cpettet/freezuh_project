@@ -36,10 +36,7 @@ export const getSamples = () => async (dispatch) => {
 export const createSample = (data) => async (dispatch) => {
   const response = await fetch("/api/samples/", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
+    body: data,
   });
 
   if (response.ok) {
@@ -52,10 +49,7 @@ export const createSample = (data) => async (dispatch) => {
 export const editSample = (data) => async (dispatch) => {
   const response = await fetch(`/api/samples/${data.id}`, {
     method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
+    body: data.formData,
   });
 
   if (response.ok) {

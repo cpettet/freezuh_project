@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useParams, useLocation } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import style from "../Form.module.css";
 import { editSample, getSamples } from "../../../../store/sample";
@@ -17,7 +17,7 @@ function SampleForm() {
     ["Plasma", "plasma"],
     ["CF DNA", "cf_dna"],
   ];
-
+  const [manifestLoading, setManifestLoading] = useState(false);
   const [plateId, setPlateId] = useState(sample?.plate_id);
   const [wellId, setWellId] = useState(sample?.well_id);
   const [sampleType, setSampleType] = useState(sample?.sample_type);
@@ -32,27 +32,35 @@ function SampleForm() {
   );
   const [thawCount, setThawCount] = useState(sample?.thaw_count);
   const [discarded, setDiscarded] = useState(sample?.discarded);
+  const [manifest, setManifest] = useState(sample?.manifest_url);
 
   useEffect(() => {
     dispatch(getSamples());
     dispatch(getPlates());
   }, [dispatch]);
 
+  const updateManifest = (e) => {
+    const file = e.target.files[0];
+    setManifest(file);
+  };
+
   const submitSample = async (e) => {
     e.preventDefault();
-    await dispatch(
-      editSample({
-        id: sample?.id,
-        plate_id: plateId,
-        well_id: wellId,
-        accession_date: accessionDate,
-        store_date: storeDate,
-        thaw_count: thawCount,
-        sample_type: sampleType,
-        discarded,
-        expiry_date: expirationDate,
-      })
-    );
+    const formData = new FormData();
+    if (manifest) {
+      formData.append("manifest", manifest);
+      setManifestLoading(true);
+    }
+    formData.append("id", sample?.id);
+    formData.append("plate_id", plateId);
+    formData.append("well_id", wellId);
+    formData.append("accession_date", accessionDate);
+    formData.append("store_date", storeDate);
+    formData.append("thaw_count", thawCount);
+    formData.append("sample_type", sampleType);
+    formData.append("discarded", discarded);
+    formData.append("expiry_date", expirationDate);
+    await dispatch(editSample({id: sample?.id, formData}));
     history.push(`/samples/${sampleId}`);
   };
 
@@ -102,7 +110,7 @@ function SampleForm() {
         (well) => parseInt(well)
       );
       const firstEmptyWell = findMissingNumber(wellList, 0, wellList.length);
-      if (firstEmptyWell < parseInt(plates[plateId]["max_well"])) {
+      if (firstEmptyWell <= parseInt(plates[plateId]["max_well"])) {
         setWellId(firstEmptyWell);
       } else {
         alert(`Plate ${plateId} is full. Please choose new plate.`);
@@ -234,9 +242,23 @@ function SampleForm() {
           No
         </label>
       </div>
+      <div className={style.property}>
+        <label htmlFor="manifest" className={style.property__label}>
+          Manifest:{" "}
+        </label>
+        {manifest && <a href={manifest}>Current Manifest</a>}
+        <input
+          onChange={updateManifest}
+          type="file"
+          accept="image/*"
+          placeholder="Upload manifest"
+          className={style.property__field}
+        />
+      </div>
       <button className={style.sidebar__button} type="submit">
         Submit
       </button>
+      {manifestLoading && <p>Loading...</p>}
     </form>
   );
 }
