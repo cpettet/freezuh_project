@@ -9,6 +9,14 @@
     margin-left: 25%;
 }
 
+.content__accounts {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: flex-end;
+    align-items: center;
+}
+
 .content__container {
     display: flex;
     flex-direction: row;

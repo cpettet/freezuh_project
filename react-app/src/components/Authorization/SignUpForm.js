@@ -32,7 +32,7 @@ const SignUpForm = () => {
 
   return (
     <form className={style["form__authorization"]} onSubmit={onSignUp}>
-      <h3 className={style.form__header}>Signup for Freezuh</h3>
+      <h3 className={style.form__header}>Signup for Freezuh, Final Transformation</h3>
       <div className={style.errors}>
         {errors.map((error) => (
           <div>{error}</div>

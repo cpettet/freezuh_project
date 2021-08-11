@@ -1,11 +1,15 @@
 import React from "react";
 import style from "./About.module.css";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import freezerImage from "./Freezer-Final.min.svg";
 import plateImage from "./Plate-Finalv2.min.svg";
 import rackImage from "./Rack-Final.min.svg";
 import sampleImage from "./Sample-Tube-Final.min.svg";
 
 function About() {
+  const user = useSelector((state) => state.session?.user);
+
   return (
     <div className={style.about__container}>
       <h1 className={style.about__header}>Freezuh, Final Transformation</h1>
@@ -57,6 +61,16 @@ function About() {
         </p>
         <img src={sampleImage} alt="sample" className={style.image} />
       </div>
+      {!user && (
+        <div className={style.content__accounts}>
+          <Link to="/sign-up">
+            <h3>Create an account</h3>
+          </Link>
+          <Link to="/login">
+            <h3>Login to account</h3>
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

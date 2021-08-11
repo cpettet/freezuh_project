@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
 import style from "./ProfileButton.module.css";
 import { logout } from "../../store/session";
 import userUnknown from "./User-Icon-Unknown.svg";
 import userIcon from "./User-Icon.svg";
 
 function ProfileButton() {
+  const history = useHistory();
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const user = useSelector((state) => state.session.user);
@@ -42,6 +44,7 @@ function ProfileButton() {
               src={userUnknown}
               alt="not-user"
               className={style["profile-image"]}
+              onClick={() => history.push("/login")}
             />
           )}
         </div>
