@@ -15,8 +15,11 @@ function RackZoom() {
 
   useEffect(() => {
     dispatch(getRacks());
-    if (!rack) history.push("/")
-  }, [dispatch, rack, history]);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!rack) history.push("/");
+  }, [rack, history]);
 
   useEffect(() => {
     // Redirect sidebar component to position-filling interface
@@ -33,14 +36,15 @@ function RackZoom() {
       rack &&
       Object.keys(rack?.plates_and_positions).includes(
         (rackPosition + 1).toString()
-        )
-        ) {
-          itemClass += ` ${style.filled}`
-        } else {
-          itemClass += ` ${style.empty}`;
-        }
-    if (rackPosition === parseInt(activePosition)) itemClass += ` ${style["inner-active"]}`
-    return itemClass
+      )
+    ) {
+      itemClass += ` ${style.filled}`;
+    } else {
+      itemClass += ` ${style.empty}`;
+    }
+    if (rackPosition === parseInt(activePosition))
+      itemClass += ` ${style["inner-active"]}`;
+    return itemClass;
   }
 
   function plateInRack(rackPosition) {

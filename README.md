@@ -8,7 +8,7 @@ Due to the high-volume of data required for molecular biology research, many fre
 Freezuh owes its color palette and inspiration for its freezer icon from the most memorable villain of Dragon Ball Z, Frieza. I created all of the icons, except for the Firefox, LinkedIn, and Github icons on the about page, in Inkscape to break up intense coding segments. No matter the technology, I'm always interested in learning and applying my creative problem-solving ability.
 
 ## Database Schema
-![database-schema](./assets/wiki/updated-database-schema.png)
+![database-schema](./assets/pictures/Diagram_Freezer_Project.png)
 
 ## Technologies and Packages Used
 * Amazon Web Services (AWS) Simple Storage Solution (S3)

@@ -48,19 +48,17 @@ function AssignToPlate() {
   const storeSample = async (e) => {
     e.preventDefault();
     if (sampleId) {
-      await dispatch(
-        editSample({
-          id: sample?.id,
-          plate_id: plateId,
-          accession_date: sample?.accession_date,
-          store_date: getInputDateTime(),
-          well_id: wellId,
-          thaw_count: sample?.thaw_count,
-          sample_type: sample?.sample_type,
-          discarded: sample?.discarded,
-          expiry_date: sample?.expiration_date,
-        })
-      );
+      const formData = new FormData();
+      formData.append("id", sample?.id);
+      formData.append("plate_id", plateId);
+      formData.append("well_id", wellId);
+      formData.append("accession_date", sample?.accession_date);
+      formData.append("store_date", getInputDateTime());
+      formData.append("thaw_count", sample?.thaw_count);
+      formData.append("sample_type", sample?.sample_type);
+      formData.append("discarded", sample?.discarded);
+      formData.append("expiry_date", sample?.expiration_date);
+      await dispatch(editSample({ id: sample?.id, formData }));
       history.push(`/samples/${sampleId.value}`);
     } else {
       history.push("/samples/new", { wellId, plateId });
