@@ -1,9 +1,9 @@
 # Freezuh, Final Transformation
 
 ## Description
-Freezuh, Final Transformation (hereby referred to as Freezuh), is a web application designed for biospecimen storage and retrieval for a biotech company. Most (all?) biotech companies initially track samples on spreadsheets or GDocs which leads to lost materials and increased freezer strain from manual searching. To help aid research for human disease and ailments, Freezuh will always be offered free-of-charge.
+Freezuh, Final Transformation (hereby referred to as Freezuh), is a web application designed for biospecimen storage and retrieval for a biotech company. Most (all?) biotech companies start tracking samples on spreadsheets which leads to lost materials, potential material thaws, and increased freezer motor strain from manual searching. To help aid research for human disease and ailments, Freezuh will always be free-of-charge under the MIT license.
 
-Due to the high-volume of data required for molecular biology research (normally ~50 samples per experiment), many biospecimen samples are needed which must be stored in one of many freezers. This app is designed to track samples from courier receipt (AWS S3 bucket handles storage of manifest scans/pictures), to the experiment's conclusion in a final sample storage plate. Any stored samples can be found through search or by browsing through different parent containers.
+Due to the high-volume of data required for molecular biology research, many freezers are needed to store the biospecimen samples. This app is designed to track samples from courier receipt (AWS S3 bucket handles storage of manifest scans/pictures), to the experiment's conclusion in a final sample storage plate. Any stored samples can be found through search or through browsing different parent containers.
 
 Freezuh owes its color palette and inspiration for its freezer icon from the most memorable villain of Dragon Ball Z, Frieza. I created all of the icons, except for the Firefox, LinkedIn, and Github icons on the about page, in Inkscape to break up intense coding segments. No matter the technology, I'm always interested in learning and applying my creative problem-solving ability.
 
