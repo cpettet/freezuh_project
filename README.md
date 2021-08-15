@@ -1,5 +1,5 @@
 # Freezuh, Final Transformation
-
+![general-overview](./assets/pictures/Freezuh-Website-Overview.png)
 ## Description
 Freezuh, Final Transformation (hereby referred to as Freezuh), is a web application designed for biospecimen storage and retrieval for a biotech company. Most (all?) biotech companies start tracking samples on spreadsheets which leads to lost materials, potential material thaws, and increased freezer motor strain from manual searching. To help aid research for human disease and ailments, Freezuh will always be free-of-charge under the MIT license.
 
@@ -58,7 +58,7 @@ sample_well = Well(
 self._store_sample(sample, sample_well, sample_id)
 ```
 
-## Future Features (Don't forget to star and check back to see Freezuh's progress)
+## Future Features (Don't forget to star this repo and check back often to see Freezuh's progress)
 * Implementation of a shopping cart to hold samples and plates before exporting to a printable CSV file. This would allow all relevant samples for an experiment to be retrieved at a single time-point to minimize freezer interaction and to minimize chances of samples thawing.
 * Exporting of a sorted CSV file for sample retrieval. Sorting would be organized by freezer -> rack -> plate -> sample to allow for quick, efficient sample retrieval.
 * Implement additional attributes for samples. Planned attributes
