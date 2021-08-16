@@ -84,8 +84,7 @@ def edit_sample(sample_id):
     sample = Sample.query.get(sample_id)
     form = SampleForm()
     print("Here's the form:", form)
-    # request_body = request.get_json()
-    if request.files["manifest"]:
+    if "manifest" in request.files:
         sample.manifest_url = url
     if (sample.get_plate_id() != form.data["plate_id"] or
             sample.get_well_id() != form.data["well_id"]):

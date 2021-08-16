@@ -72,10 +72,16 @@ export const deleteFreezer = (data) => async (dispatch) => {
     method: "DELETE",
   });
 
-  if (res.ok) {
+  try {
     const deletedFreezer = await res.json();
-    dispatch(deleteAction(deletedFreezer));
-    return deletedFreezer;
+    if (res.ok) {
+      dispatch(deleteAction(deletedFreezer));
+      return deletedFreezer;
+    } else {
+      return deletedFreezer;
+    }
+  } catch (e) {
+    return e;
   }
 };
 

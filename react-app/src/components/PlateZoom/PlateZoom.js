@@ -25,8 +25,11 @@ function PlateZoom() {
 
   useEffect(() => {
     dispatch(getPlates());
+  }, [dispatch]);
+
+  useEffect(() => {
     if (!plate) history.push("/");
-  }, [dispatch, plate, history]);
+  }, [plate, history])
 
   useEffect(() => {
     // Redirect sidebar component to well-filling interface
