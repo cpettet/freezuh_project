@@ -1,5 +1,5 @@
 # Freezuh, Final Transformation
-![general-overview](./assets/pictures/Freezuh-Website-Overview.png)
+[![general-overview](./assets/pictures/Freezuh-Website-Overview.png)](https://freezuh-final-transformation.herokuapp.com/)
 ## Description
 Freezuh, Final Transformation (hereby referred to as Freezuh), is a web application designed for biospecimen storage and retrieval for a biotech company. Most (all?) biotech companies start tracking samples on spreadsheets which leads to lost materials, potential material thaws, and increased freezer motor strain from manual searching. To help aid research for human disease and ailments, Freezuh will always be free-of-charge under the MIT license.
 
@@ -11,21 +11,37 @@ Freezuh owes its color palette and inspiration for its freezer icon from the mos
 ![database-schema](./assets/pictures/Diagram_Freezer_Project.png)
 
 ## Technologies and Packages Used
+### Backend
 * Amazon Web Services (AWS) Simple Storage Solution (S3)
 * Python
 * Flask
-* SQLAlchemy
-* PostgreSQL
-* React
-* React-Select
-* Redux
 * WTForms
+* SQLAlchemy
+* Alembic
+* PostgreSQL
+* Heroku
+
+### Frontend
+* HTML5
+* CSS3
+* JavaScript
+* React
+* Redux
+* React-Select
 * Inkscape
 
 ## Example Workflow
 ### Storage container creation: from freezers to 96-well plates
+![full-workflow](./assets/wiki/gif/Freezuh-Example-Workflow.gif)
 
-### Biospecimen (sample) accessioning (creation) to storage in a 96-well plate
+### Biospecimen (sample) accessioning (creation) to storage in a 96-well plate, and relocating sample in same plate
+![sample-creation-and-relocation](./assets/wiki/gif/Sample-Creation-and-Moving.gif)
+
+### Storing new and existing samples from the plate view
+![sample-storage-from-plate](./assets/wiki/gif/Sample-Storage-From-Plate.gif)
+
+### Plate ID and well ID fetching from sample view
+![demonstrating-id-fetch](./assets/wiki/gif/Sample-Storage-ID-Fetch.gif)
 
 ## Highlights from the Code
 One of the most useful features is Freezuh's ability to find the next available well in a 96-well plate for sample storage. Initially I used an O(n) linear search algorithm to find a the next well before designing this O(n*log(n)) algorithm.
@@ -56,6 +72,107 @@ sample_well = Well(
     plate_id=self.id,
 )
 self._store_sample(sample, sample_well, sample_id)
+```
+
+## Challenges
+### Working with dates and times
+Maintaining an accurate log of when items are created and stored is one of Freezuh's essential functions. The issue is that many of the components of Freezuh do not play well together - HTML, Javascript, Python, and PostgreSQL have their own standards of storing date-time objects. Reading the different docs was the only way to successfully grab an HTML Form's datetime, convert it to a JavScript format (see below), read in Python and eventually convert it for use in PostgreSQL.
+```javascript
+function getInputDateTime(dateToConvert = Date.now()) {
+  // Takes a given date and converts it to a format recognized by the
+  // HTML datetime-local input element
+  const currentDateTime = dateToConvert ? new Date(dateToConvert) : new Date(Date.now());
+  let currentMonth = currentDateTime.getMonth() + 1;
+  let currentDate = currentDateTime.getDate();
+  if (currentMonth < 10) currentMonth = "0" + currentMonth;
+  if (currentDate < 10) currentDate = "0" + currentDate;
+  let currentHour = currentDateTime.getHours();
+  let currentMinutes = currentDateTime.getMinutes();
+  if (currentHour < 10) currentHour = "0" + currentHour;
+  if (currentMinutes < 10) currentMinutes = "0" + currentMinutes;
+  const today = `${currentDateTime.getFullYear()}-${currentMonth}-${currentDate}T${currentHour}:${currentMinutes}`;
+  return today;
+}
+```
+
+### Rendering the correct rows and columns for 96-well plates
+A 96-well plate isn't normally read the same as English: English reads left to right, top to bottom whereas a 96-well plate is read top to bottom, left to right. Due to this quirk of how samples are normally stored, and how the database was designed, extra processing of the well positions of samples was necessary to render the correct samples in each well.
+
+Samples were listed in a dictionary with a key corresponding to the plate's well and the value corresponding to the sample id. For each corresponding number in a 96-well plate, 1-96, the dictionary was checked for a sample, and rendered accordingly. Omitted is the function for creating appropriate classes for rendering. Please see ***react-app/src/components/PlateZoom/PlateZoom.js*** for a more complete picture of how the 96-well plate was rendered with all samples and functioning links.
+```javascript
+const numRows = 8;
+const numCols = 12;
+const rowNameConversion = {
+  0: "A",
+  1: "B",
+  2: "C",
+  3: "D",
+  4: "E",
+  5: "F",
+  6: "G",
+  7: "H",
+};
+
+function tableBody() {
+    const rows = [];
+    for (let row = 0; row < numRows; row++) {
+      const cellsInRow = [];
+      for (let col = 0; col < numCols; col++) {
+        const wellNumber = row + col * 8;
+        // Setting up the row header
+        if (col === 0) {
+          cellsInRow.push(
+            <th
+              scope="row"
+              className={`${style[rowClass]} ${style.plate__header} ${style.plate__header__row}`}
+            >
+              {rowNameConversion[row]}
+            </th>
+          );
+        }
+        cellsInRow.push(
+          // creating a sample well
+          <td
+            id={wellNumber}
+            key={cellId}
+            className={classesForWell(wellNumber, colClass)}
+            onClick={(e) => makeWellActive(e)}
+          >
+            <Link
+              to={sampleInTable(wellNumber)}
+              className={style.plate__well__link}
+              id={wellNumber}
+            >
+              <div
+                id={wellNumber}
+                className={
+                  wellNumber === parseInt(activeWell)
+                    ? `${style["plate__well__inner"]} ${style["plate__well__inner-active"]}`
+                    : style["plate__well__inner"]
+                }
+              >
+                {plate?.samples_and_wells[
+                  (parseInt(wellNumber) + 1).toString()
+                ] !== undefined
+                  ? `${
+                      plate?.samples_and_wells[
+                        (parseInt(wellNumber) + 1).toString()
+                      ]
+                    }`
+                  : ""}
+              </div>
+            </Link>
+          </td>
+        );
+      }
+      rows.push(
+        <tr key={row} className={`${style.plate__row}`}>
+          {cellsInRow}
+        </tr>
+      );
+    }
+    return rows;
+  }
 ```
 
 ## Future Features (Don't forget to star this repo and check back often to see Freezuh's progress)

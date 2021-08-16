@@ -51,5 +51,6 @@ def delete_freezer(freezer_id):
         db.session.commit()
         return {"deleted": True, "freezer": freezer.to_dict()}
     return {"deleted": False,
+            "freezer": freezer.to_dict(),
             "message": f"Freezer has following racks: \
-                        {freezer.get_racks_ids()}"}
+                        {freezer.get_racks_ids()}"}, 400
