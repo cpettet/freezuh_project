@@ -52,5 +52,7 @@ def delete_freezer(freezer_id):
         return {"deleted": True, "freezer": freezer.to_dict()}
     return {"deleted": False,
             "freezer": freezer.to_dict(),
-            "message": f"Freezer has following racks: \
-                        {freezer.get_racks_ids()}"}, 400
+            "errors":
+                ([f"Freezer is storing the following racks: " +
+                 f"{freezer.get_racks_ids()}. Please reassign" +
+                    " before deactivating."])}, 400
