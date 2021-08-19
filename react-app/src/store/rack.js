@@ -62,10 +62,12 @@ export const editRack = (data) => async (dispatch) => {
     body: JSON.stringify(data),
   });
 
-  if (res.ok) {
+  try {
     const editedRack = await res.json();
-    dispatch(edit(editedRack));
+    if (res.ok) dispatch(edit(editedRack));
     return editedRack;
+  } catch (e) {
+    return e;
   }
 };
 

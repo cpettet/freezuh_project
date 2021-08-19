@@ -60,10 +60,12 @@ export const editFreezer = (data) => async (dispatch) => {
     body: JSON.stringify(data),
   });
 
-  if (res.ok) {
+  try {
     const editedFreezer = await res.json();
-    dispatch(edit(editedFreezer));
+    if (res.ok) dispatch(edit(editedFreezer));
     return editedFreezer;
+  } catch (e) {
+    return e;
   }
 };
 
@@ -74,12 +76,8 @@ export const deleteFreezer = (data) => async (dispatch) => {
 
   try {
     const deletedFreezer = await res.json();
-    if (res.ok) {
-      dispatch(deleteAction(deletedFreezer));
-      return deletedFreezer;
-    } else {
-      return deletedFreezer;
-    }
+    if (res.ok) dispatch(deleteAction(deletedFreezer));
+    return deletedFreezer;
   } catch (e) {
     return e;
   }

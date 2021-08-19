@@ -37,7 +37,6 @@ def new_rack():
     if form.errors:
         return {"errors": form.errors}, 400
     if "errors" in res:
-        print("\n\nGetting to errors")
         return {"errors": [res["errors"]]}, 400
     else:
         db.session.commit()
@@ -56,14 +55,22 @@ def edit_rack(rack_id):
         freezer_id = request_body["freezer_id"]
         freezer = Freezer.query.get(freezer_id)
         if "freezer_position" in request_body:
-            freezer.store_rack_in_position(
+            res = freezer.store_rack_in_position(
                 rack.id, request_body["freezer_position"])
         else:
-            freezer.store_rack_in_position(rack.id)
+            res = freezer.store_rack_in_position(rack.id)
     rack.max_position = request_body["max_position"]
-    rack.discarded = request_body["discarded"]
-    db.session.commit()
-    return {"rack": rack.to_dict()}
+    if request_body["discarded"] is True:
+        if len(rack.get_plates_ids()) == 0:
+            rack.discarded = True
+        else:
+            res = {"errors": "Rack has following plates:" +
+                   f" {rack.get_plates_ids()}. Please move before deleting."}
+    if "errors" in res:
+        return {"errors": [res["errors"]]}, 400
+    else:
+        db.session.commit()
+        return {"rack": rack.to_dict(), "success": res}
 
 
 # DELETE /api/racks/:id/
@@ -74,6 +81,5 @@ def delete_rack(rack_id):
     if len(rack.get_plates_ids()) == 0:
         rack.discarded = True
         db.session.commit()
-        return {"deleted": True, "rack": rack.to_dict()}
-    return {"deleted": False,
-            "message": f"Rack has following plates: {rack.get_plate_ids()}"}
+        return {"rack": rack.to_dict()}
+    return {"errors": f"Rack has following plates: {rack.get_plates_ids()}"}

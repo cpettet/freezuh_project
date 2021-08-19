@@ -29,8 +29,8 @@ const LoginForm = () => {
     <form className={style["form__authorization"]} onSubmit={onLogin}>
       <h3 className={style.form__header}>Login to Freezuh, Final Transformation</h3>
       <div className={style.errors}>
-        {errors.map((error) => (
-          <div>{error}</div>
+        {errors?.map((error) => (
+          <div key={error}>{error}</div>
         ))}
       </div>
       <div className={style.form__inputs}>

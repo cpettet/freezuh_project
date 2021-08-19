@@ -9,7 +9,7 @@ function FreezerEdit() {
   const freezer = useSelector((state) => state.freezers.byId[freezerId]);
   const history = useHistory();
   const dispatch = useDispatch();
-
+  const [errors, setErrors] = useState([]);
   const [maxPosition, setMaxPosition] = useState(freezer?.max_position);
   const [active, setActive] = useState(freezer?.active);
 
@@ -18,20 +18,30 @@ function FreezerEdit() {
   }, [dispatch]);
 
   const submitFreezer = async (e) => {
+    setErrors([]);
     e.preventDefault();
-    await dispatch(
+    const editedFreezer = await dispatch(
       editFreezer({
         id: freezer?.id,
         max_position: maxPosition,
         active: active,
       })
     );
-    history.push(`/freezers/${freezerId}`);
+    if (editedFreezer.errors) {
+      setErrors(editedFreezer.errors);
+    } else {
+      history.push(`/freezers/${freezerId}`);
+    }
   };
 
   return (
     <form className={style.navbar__form} onSubmit={submitFreezer}>
       <h3 className={style.form__header}>Editing Freezer #{freezer?.id}</h3>
+      <div className={style.errors}>
+        {errors?.map((error) => (
+          <div key={error}>{error}</div>
+        ))}
+      </div>
       <div className={style.property}>
         <label htmlFor="max_position" className={style.property__label}>
           Max positions:{" "}

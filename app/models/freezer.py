@@ -27,10 +27,6 @@ class Freezer(db.Model):
                             .filter(FreezerPosition.freezer_id
                                     == self.id).all())
         filled_positions = [position[0] for position in filled_positions]
-        print("\n\nFilled positions:", filled_positions)
-        print("Desired position:", freezer_position)
-        print("cast boolean:", int(freezer_position) in filled_positions)
-        print("current boolean:", freezer_position in filled_positions)
         rack = Rack.query.get(rack_id)
 
         if freezer_position is not False:

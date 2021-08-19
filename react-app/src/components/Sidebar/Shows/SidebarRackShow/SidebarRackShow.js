@@ -37,7 +37,7 @@ function SidebarRackShow() {
       </h3>
       <div className={style.errors}>
         {errors?.map((error) => (
-          <div>{error}</div>
+          <div key={error}>{error}</div>
         ))}
       </div>
       <div className={style.property}>

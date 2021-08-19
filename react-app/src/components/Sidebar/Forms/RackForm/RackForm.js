@@ -35,7 +35,6 @@ function RackForm() {
         discarded: false,
       })
     );
-    console.log("new rack errors:", newRack?.errors)
     if (newRack.errors) {
       setErrors(newRack.errors);
     } else {
@@ -76,7 +75,7 @@ function RackForm() {
       <h3 className={style.form__header}>Creating new rack</h3>
       <div className={style.errors}>
         {errors?.map((error) => (
-          <div>{error}</div>
+          <div key={error}>{error}</div>
         ))}
       </div>
       <div className={style.property}>
