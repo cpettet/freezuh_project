@@ -11,6 +11,7 @@ function RackForm() {
   const dispatch = useDispatch();
   const history = useHistory();
   const freezers = useSelector((state) => state.freezers.byId);
+  const [errors, setErrors] = useState([]);
   const [freezerId, setFreezerId] = useState(
     location.state?.freezerId ? location.state.freezerId : ""
   );
@@ -24,6 +25,7 @@ function RackForm() {
   }, [dispatch]);
 
   const submitRack = async (e) => {
+    setErrors([]);
     e.preventDefault();
     const newRack = await dispatch(
       createRack({
@@ -33,8 +35,13 @@ function RackForm() {
         discarded: false,
       })
     );
-    const newRackId = newRack.rack.id;
-    history.push(`/racks/${newRackId}`);
+    console.log("new rack errors:", newRack?.errors)
+    if (newRack.errors) {
+      setErrors(newRack.errors);
+    } else {
+      const newRackId = newRack?.rack?.id;
+      history.push(`/racks/${newRackId}`);
+    }
   };
 
   const getFreezerId = (e) => {
@@ -67,6 +74,11 @@ function RackForm() {
   return (
     <form className={style.navbar__form} onSubmit={submitRack}>
       <h3 className={style.form__header}>Creating new rack</h3>
+      <div className={style.errors}>
+        {errors?.map((error) => (
+          <div>{error}</div>
+        ))}
+      </div>
       <div className={style.property}>
         <label htmlFor="freezer_id" className={style.property__label}>
           Freezer Id:{" "}

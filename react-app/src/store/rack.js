@@ -44,10 +44,12 @@ export const createRack = (data) => async (dispatch) => {
     body: JSON.stringify(data),
   });
 
-  if (res.ok) {
+  try {
     const newRack = await res.json();
-    dispatch(post(newRack));
+    if (res.ok) dispatch(post(newRack));
     return newRack;
+  } catch (e) {
+    return e;
   }
 };
 

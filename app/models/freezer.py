@@ -27,17 +27,21 @@ class Freezer(db.Model):
                             .filter(FreezerPosition.freezer_id
                                     == self.id).all())
         filled_positions = [position[0] for position in filled_positions]
+        print("\n\nFilled positions:", filled_positions)
+        print("Desired position:", freezer_position)
+        print("cast boolean:", int(freezer_position) in filled_positions)
+        print("current boolean:", freezer_position in filled_positions)
         rack = Rack.query.get(rack_id)
 
         if freezer_position is not False:
             # Case: rack position is specified
-            if freezer_position in filled_positions:
-                return {"errors": "Specified position is filled"}
+            if int(freezer_position) in filled_positions:
+                return {"errors": "Specified position is filled."}
             freezer_position = FreezerPosition(
                 freezer_position=freezer_position,
                 freezer_id=self.id,
             )
-            self._store_rack(rack, freezer_position, rack_id)
+            return self._store_rack(rack, freezer_position, rack_id)
         else:
             # Case: no rack position specified
             next_available_position = (filled_positions[-1] + 1 if
@@ -48,7 +52,7 @@ class Freezer(db.Model):
                 freezer_position=next_available_position,
                 freezer_id=self.id,
             )
-            self._store_rack(rack, freezer_position, rack_id)
+            return self._store_rack(rack, freezer_position, rack_id)
 
     def _store_rack(self, rack, freezer_position, rack_id):
         "Helper function to store a plate in a given rack position."

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router";
 import style from "../Show.module.css";
 import { deleteFreezer } from "../../../../store/freezer";
 
@@ -16,11 +15,9 @@ function SidebarFreezerShow() {
     setErrors([]);
     e.preventDefault();
     const deletedFreezer = await dispatch(deleteFreezer(freezer));
-    console.log("Deleted freezer:", deletedFreezer)
     if (deletedFreezer.errors) {
       setErrors(deletedFreezer.errors);
     }
-    // deleted: false, freezer, message: message
   };
 
   const onEdit = (e) => {
@@ -40,7 +37,7 @@ function SidebarFreezerShow() {
         )}
       </h3>
       <div className={style.errors}>
-        {errors.map((error) => (
+        {errors?.map((error) => (
           <div>{error}</div>
         ))}
       </div>

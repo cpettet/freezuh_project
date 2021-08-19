@@ -25,17 +25,23 @@ def new_rack():
             max_position=form.data["max_position"],
         )
         db.session.add(rack)
-        db.session.commit()
+        db.session.flush()
         if form.data["freezer_id"] is not None:
             freezer_id = form.data["freezer_id"]
             freezer = Freezer.query.get(freezer_id)
-            freezer.store_rack_in_position(rack.id)
             if form.data["freezer_position"] is not None:
                 freezer_position = form.data["freezer_position"]
-                freezer.store_rack_in_position(rack.id, freezer_position)
+                res = freezer.store_rack_in_position(rack.id, freezer_position)
+            else:
+                res = freezer.store_rack_in_position(rack.id)
     if form.errors:
-        return {"errors": form.errors}
-    return {"rack": rack.to_dict()}
+        return {"errors": form.errors}, 400
+    if "errors" in res:
+        print("\n\nGetting to errors")
+        return {"errors": [res["errors"]]}, 400
+    else:
+        db.session.commit()
+        return {"rack": rack.to_dict(), "success": res}
 
 
 # PATCH /api/racks/:id/
