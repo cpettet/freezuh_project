@@ -35,7 +35,7 @@ class Rack(db.Model):
         return (self.freezer_position.freezer_position if self.freezer_position
                 else "N/A")
 
-    def store_plate_in_position(self, plate_id, rack_position=False):
+    def store_plate_in_position(self, plate_id, rack_position=""):
         """
         After finding the first available position for a rack, stores a rack in
         the position, and moves the next open position up by one.
@@ -43,17 +43,19 @@ class Rack(db.Model):
         filled_positions = (db.session.query(RackPosition.rack_position)
                             .filter(RackPosition.rack_id == self.id).all())
         filled_positions = [position[0] for position in filled_positions]
+        filled_positions.sort()
         plate = Plate.query.get(plate_id)
 
-        if rack_position is not False:
+        if len(rack_position) > 0:
             # Case: rack position is specified
-            if rack_position in filled_positions:
-                return {"errors": "Specified position is filled"}
+            if int(rack_position) in filled_positions:
+                return {"errors": "Specified rack position is filled. Choose" +
+                        " another rack position."}
             plate_position = RackPosition(
                 rack_position=rack_position,
                 rack_id=self.id,
             )
-            self._store_plate(plate, plate_position, plate_id)
+            return self._store_plate(plate, plate_position, plate_id)
         else:
             # Case: no well specified
             next_available_position = (filled_positions[-1] + 1 if
@@ -64,7 +66,7 @@ class Rack(db.Model):
                 rack_position=next_available_position,
                 rack_id=self.id,
             )
-            self._store_plate(plate, rack_position, plate_id)
+            return self._store_plate(plate, rack_position, plate_id)
 
     def _store_plate(self, plate, rack_position, plate_id):
         "Helper function to store a plate in a given rack position."
@@ -100,6 +102,15 @@ class Rack(db.Model):
     def get_plates_positions(self):
         return {rack_position.rack_position: rack_position.plate.id for
                 rack_position in self.rack_positions}
+        
+    def discard_rack(self):
+        """
+        Sets the rack's discarded value to True. Frees open spot in freezer.
+        """
+        self.discarded = True
+        if self.freezer_position_id:
+            db.session.delete(self.freezer_position)
+        db.session.commit()
 
     def to_dict(self):
         return {

@@ -18,7 +18,7 @@ class Freezer(db.Model):
         cascade="all,delete-orphan",
     )
 
-    def store_rack_in_position(self, rack_id, freezer_position=False):
+    def store_rack_in_position(self, rack_id, freezer_position=""):
         """
         Finds the next available position in freezer if available and stores
         a rack in this position.
@@ -27,17 +27,18 @@ class Freezer(db.Model):
                             .filter(FreezerPosition.freezer_id
                                     == self.id).all())
         filled_positions = [position[0] for position in filled_positions]
+        filled_positions.sort()
         rack = Rack.query.get(rack_id)
 
-        if freezer_position is not False:
+        if len(freezer_position) > 0:
             # Case: rack position is specified
-            if freezer_position in filled_positions:
-                return {"errors": "Specified position is filled"}
+            if int(freezer_position) in filled_positions:
+                return {"errors": "Specified position is filled."}
             freezer_position = FreezerPosition(
                 freezer_position=freezer_position,
                 freezer_id=self.id,
             )
-            self._store_rack(rack, freezer_position, rack_id)
+            return self._store_rack(rack, freezer_position, rack_id)
         else:
             # Case: no rack position specified
             next_available_position = (filled_positions[-1] + 1 if
@@ -48,7 +49,7 @@ class Freezer(db.Model):
                 freezer_position=next_available_position,
                 freezer_id=self.id,
             )
-            self._store_rack(rack, freezer_position, rack_id)
+            return self._store_rack(rack, freezer_position, rack_id)
 
     def _store_rack(self, rack, freezer_position, rack_id):
         "Helper function to store a plate in a given rack position."
@@ -61,7 +62,7 @@ class Freezer(db.Model):
             db.session.commit()
         rack.freezer_position_id = freezer_position.id
         db.session.commit()
-        return {"success": f"Rack #{rack_id} stored in rack \
+        return {"success": f"Rack #{rack_id} stored in freezer \
                         #{self.id}, position #{freezer_position.id}"}
 
     def get_racks(self):

@@ -9,24 +9,27 @@ import findMissingNumber from "../../../../utils/findMissingNumber";
 function RackEdit() {
   const { rackId } = useParams();
   const rack = useSelector((state) => state.racks.byId[rackId]);
-  const freezers = useSelector(state => state.freezers.byId);
+  const freezers = useSelector((state) => state.freezers.byId);
   const history = useHistory();
   const dispatch = useDispatch();
-
+  const [errors, setErrors] = useState([]);
   const [freezerId, setFreezerId] = useState(rack?.freezer_id);
-  const [freezerPosition, setFreezerPosition] = useState(rack?.freezer_position);
+  const [freezerPosition, setFreezerPosition] = useState(
+    rack?.freezer_position
+  );
 
   const [maxPosition, setMaxPosition] = useState(rack?.max_position);
   const [discarded, setDiscarded] = useState(rack?.discarded);
 
   useEffect(() => {
     dispatch(getRacks());
-    dispatch(getFreezers())
+    dispatch(getFreezers());
   }, [dispatch]);
 
   const submitRack = async (e) => {
+    setErrors([]);
     e.preventDefault();
-    await dispatch(
+    const editedRack = await dispatch(
       editRack({
         id: rack?.id,
         freezer_id: freezerId,
@@ -35,7 +38,11 @@ function RackEdit() {
         discarded: discarded,
       })
     );
-    history.push(`/racks/${rackId}`);
+    if (editedRack.errors) {
+      setErrors(editedRack.errors);
+    } else {
+      history.push(`/racks/${rackId}`);
+    }
   };
 
   const getFreezerId = (e) => {
@@ -44,6 +51,7 @@ function RackEdit() {
       (freezer) => freezer.racks.length < freezer.max_position
     );
     setFreezerId(freezerForRack?.id);
+    setFreezerPosition("");
   };
 
   const getFreezerPosition = (e) => {
@@ -68,6 +76,11 @@ function RackEdit() {
   return (
     <form className={style.navbar__form} onSubmit={submitRack}>
       <h3 className={style.form__header}>Editing Rack #{rack?.id}</h3>
+      <div className={style.errors}>
+        {errors?.map((error) => (
+          <div key={error}>{error}</div>
+        ))}
+      </div>
       <div className={style.property}>
         <label htmlFor="freezer_id" className={style.property__label}>
           Freezer ID:
@@ -75,7 +88,10 @@ function RackEdit() {
         <input
           className={style["property__field-small"]}
           value={freezerId}
-          onChange={(e) => setFreezerId(e.target.value)}
+          onChange={(e) => {
+            setFreezerId(e.target.value);
+            setFreezerPosition("");
+          }}
           type="number"
           placeholder="Enter ID"
         />

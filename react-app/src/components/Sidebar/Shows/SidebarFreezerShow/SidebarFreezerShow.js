@@ -1,7 +1,6 @@
-import React from "react";
-import { useHistory } from "react-router";
+import React, { useState } from "react";
+import { useHistory, useParams } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router";
 import style from "../Show.module.css";
 import { deleteFreezer } from "../../../../store/freezer";
 
@@ -10,13 +9,19 @@ function SidebarFreezerShow() {
   const dispatch = useDispatch();
   const history = useHistory();
   const freezer = useSelector((state) => state.freezers.byId[freezerId]);
+  const [errors, setErrors] = useState([]);
 
-  const onDelete = (e) => {
+  const onDelete = async (e) => {
+    setErrors([]);
     e.preventDefault();
-    dispatch(deleteFreezer(freezer));
+    const deletedFreezer = await dispatch(deleteFreezer(freezer));
+    if (deletedFreezer.errors) {
+      setErrors(deletedFreezer.errors);
+    }
   };
 
   const onEdit = (e) => {
+    setErrors([]);
     e.preventDefault();
     history.push(`/freezers/${freezerId}/edit`);
   };
@@ -31,6 +36,11 @@ function SidebarFreezerShow() {
           <span className={style["sidebar__header-inactive"]}>INACTIVE</span>
         )}
       </h3>
+      <div className={style.errors}>
+        {errors?.map((error) => (
+          <div key={error}>{error}</div>
+        ))}
+      </div>
       <div className={style.properties}>
         <div className={style.property}>
           <div className={style.property__key}>Max racks:</div>

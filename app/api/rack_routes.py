@@ -25,17 +25,22 @@ def new_rack():
             max_position=form.data["max_position"],
         )
         db.session.add(rack)
-        db.session.commit()
+        db.session.flush()
         if form.data["freezer_id"] is not None:
             freezer_id = form.data["freezer_id"]
             freezer = Freezer.query.get(freezer_id)
-            freezer.store_rack_in_position(rack.id)
             if form.data["freezer_position"] is not None:
                 freezer_position = form.data["freezer_position"]
-                freezer.store_rack_in_position(rack.id, freezer_position)
+                res = freezer.store_rack_in_position(rack.id, freezer_position)
+            else:
+                res = freezer.store_rack_in_position(rack.id)
     if form.errors:
-        return {"errors": form.errors}
-    return {"rack": rack.to_dict()}
+        return {"errors": form.errors}, 400
+    if "errors" in res:
+        return {"errors": [res["errors"]]}, 400
+    else:
+        db.session.commit()
+        return {"rack": rack.to_dict(), "success": res}
 
 
 # PATCH /api/racks/:id/
@@ -50,14 +55,22 @@ def edit_rack(rack_id):
         freezer_id = request_body["freezer_id"]
         freezer = Freezer.query.get(freezer_id)
         if "freezer_position" in request_body:
-            freezer.store_rack_in_position(
+            res = freezer.store_rack_in_position(
                 rack.id, request_body["freezer_position"])
         else:
-            freezer.store_rack_in_position(rack.id)
+            res = freezer.store_rack_in_position(rack.id)
     rack.max_position = request_body["max_position"]
-    rack.discarded = request_body["discarded"]
-    db.session.commit()
-    return {"rack": rack.to_dict()}
+    if request_body["discarded"] is True:
+        if len(rack.get_plates_ids()) == 0:
+            rack.discard_rack()
+        else:
+            res = {"errors": "Rack has following plates:" +
+                   f" {rack.get_plates_ids()}. Please move before deleting."}
+    if "errors" in res:
+        return {"errors": [res["errors"]]}, 400
+    else:
+        db.session.commit()
+        return {"rack": rack.to_dict(), "success": res}
 
 
 # DELETE /api/racks/:id/
@@ -66,8 +79,9 @@ def edit_rack(rack_id):
 def delete_rack(rack_id):
     rack = Rack.query.get(rack_id)
     if len(rack.get_plates_ids()) == 0:
-        rack.discarded = True
-        db.session.commit()
-        return {"deleted": True, "rack": rack.to_dict()}
-    return {"deleted": False,
-            "message": f"Rack has following plates: {rack.get_plate_ids()}"}
+        rack.discard_rack()
+        return {"rack": rack.to_dict()}
+    return {"rack": rack.to_dict(),
+            "errors": f"Rack is storing the following plates:" +
+            f" {rack.get_plates_ids()}." +
+            "Please move stored plates before deleting."}

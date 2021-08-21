@@ -44,10 +44,12 @@ export const createRack = (data) => async (dispatch) => {
     body: JSON.stringify(data),
   });
 
-  if (res.ok) {
+  try {
     const newRack = await res.json();
-    dispatch(post(newRack));
+    if (res.ok) dispatch(post(newRack));
     return newRack;
+  } catch (e) {
+    return e;
   }
 };
 
@@ -60,10 +62,12 @@ export const editRack = (data) => async (dispatch) => {
     body: JSON.stringify(data),
   });
 
-  if (res.ok) {
+  try {
     const editedRack = await res.json();
-    dispatch(edit(editedRack));
+    if (res.ok) dispatch(edit(editedRack));
     return editedRack;
+  } catch (e) {
+    return e;
   }
 };
 
@@ -72,10 +76,12 @@ export const deleteRack = (data) => async (dispatch) => {
     method: "DELETE",
   });
 
-  if (res.ok) {
+  try {
     const deletedRack = await res.json();
-    dispatch(deleteAction(deletedRack));
+    if (res.ok) dispatch(deleteAction(deletedRack));
     return deletedRack;
+  } catch (e) {
+    return e;
   }
 };
 

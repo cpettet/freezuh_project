@@ -41,7 +41,7 @@ const SignUpForm = () => {
       </h3>
       <div className={style.errors}>
         {errors?.map((error) => {
-          return <div>{error}</div>;
+          return <div key={error}>{error}</div>;
         })}
       </div>
       <div className={style.form__inputs}>

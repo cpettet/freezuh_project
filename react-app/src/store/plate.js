@@ -43,16 +43,17 @@ export const createPlate = (data) => async (dispatch) => {
     },
     body: JSON.stringify(data),
   });
-
-  if (response.ok) {
+  
+  try {
     const newPlate = await response.json();
-    dispatch(post(newPlate));
+    if (response.ok) dispatch(post(newPlate));
     return newPlate;
+  } catch (e) {
+    return e;
   }
 };
 
 export const editPlate = (data) => async (dispatch) => {
-  console.log("Data:", data)
   const response = await fetch(`/api/plates/${data.id}`, {
     method: "PATCH",
     headers: {
@@ -61,10 +62,12 @@ export const editPlate = (data) => async (dispatch) => {
     body: JSON.stringify(data),
   });
 
-  if (response.ok) {
+  try {
     const editedPlate = await response.json();
-    dispatch(edit(editedPlate));
+    if (response.ok) dispatch(edit(editedPlate));
     return editedPlate;
+  } catch (e) {
+    return e;
   }
 };
 
@@ -73,10 +76,12 @@ export const deletePlate = (data) => async (dispatch) => {
     method: "DELETE",
   });
 
-  if (response.ok) {
+  try {
     const deletedPlate = await response.json();
-    dispatch(deleteAction(deletedPlate));
+    if (response.ok) dispatch(deleteAction(deletedPlate));
     return deletedPlate;
+  } catch (e) {
+    return e;
   }
 };
 

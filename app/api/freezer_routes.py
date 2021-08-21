@@ -36,7 +36,12 @@ def edit_freezer(freezer_id):
     freezer = Freezer.query.get(freezer_id)
     request_body = request.get_json()
     freezer.max_position = request_body["max_position"]
-    freezer.active = request_body["active"]
+    if request_body["active"] is False:
+        if len(freezer.get_racks()) > 0:
+            return {"errors": ([f"Freezer is storing the following racks: " +
+                                f"{freezer.get_racks_ids()}. Please reassign" +
+                                " before deactivating."])}, 400
+        freezer.active = request_body["active"]
     db.session.commit()
     return {"freezer": freezer.to_dict()}
 
@@ -52,5 +57,7 @@ def delete_freezer(freezer_id):
         return {"deleted": True, "freezer": freezer.to_dict()}
     return {"deleted": False,
             "freezer": freezer.to_dict(),
-            "message": f"Freezer has following racks: \
-                        {freezer.get_racks_ids()}"}, 400
+            "errors":
+                ([f"Freezer is storing the following racks: " +
+                 f"{freezer.get_racks_ids()}. Please reassign" +
+                    " before deactivating."])}, 400

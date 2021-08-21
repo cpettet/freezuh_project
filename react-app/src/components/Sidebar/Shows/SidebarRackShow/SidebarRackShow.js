@@ -1,7 +1,6 @@
-import React from "react";
-import { useHistory } from "react-router";
+import React, { useState } from "react";
+import { useHistory, useParams } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router";
 import style from "../Show.module.css";
 import { deleteRack } from "../../../../store/rack";
 
@@ -10,13 +9,18 @@ function SidebarRackShow() {
   const dispatch = useDispatch();
   const history = useHistory();
   const rack = useSelector((state) => state.racks.byId[rackId]);
+  const [errors, setErrors] = useState([]);
 
-  const onDelete = (e) => {
+  const onDelete = async (e) => {
+    setErrors([]);
     e.preventDefault();
-    dispatch(deleteRack(rack));
+    const deletedRack = await dispatch(deleteRack(rack));
+    console.log("Deleted rack:", deletedRack)
+    if (deletedRack.errors) setErrors([deletedRack.errors]);
   };
 
   const onEdit = (e) => {
+    setErrors([]);
     e.preventDefault();
     history.push(`/racks/${rackId}/edit`);
   };
@@ -33,6 +37,11 @@ function SidebarRackShow() {
           <span className={style["sidebar__header-neutral"]}>NOT STORED</span>
         )}
       </h3>
+      <div className={style.errors}>
+        {errors?.map((error) => (
+          <div key={error}>{error}</div>
+        ))}
+      </div>
       <div className={style.property}>
         <div className={style.property__key}>Stored in freezer:</div>
         <div className={style.property__value}>{rack?.freezer_id}</div>

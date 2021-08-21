@@ -29,17 +29,23 @@ def new_plate():
             max_well=form.data["max_well"],
         )
         db.session.add(plate)
-        db.session.commit()
+        db.session.flush()
         if form.data["rack_id"] is not None:
             rack_id = form.data["rack_id"]
             rack = Rack.query.get(rack_id)
-            rack.store_plate_in_position(plate.id)
             if form.data["rack_position"] is not None:
                 rack_position = form.data["rack_position"]
-                rack.store_plate_in_position(plate.id, rack_position)
+                res = rack.store_plate_in_position(plate.id, rack_position)
+            else:
+                res = rack.store_plate_in_position(plate.id)
+
     if form.errors:
-        return {"errors": form.errors}
-    return {"plate": plate.to_dict()}
+        return {"errors": form.errors}, 400
+    if "errors" in res:
+        return {"errors": [res["errors"]]}, 400
+    else:
+        db.session.commit()
+        return {"plate": plate.to_dict()}
 
 
 # PATCH /api/plates/:id/
@@ -53,18 +59,20 @@ def edit_plate(plate_id):
         rack_id = request_body["rack_id"]
         rack = Rack.query.get(rack_id)
         if "rack_position" in request_body:
-            rack.store_plate_in_position(plate_id,
-                                         request_body["rack_position"])
+            res = rack.store_plate_in_position(plate_id,
+                                               request_body["rack_position"])
         else:
-            rack.store_plate_in_position(plate.id)
+            res = rack.store_plate_in_position(plate.id)
+    plate.max_well = request_body["max_well"]
     if plate.get_rack_id() != "N/A" and request_body["store_date"]:
         plate.store_date = request_body["store_date"]
-    plate.rack_id = request_body["rack_id"]
     plate.thaw_count = request_body["thaw_count"]
     plate.discarded = request_body["discarded"]
-    plate.max_well = request_body["max_well"]
-    db.session.commit()
-    return {"plate": plate.to_dict()}
+    if "errors" in res:
+        return {"errors": [res["errors"]]}, 400
+    else:
+        db.session.commit()
+        return {"plate": plate.to_dict(), "success": res}
 
 
 # DELETE /api/plates/:id/
@@ -73,6 +81,5 @@ def edit_plate(plate_id):
 def delete_plate(plate_id):
     plate = Plate.query.get(plate_id)
     plate.discard_plate()
-    # TODO: come back and open up a spot on the rack where plate was
     db.session.commit()
     return {"plate": plate.to_dict(), "message": "Plate discarded"}

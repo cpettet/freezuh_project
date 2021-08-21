@@ -40,7 +40,7 @@ class Plate(db.Model):
         return (self.rack_position.rack_position if self.rack_position
                 else "N/A")
 
-    def store_sample_in_well(self, sample_id, well_position=False):
+    def store_sample_in_well(self, sample_id, well_position=0):
         """
         After finding the first available space for a sample, stores a sample
         in the space, and moves the next available spot up by one.
@@ -57,12 +57,14 @@ class Plate(db.Model):
                                                                    self.id).\
             all()
         filled_wells = [well[0] for well in filled_wells]
+        filled_wells.sort()
         sample = Sample.query.get(sample_id)
 
-        if well_position is not False:
+        if well_position > 0:
             # Case: well is specified
-            if well_position in filled_wells:
-                return {"errors": "Specified well is filled"}
+            if int(well_position) in filled_wells:
+                return {"errors": "Specified well is filled. " +
+                        "Choose another well."}
             sample_well = Well(
                 well_position=well_position,
                 plate_id=self.id,
@@ -78,7 +80,7 @@ class Plate(db.Model):
                 well_position=next_available_well,
                 plate_id=self.id,
             )
-            self._store_sample(sample, sample_well, sample_id)
+            return self._store_sample(sample, sample_well, sample_id)
 
     def _store_sample(self, sample, sample_well, sample_id):
         """

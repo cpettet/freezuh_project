@@ -12,6 +12,7 @@ function PlateForm() {
   const dispatch = useDispatch();
   const history = useHistory();
   const racks = useSelector((state) => state.racks.byId);
+  const [errors, setErrors] = useState([]);
   const [rackId, setRackId] = useState(
     location.state?.rackId ? location.state.rackId : ""
   );
@@ -26,6 +27,7 @@ function PlateForm() {
   }, [dispatch]);
 
   const submitPlate = async (e) => {
+    setErrors([]);
     e.preventDefault();
     const newPlate = await dispatch(
       createPlate({
@@ -37,12 +39,17 @@ function PlateForm() {
         discarded: false,
       })
     );
-    const newPlateId = newPlate.plate.id;
-    history.push(`/plates/${newPlateId}`);
+    if (newPlate.errors) {
+      setErrors(newPlate.errors);
+    } else {
+      const newPlateId = newPlate.plate.id;
+      history.push(`/plates/${newPlateId}`);
+    }
   };
 
   const getRackId = async (e) => {
     e.preventDefault();
+    setRackPosition("");
     const rackForPlate = Object.values(racks)?.find(
       (rack) => rack.plates.length < rack.max_position
     );
@@ -55,11 +62,7 @@ function PlateForm() {
       const rackPositionList = Object.keys(
         racks[rackId]["plates_and_positions"]
       ).map((position) => parseInt(position));
-      const firstEmptyPosition = findMissingNumber(
-        rackPositionList,
-        0,
-        25,
-      );
+      const firstEmptyPosition = findMissingNumber(rackPositionList, 0, 25);
       if (firstEmptyPosition < parseInt(racks[rackId]["max_position"])) {
         setRackPosition(firstEmptyPosition);
       } else {
@@ -75,6 +78,11 @@ function PlateForm() {
   return (
     <form className={style.navbar__form} onSubmit={submitPlate}>
       <h3 className={style.form__header}>Creating new plate</h3>
+      <div className={style.errors}>
+        {errors?.map((error) => (
+          <div key={error}>{error}</div>
+        ))}
+      </div>
       <div className={style.property}>
         <label htmlFor="stored" className={style.property__label}>
           Plate stored?{" "}
@@ -113,7 +121,10 @@ function PlateForm() {
         <input
           className={`${style.property__field} ${style["property__field-small"]}`}
           value={rackId}
-          onChange={(e) => setRackId(e.target.value)}
+          onChange={(e) => {
+            setRackId(e.target.value);
+            setRackPosition("");
+          }}
           type="number"
           placeholder="Enter ID"
         />
