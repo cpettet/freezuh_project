@@ -51,6 +51,7 @@ function RackEdit() {
       (freezer) => freezer.racks.length < freezer.max_position
     );
     setFreezerId(freezerForRack?.id);
+    setFreezerPosition("");
   };
 
   const getFreezerPosition = (e) => {
@@ -87,7 +88,10 @@ function RackEdit() {
         <input
           className={style["property__field-small"]}
           value={freezerId}
-          onChange={(e) => setFreezerId(e.target.value)}
+          onChange={(e) => {
+            setFreezerId(e.target.value);
+            setFreezerPosition("");
+          }}
           type="number"
           placeholder="Enter ID"
         />

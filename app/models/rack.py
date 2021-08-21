@@ -46,9 +46,9 @@ class Rack(db.Model):
         filled_positions.sort()
         plate = Plate.query.get(plate_id)
 
-        if rack_position is not False:
+        if len(rack_position) > 0:
             # Case: rack position is specified
-            if rack_position in filled_positions:
+            if int(rack_position) in filled_positions:
                 return {"errors": "Specified rack position is filled. Choose" +
                         " another rack position."}
             plate_position = RackPosition(

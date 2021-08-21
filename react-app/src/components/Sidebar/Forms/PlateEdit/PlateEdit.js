@@ -13,7 +13,7 @@ function PlateEdit() {
   const racks = useSelector((state) => state.racks.byId);
   const history = useHistory();
   const dispatch = useDispatch();
-
+  const [errors, setErrors] = useState([]);
   const [rackId, setRackId] = useState(plate?.rack_id);
   const [rackPosition, setRackPosition] = useState(plate?.rack_position);
   const [thawCount, setThawCount] = useState(plate?.thaw_count);
@@ -29,8 +29,9 @@ function PlateEdit() {
   }, [dispatch]);
 
   const submitPlate = async (e) => {
+    setErrors([]);
     e.preventDefault();
-    await dispatch(
+    const editedPlate = await dispatch(
       editPlate({
         id: plate?.id,
         rack_id: rackId,
@@ -41,7 +42,11 @@ function PlateEdit() {
         max_well: maxWell,
       })
     );
-    history.push(`/plates/${plateId}`);
+    if (editedPlate.errors) {
+      setErrors(editedPlate.errors);
+    } else {
+      history.push(`/plates/${plateId}`);
+    }
   };
 
   const getRackId = async (e) => {
@@ -50,6 +55,7 @@ function PlateEdit() {
       (rack) => rack.plates.length < rack.max_position
     );
     setRackId(rackForPlate?.id);
+    setRackPosition("");
   };
 
   const getRackPosition = (e) => {
@@ -74,6 +80,11 @@ function PlateEdit() {
   return (
     <form className={style.navbar__form} onSubmit={submitPlate}>
       <h3 className={style.form__header}>Editing Plate #{plate?.id}</h3>
+      <div className={style.errors}>
+        {errors?.map((error) => (
+          <div key={error}>{error}</div>
+        ))}
+      </div>
       <div className={style.property}>
         <label htmlFor="rack_id" className={style.property__label}>
           Rack ID:
@@ -81,7 +92,10 @@ function PlateEdit() {
         <input
           className={`${style.property__field} ${style["property__field-small"]}`}
           value={rackId}
-          onChange={(e) => setRackId(e.target.value)}
+          onChange={(e) => {
+            setRackId(e.target.value);
+            setRackPosition("");
+          }}
           type="number"
           placeholder="Enter ID"
         />

@@ -27,9 +27,10 @@ class Freezer(db.Model):
                             .filter(FreezerPosition.freezer_id
                                     == self.id).all())
         filled_positions = [position[0] for position in filled_positions]
+        filled_positions.sort()
         rack = Rack.query.get(rack_id)
 
-        if freezer_position is not False:
+        if len(freezer_position) > 0:
             # Case: rack position is specified
             if int(freezer_position) in filled_positions:
                 return {"errors": "Specified position is filled."}
