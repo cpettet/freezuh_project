@@ -35,7 +35,7 @@ class Rack(db.Model):
         return (self.freezer_position.freezer_position if self.freezer_position
                 else "N/A")
 
-    def store_plate_in_position(self, plate_id, rack_position=False):
+    def store_plate_in_position(self, plate_id, rack_position=""):
         """
         After finding the first available position for a rack, stores a rack in
         the position, and moves the next open position up by one.

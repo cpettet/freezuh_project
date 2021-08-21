@@ -19,6 +19,7 @@ function SampleForm() {
   const [manifest, setManifest] = useState(null);
   const [manifestLoading, setManifestLoading] = useState(false);
   const plates = useSelector((state) => state.plates?.byId);
+  const [errors, setErrors] = useState([]);
   const [plateId, setPlateId] = useState(
     location.state?.plateId ? location.state.plateId : ""
   );
@@ -33,6 +34,7 @@ function SampleForm() {
   }, [dispatch]);
 
   const submitSample = async (e) => {
+    setErrors([]);
     e.preventDefault();
     const formData = new FormData();
     if (plateId) formData.append("plate_id", plateId);
@@ -46,8 +48,13 @@ function SampleForm() {
       setManifestLoading(true);
     }
     const newSample = await dispatch(createSample(formData));
-    const newSampleId = newSample.sample.id;
-    history.push(`/samples/${newSampleId}`);
+    console.log("return from store:", newSample)
+    if (newSample.errors) {
+      setErrors(newSample.errors);
+    } else {
+      const newSampleId = newSample?.sample?.id;
+      history.push(`/samples/${newSampleId}`);
+    }
   };
 
   const updateManifest = (e) => {
@@ -95,6 +102,11 @@ function SampleForm() {
   return (
     <form className={style.navbar__form} onSubmit={submitSample}>
       <h3 className={style.form__header}>Creating new sample</h3>
+      <div className={style.errors}>
+        {errors?.map((error) => (
+          <div key={error}>{error}</div>
+        ))}
+      </div>
       <div className={style.property}>
         <label htmlFor="plate_id" className={style.property__label}>
           Plate Id:{" "}

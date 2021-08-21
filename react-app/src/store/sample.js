@@ -41,10 +41,12 @@ export const createSample = (data) => async (dispatch) => {
     body: data,
   });
 
-  if (response.ok) {
+  try {
     const newSample = await response.json();
-    dispatch(post(newSample));
+    if (response.ok) dispatch(post(newSample));
     return newSample;
+  } catch (e) {
+    return e;
   }
 };
 
@@ -54,10 +56,12 @@ export const editSample = (data) => async (dispatch) => {
     body: data.formData,
   });
 
-  if (response.ok) {
+  try {
     const editedSample = await response.json();
-    dispatch(edit(editedSample));
+    if (response.ok) dispatch(edit(editedSample));
     return editedSample;
+  } catch (e) {
+    return e;
   }
 };
 
@@ -65,11 +69,13 @@ export const deleteSample = (data) => async (dispatch) => {
   const response = await fetch(`/api/samples/${data.id}`, {
     method: "DELETE",
   });
-
-  if (response.ok) {
+  
+  try {
     const deletedSample = await response.json();
-    dispatch(deleteAction(deletedSample.sample));
+    if (response.ok) dispatch(deleteAction(deletedSample.sample));
     return deletedSample;
+  } catch (e) {
+    return e;
   }
 };
 

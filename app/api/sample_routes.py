@@ -48,17 +48,23 @@ def new_sample():
             manifest_url=url,
         )
         db.session.add(sample)
-        db.session.commit()
+        db.session.flush()
         if form.data["plate_id"] is not None:
             plate_id = form.data["plate_id"]
             plate = Plate.query.get(plate_id)
-            plate.store_sample_in_well(sample.id)
             if form.data["well_id"] is not None:
                 well_id = form.data["well_id"]
-                plate.store_sample_in_well(sample.id, well_id)
+                res = plate.store_sample_in_well(sample.id, well_id)
+            else:
+                res = plate.store_sample_in_well(sample.id)
+
     if form.errors:
-        return {"errors": form.errors}
-    return {"sample": sample.to_dict()}
+        return {"errors": form.errors}, 400
+    if "errors" in res:
+        return {"errors": [res["errors"]]}, 400
+    else:
+        db.session.commit()
+        return {"sample": sample.to_dict()}
 
 
 # PATCH /api/samples/:id

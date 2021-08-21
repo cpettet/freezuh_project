@@ -62,7 +62,7 @@ def edit_rack(rack_id):
     rack.max_position = request_body["max_position"]
     if request_body["discarded"] is True:
         if len(rack.get_plates_ids()) == 0:
-            rack.discarded = True
+            rack.discard_rack()
         else:
             res = {"errors": "Rack has following plates:" +
                    f" {rack.get_plates_ids()}. Please move before deleting."}

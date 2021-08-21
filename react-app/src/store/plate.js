@@ -43,6 +43,7 @@ export const createPlate = (data) => async (dispatch) => {
     },
     body: JSON.stringify(data),
   });
+  
   try {
     const newPlate = await response.json();
     if (response.ok) dispatch(post(newPlate));

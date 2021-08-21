@@ -18,7 +18,7 @@ class Freezer(db.Model):
         cascade="all,delete-orphan",
     )
 
-    def store_rack_in_position(self, rack_id, freezer_position=False):
+    def store_rack_in_position(self, rack_id, freezer_position=""):
         """
         Finds the next available position in freezer if available and stores
         a rack in this position.
