@@ -82,4 +82,7 @@ def delete_rack(rack_id):
         rack.discarded = True
         db.session.commit()
         return {"rack": rack.to_dict()}
-    return {"errors": f"Rack has following plates: {rack.get_plates_ids()}"}
+    return {"rack": rack.to_dict(),
+            "errors": f"Rack is storing the following plates:" +
+            f" {rack.get_plates_ids()}." +
+            "Please move stored plates before deleting."}

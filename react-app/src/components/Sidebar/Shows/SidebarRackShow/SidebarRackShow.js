@@ -11,10 +11,12 @@ function SidebarRackShow() {
   const rack = useSelector((state) => state.racks.byId[rackId]);
   const [errors, setErrors] = useState([]);
 
-  const onDelete = (e) => {
+  const onDelete = async (e) => {
     setErrors([]);
     e.preventDefault();
-    dispatch(deleteRack(rack));
+    const deletedRack = await dispatch(deleteRack(rack));
+    console.log("Deleted rack:", deletedRack)
+    if (deletedRack.errors) setErrors([deletedRack.errors]);
   };
 
   const onEdit = (e) => {

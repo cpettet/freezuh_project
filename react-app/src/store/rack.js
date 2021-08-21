@@ -76,10 +76,12 @@ export const deleteRack = (data) => async (dispatch) => {
     method: "DELETE",
   });
 
-  if (res.ok) {
+  try {
     const deletedRack = await res.json();
-    dispatch(deleteAction(deletedRack));
+    if (res.ok) dispatch(deleteAction(deletedRack));
     return deletedRack;
+  } catch (e) {
+    return e;
   }
 };
 
