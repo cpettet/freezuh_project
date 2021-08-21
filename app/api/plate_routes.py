@@ -81,6 +81,5 @@ def edit_plate(plate_id):
 def delete_plate(plate_id):
     plate = Plate.query.get(plate_id)
     plate.discard_plate()
-    # TODO: come back and open up a spot on the rack where plate was
     db.session.commit()
     return {"plate": plate.to_dict(), "message": "Plate discarded"}

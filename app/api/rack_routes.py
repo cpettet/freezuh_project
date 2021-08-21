@@ -79,8 +79,7 @@ def edit_rack(rack_id):
 def delete_rack(rack_id):
     rack = Rack.query.get(rack_id)
     if len(rack.get_plates_ids()) == 0:
-        rack.discarded = True
-        db.session.commit()
+        rack.discard_rack()
         return {"rack": rack.to_dict()}
     return {"rack": rack.to_dict(),
             "errors": f"Rack is storing the following plates:" +

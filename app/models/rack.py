@@ -102,6 +102,15 @@ class Rack(db.Model):
     def get_plates_positions(self):
         return {rack_position.rack_position: rack_position.plate.id for
                 rack_position in self.rack_positions}
+        
+    def discard_rack(self):
+        """
+        Sets the rack's discarded value to True. Frees open spot in freezer.
+        """
+        self.discarded = True
+        if self.freezer_position_id:
+            db.session.delete(self.freezer_position)
+        db.session.commit()
 
     def to_dict(self):
         return {
