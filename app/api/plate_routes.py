@@ -29,17 +29,23 @@ def new_plate():
             max_well=form.data["max_well"],
         )
         db.session.add(plate)
-        db.session.commit()
+        db.session.flush()
         if form.data["rack_id"] is not None:
             rack_id = form.data["rack_id"]
             rack = Rack.query.get(rack_id)
-            rack.store_plate_in_position(plate.id)
             if form.data["rack_position"] is not None:
                 rack_position = form.data["rack_position"]
-                rack.store_plate_in_position(plate.id, rack_position)
+                res = rack.store_plate_in_position(plate.id, rack_position)
+            else:
+                res = rack.store_plate_in_position(plate.id)
+
     if form.errors:
-        return {"errors": form.errors}
-    return {"plate": plate.to_dict()}
+        return {"errors": form.errors}, 400
+    if "errors" in res:
+        return {"errors": [res["errors"]]}, 400
+    else:
+        db.session.commit()
+        return {"plate": plate.to_dict()}
 
 
 # PATCH /api/plates/:id/

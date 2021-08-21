@@ -61,7 +61,7 @@ class Freezer(db.Model):
             db.session.commit()
         rack.freezer_position_id = freezer_position.id
         db.session.commit()
-        return {"success": f"Rack #{rack_id} stored in rack \
+        return {"success": f"Rack #{rack_id} stored in freezer \
                         #{self.id}, position #{freezer_position.id}"}
 
     def get_racks(self):

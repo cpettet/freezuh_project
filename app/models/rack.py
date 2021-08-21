@@ -43,17 +43,19 @@ class Rack(db.Model):
         filled_positions = (db.session.query(RackPosition.rack_position)
                             .filter(RackPosition.rack_id == self.id).all())
         filled_positions = [position[0] for position in filled_positions]
+        filled_positions.sort()
         plate = Plate.query.get(plate_id)
 
         if rack_position is not False:
             # Case: rack position is specified
             if rack_position in filled_positions:
-                return {"errors": "Specified position is filled"}
+                return {"errors": "Specified rack position is filled. Choose" +
+                        " another rack position."}
             plate_position = RackPosition(
                 rack_position=rack_position,
                 rack_id=self.id,
             )
-            self._store_plate(plate, plate_position, plate_id)
+            return self._store_plate(plate, plate_position, plate_id)
         else:
             # Case: no well specified
             next_available_position = (filled_positions[-1] + 1 if
@@ -64,7 +66,7 @@ class Rack(db.Model):
                 rack_position=next_available_position,
                 rack_id=self.id,
             )
-            self._store_plate(plate, rack_position, plate_id)
+            return self._store_plate(plate, rack_position, plate_id)
 
     def _store_plate(self, plate, rack_position, plate_id):
         "Helper function to store a plate in a given rack position."
