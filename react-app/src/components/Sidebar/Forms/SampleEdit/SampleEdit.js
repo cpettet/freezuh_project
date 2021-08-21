@@ -18,6 +18,7 @@ function SampleForm() {
     ["CF DNA", "cf_dna"],
   ];
   const [manifestLoading, setManifestLoading] = useState(false);
+  const [errors, setErrors] = useState([]);
   const [plateId, setPlateId] = useState(sample?.plate_id);
   const [wellId, setWellId] = useState(sample?.well_id);
   const [sampleType, setSampleType] = useState(sample?.sample_type);
@@ -45,6 +46,7 @@ function SampleForm() {
   };
 
   const submitSample = async (e) => {
+    setErrors([]);
     e.preventDefault();
     const formData = new FormData();
     if (manifest) {
@@ -60,8 +62,15 @@ function SampleForm() {
     formData.append("sample_type", sampleType);
     formData.append("discarded", discarded);
     formData.append("expiry_date", expirationDate);
-    await dispatch(editSample({id: sample?.id, formData}));
-    history.push(`/samples/${sampleId}`);
+    const editedSample = await dispatch(
+      editSample({ id: sample?.id, formData })
+    );
+    if (editedSample.errors) {
+      setErrors(editedSample.errors);
+      setManifestLoading(false)
+    } else {
+      history.push(`/samples/${sampleId}`);
+    }
   };
 
   function findMissingNumber(wellList, min, max) {
@@ -124,6 +133,11 @@ function SampleForm() {
   return (
     <form className={style.navbar__form} onSubmit={submitSample}>
       <h3 className={style.form__header}>Editing Sample #{sample?.id}</h3>
+      <div className={style.errors}>
+        {errors?.map((error) => (
+          <div key={error}>{error}</div>
+        ))}
+      </div>
       <div className={style.property}>
         <label htmlFor="plate_id" className={style.property__label}>
           Plate Id:
@@ -131,7 +145,10 @@ function SampleForm() {
         <input
           className={style["property__field-small"]}
           value={plateId}
-          onChange={(e) => setPlateId(e.target.value)}
+          onChange={(e) => {
+            setPlateId(e.target.value);
+            setWellId("");
+          }}
           type="number"
           placeholder="Enter plate Id"
         />
