@@ -35,7 +35,7 @@ class Rack(db.Model):
         return (self.freezer_position.freezer_position if self.freezer_position
                 else "N/A")
 
-    def store_plate_in_position(self, plate_id, rack_position=""):
+    def store_plate_in_position(self, plate_id, rack_position=0):
         """
         After finding the first available position for a rack, stores a rack in
         the position, and moves the next open position up by one.
@@ -46,7 +46,7 @@ class Rack(db.Model):
         filled_positions.sort()
         plate = Plate.query.get(plate_id)
 
-        if len(rack_position) > 0:
+        if rack_position > 0:
             # Case: rack position is specified
             if int(rack_position) in filled_positions:
                 return {"errors": "Specified rack position is filled. Choose" +

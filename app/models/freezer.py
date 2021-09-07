@@ -18,7 +18,7 @@ class Freezer(db.Model):
         cascade="all,delete-orphan",
     )
 
-    def store_rack_in_position(self, rack_id, freezer_position=""):
+    def store_rack_in_position(self, rack_id, freezer_position=0):
         """
         Finds the next available position in freezer if available and stores
         a rack in this position.
@@ -30,7 +30,7 @@ class Freezer(db.Model):
         filled_positions.sort()
         rack = Rack.query.get(rack_id)
 
-        if len(freezer_position) > 0:
+        if freezer_position > 0:
             # Case: rack position is specified
             if int(freezer_position) in filled_positions:
                 return {"errors": "Specified position is filled."}
